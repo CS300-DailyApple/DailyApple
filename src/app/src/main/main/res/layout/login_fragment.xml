@@ -1,0 +1,76 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/TextLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập"
+        android:layout_margin="30dp"
+        android:textSize="36dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/USN"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/TextLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên đăng nhập"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:background="@drawable/rounded_corner_login"
+        android:padding="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_below="@id/USN"
+        android:layout_marginVertical="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"/>
+
+    <TextView
+        android:id="@+id/Password"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Mật khẩu"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Password"
+        android:background="@drawable/rounded_corner_login"
+        android:padding="20dp"
+        android:layout_marginVertical="10dp"
+        android:hint="Password"
+        android:inputType="textPassword"/>
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/LoginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_button"
+        android:layout_below="@id/editTextPassword"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/white"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>
+
+
+
+
