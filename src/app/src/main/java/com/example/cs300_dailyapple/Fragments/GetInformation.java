@@ -1,4 +1,4 @@
-package com.example.cs300_dailyapple;
+package com.example.cs300_dailyapple.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
