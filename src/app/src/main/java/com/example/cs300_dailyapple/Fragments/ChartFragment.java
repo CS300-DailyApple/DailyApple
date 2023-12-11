@@ -1,5 +1,6 @@
 package com.example.cs300_dailyapple.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,13 +24,13 @@ public class ChartFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view= inflater.inflate(R.layout.fragment_chart, container, false);
-
+        Context context= this.getContext();
         BarChart caloriesBarChart = view.findViewById(R.id.caloriesBarChart);
         // Add the list here to display
         List<Integer> caloriesConsumptionList = new ArrayList<>();
 
         List<String> dateListCalo = new ArrayList<>();
-        CaloriesBarChartAdapter caloriesBarChartAdapter = new CaloriesBarChartAdapter(this, caloriesBarChart);
+        CaloriesBarChartAdapter caloriesBarChartAdapter = new CaloriesBarChartAdapter(context, caloriesBarChart);
         caloriesBarChartAdapter.setData(caloriesConsumptionList, dateListCalo);
 
         BarChart waterBarChart = view.findViewById(R.id.waterBarChart);
@@ -41,7 +42,7 @@ public class ChartFragment extends Fragment {
         List<String> dateListWater = new ArrayList<>();
 
 
-        WaterBarChartAdapter barChartAdapter = new WaterBarChartAdapter(this, waterBarChart);
+        WaterBarChartAdapter barChartAdapter = new WaterBarChartAdapter(context, waterBarChart);
         barChartAdapter.setData(waterConsumptionList, dateListWater);
         return view;
     }
