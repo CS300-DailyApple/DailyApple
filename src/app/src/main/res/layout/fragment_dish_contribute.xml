@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".Fragments.AddDishFragment">
+    tools:context=".Fragments.DishContributeFragment">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal= "true"
-        android:text="Tạo món ăn mới"
+        android:text="Đóng góp món ăn mới"
         android:id="@+id/IntroText"
         android:textSize="34dp"
         android:textStyle="bold"
