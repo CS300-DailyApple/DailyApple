@@ -38,7 +38,7 @@ public class SettingDishFragment extends Fragment {
             }
         });
         contributeFood= view.findViewById(R.id.ContributeFood);
-        SpannableString contributeFoodString = new SpannableString("Thêm món ăn");
+        SpannableString contributeFoodString = new SpannableString("Đóng góp món ăn");
         contributeFoodString.setSpan(new StyleSpan(Typeface.BOLD), 0, contributeFoodString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         contributeFoodString.setSpan(new UnderlineSpan(), 0, contributeFoodString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         contributeFood.setText(contributeFoodString);
