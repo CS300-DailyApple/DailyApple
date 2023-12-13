@@ -1,5 +1,9 @@
 package com.example.cs300_dailyapple.Models;
 
+import android.content.Context;
+
+import java.util.LinkedList;
+
 public class Food {
     // Attributes
     private String name;
@@ -51,5 +55,13 @@ public class Food {
                 this.nutritionPerUnit.getFat() * this.numberOfUnits,
                 this.nutritionPerUnit.getCarbs() * this.numberOfUnits
         );
+    }
+    public static LinkedList<Food> loadFoodList(Context context){
+        LinkedList<Food> foodList = new LinkedList<>();
+        // load Foodlist here
+        return foodList;
+    }
+    public static void saveFoodList(LinkedList<Food> foodList,Context context){
+
     }
 }
