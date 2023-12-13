@@ -70,4 +70,7 @@ public class Food {
     public static void saveFoodList(LinkedList<Food> foodList,Context context){
 
     }
+    public void toggleFavorite() {
+        favorite = !favorite;
+    }
 }
