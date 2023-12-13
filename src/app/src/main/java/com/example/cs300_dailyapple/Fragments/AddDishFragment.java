@@ -1,11 +1,8 @@
-package com.example.cs300_dailyapple.Fragments;
-
-import androidx.fragment.app.Fragment;
-
-import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -16,22 +13,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 import com.example.cs300_dailyapple.R;
 
-public class AddDishFragment extends Fragment {
+import java.io.IOException;
+import java.io.InputStream;
 
-    public AddDishFragment() {
-        // Required empty public constructor
-    }
+public class AddDishFragment extends Fragment {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
@@ -41,14 +35,14 @@ public class AddDishFragment extends Fragment {
     private Button btnGallery;
     private Spinner unitSpinner;
 
+    private ActivityResultLauncher<Intent> cameraLauncher;
+    private ActivityResultLauncher<String> galleryLauncher;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_dish, container, false);
 
         unitSpinner = view.findViewById(R.id.unitSpinner);
-
 
         // Tạo một mảng chứa các đơn vị
         String[] units = {"Gram", "Mililit"};
@@ -72,6 +66,7 @@ public class AddDishFragment extends Fragment {
                 // Set lại vị trí chọn của Spinner
                 unitSpinner.setSelection(unitPosition);
             }
+
             private int getUnitPosition(String unit) {
                 String[] units = {"Gram", "Mililit"};
 
@@ -82,8 +77,8 @@ public class AddDishFragment extends Fragment {
                     }
                 }
 
-                // Trả về -1 nếu không tìm thấy
-                return -1;
+                // Trả về Gram nếu không tìm thấy
+                return 0;
             }
 
             @Override
@@ -91,8 +86,10 @@ public class AddDishFragment extends Fragment {
                 // Do nothing here
             }
         });
+
         return view;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -101,61 +98,49 @@ public class AddDishFragment extends Fragment {
         btnCamera = view.findViewById(R.id.btnCamera);
         btnGallery = view.findViewById(R.id.btnGallery);
 
-        btnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
+        // Initialize ActivityResultLauncher for camera
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == getActivity().RESULT_OK) {
+                        Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
+                        if (imageBitmap != null) {
+                            // Resize bitmap to 100x100
+                            Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, 100, 100, true);
+                            imageView.setImageBitmap(resizedBitmap);
+                        }
+                    }
+                });
 
-        btnGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickImageFromGallery();
-            }
-        });
+        // Initialize ActivityResultLauncher for gallery
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        try {
+                            InputStream inputStream = requireActivity().getContentResolver().openInputStream(uri);
+                            Bitmap selectedImage = BitmapFactory.decodeStream(inputStream);
+                            if (selectedImage != null) {
+                                // Resize bitmap to 100x100
+                                Bitmap resizedBitmap = Bitmap.createScaledBitmap(selectedImage, 100, 100, true);
+                                imageView.setImageBitmap(resizedBitmap);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        btnCamera.setOnClickListener(v -> dispatchTakePictureIntent());
+        btnGallery.setOnClickListener(v -> pickImageFromGallery());
     }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            cameraLauncher.launch(takePictureIntent);
         }
     }
 
     private void pickImageFromGallery() {
-        Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhotoIntent, REQUEST_IMAGE_PICK);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                if (imageBitmap != null) {
-                    // Resize bitmap to 100x100
-                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, 100, 100, true);
-                    imageView.setImageBitmap(resizedBitmap);
-                }
-            } else if (requestCode == REQUEST_IMAGE_PICK) {
-                try {
-                    InputStream inputStream = requireActivity().getContentResolver().openInputStream(data.getData());
-                    Bitmap selectedImage = BitmapFactory.decodeStream(inputStream);
-                    if (selectedImage != null) {
-                        // Resize bitmap to 100x100
-                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(selectedImage, 100, 100, true);
-                        imageView.setImageBitmap(resizedBitmap);
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        galleryLauncher.launch("image/*");
     }
 }
