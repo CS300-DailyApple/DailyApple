@@ -1,4 +1,7 @@
+package com.example.cs300_dailyapple.Fragments;
+
 import android.content.ContentResolver;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

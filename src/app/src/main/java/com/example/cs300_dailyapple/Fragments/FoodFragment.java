@@ -24,7 +24,7 @@ public class FoodFragment extends Fragment {
 
     private RecyclerView recyclerViewFood;
     private FoodAdapter foodAdapter;
-    ImageButton backButton;
+
     private LinkedList<Food> fullFoodList;
     private TextView noResultTextView;
 
@@ -34,13 +34,6 @@ public class FoodFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_food, container, false);
 
-        backButton=view.findViewById(R.id.BackButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         Context context = this.getContext();
         LinkedList<Food> foodList = Food.loadFoodList(context);
         fullFoodList = new LinkedList<>(foodList);

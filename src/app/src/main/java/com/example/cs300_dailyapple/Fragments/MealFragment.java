@@ -22,19 +22,12 @@ import java.util.LinkedList;
 public class MealFragment extends Fragment {
     private RecyclerView recyclerViewDish;
     private DishAdapter dishAdapter;
-    ImageButton backButton;
     TextView totalCaloriesTextView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meal, container, false);
-        backButton=view.findViewById(R.id.BackButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         Context context = this.getContext();
         LinkedList<Food> foodList = Food.loadFoodList(context);
         recyclerViewDish = view.findViewById(R.id.recyclerViewDish);
