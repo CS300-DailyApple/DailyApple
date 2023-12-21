@@ -10,16 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.R;
 
 import java.util.LinkedList;
 
 public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder>{
-    private LinkedList<Dish> dishList;
+    private LinkedList<Food> dishList;
     private Context context;
     private MealFragment mealFragment;
 
-    public DishAdapter(LinkedList<Dish> dishList, Context context, MealFragment mealFragment) {
+    public DishAdapter(LinkedList<Food> dishList, Context context, MealFragment mealFragment) {
         this.dishList = dishList;
         this.context = context;
         this.mealFragment = mealFragment;
@@ -35,18 +36,18 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dish, parent, false);
         return new DishViewHolder(view, this);
     }
-    public Dish getDishAtPosition(int position) {
+    public Food getFoodAtPosition(int position) {
         return dishList.get(position);
     }
     @Override
     public void onBindViewHolder(@NonNull DishViewHolder holder, int position) {
-        Dish dish = dishList.get(position);
+        Food dish = dishList.get(position);
 
 
 
 
         holder.textViewName.setText(dish.getName());
-        String attributes = dish.getGram() + " g - " + dish.getCalo() + " calo";
+        String attributes = dish.getNumberOfUnits() + " " + dish.getUnit() + " - "+ dish.getNutritionPerUnit().getCalories()+" calo";
         holder.textViewAttributes.setText(attributes);
 
 
@@ -62,7 +63,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         notifyItemRemoved(position);
     }
 
-    public LinkedList<Dish> getDishList() {
+    public LinkedList<Food> getDishList() {
         return dishList;
     }
 
@@ -85,9 +86,9 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
                     if (position != RecyclerView.NO_POSITION) {
 
                         adapter.removeItem(position);
-                        LinkedList<Dish> updatedDishList = adapter.getDishList();
+                        LinkedList<Food> updatedDishList = adapter.getDishList();
                         adapter.mealFragment.updateTotalCalories(updatedDishList);
-                        Dish.saveDishList(updatedDishList,context);
+                        Food.saveFoodList(updatedDishList,context);
                     }
                 }
             });

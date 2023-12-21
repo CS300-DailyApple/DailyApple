@@ -1,0 +1,133 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".Fragments.DishContributeFragment">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal= "true"
+        android:text="Đóng góp món ăn mới"
+        android:id="@+id/IntroText"
+        android:textSize="34dp"
+        android:textStyle="bold"
+        android:padding="16dp"/>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:id="@+id/nameAndImage"
+        android:layout_below="@id/IntroText">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông tin chung"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/generalInformation"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextDishName"
+            android:background="@drawable/rounded_corner_login"
+            android:layout_below="@id/generalInformation"
+            android:hint="Tên món ăn"
+            android:textSize="20dp"
+            android:padding="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/black"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/editTextDishName"
+            android:layout_centerHorizontal="true"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCamera"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Chụp ảnh"
+            android:background="@drawable/rounded_corner_login"
+            android:textAllCaps="false"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnCamera"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_corner_login"
+            android:paddingHorizontal="10dp"
+            android:text="Chọn từ thư viện"
+            android:textAllCaps="false"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Khẩu phần ăn"
+        android:id="@+id/ration"
+        android:layout_below="@id/nameAndImage"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:paddingHorizontal="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_corner_login"
+        android:layout_below="@id/ration"
+        android:padding="15dp"
+        android:layout_margin="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 khẩu phần ăn ="
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="10dp"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#A5A5A5"
+
+            android:text="100"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <Spinner
+            android:layout_weight="1"
+            android:id="@+id/unitSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_corner_login"
+        android:layout_margin="20dp"
+        android:text="Tiếp tục"
+        android:textAllCaps="false"
+        android:id="@+id/continueButton"
+        android:textSize="18dp"
+        android:padding="15dp"/>
+</RelativeLayout>
