@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".Fragments.GetInformation">
+    tools:context=".Fragments.UpdateBodyStatisticFragment">
 
     <TextView
         android:id="@+id/Text"
