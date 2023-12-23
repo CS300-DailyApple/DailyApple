@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".Fragments.SettingDishFragment">
+    tools:context=".Fragments.SettingBodyInformationFragment">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal= "true"
-        android:text="Món ăn"
+        android:text="Chỉ số cơ thể"
         android:id="@+id/IntroText"
         android:textSize="34dp"
         android:textStyle="bold"
@@ -20,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/IntroText"
-        android:id="@+id/AddFood"
-        android:text="Thêm món ăn"
+        android:id="@+id/updateInformation"
+        android:text="Cập nhật thông tin"
         android:layout_margin="20dp"
         android:textSize="26dp"
 
@@ -29,9 +29,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/AddFood"
-        android:id="@+id/ContributeFood"
-        android:text="Đóng góp món ăn"
+        android:layout_below="@id/updateInformation"
+        android:id="@+id/history"
+        android:text="Lịch sử thay đổi"
         android:layout_margin="20dp"
         android:textSize="26dp"
 
@@ -39,9 +39,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ContributeFood"
-        android:id="@+id/ResetFoodList"
-        android:text="Khôi phục danh sách món ăn"
+        android:layout_below="@id/history"
+        android:id="@+id/changePassword"
+        android:text="Thay đổi mật khẩu"
+        android:layout_margin="20dp"
+        android:textSize="26dp"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/changePassword"
+        android:id="@+id/logout"
+        android:text="Đăng xuất"
         android:layout_margin="20dp"
         android:textSize="26dp"
 
