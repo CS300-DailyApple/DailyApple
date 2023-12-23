@@ -21,6 +21,7 @@ public class SettingDishFragment extends Fragment {
 
     TextView addFood;
     TextView contributeFood;
+    TextView resetFoodList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +44,17 @@ public class SettingDishFragment extends Fragment {
         contributeFoodString.setSpan(new UnderlineSpan(), 0, contributeFoodString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         contributeFood.setText(contributeFoodString);
         contributeFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Here to navigate
+            }
+        });
+        resetFoodList= view.findViewById(R.id.ResetFoodList);
+        SpannableString resetFoodListString = new SpannableString("Khôi phục danh sách món ăn");
+        resetFoodListString.setSpan(new StyleSpan(Typeface.BOLD), 0, resetFoodListString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        resetFoodListString.setSpan(new UnderlineSpan(), 0, resetFoodListString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        resetFoodList.setText(resetFoodListString);
+        resetFoodList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Here to navigate
