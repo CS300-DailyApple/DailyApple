@@ -17,7 +17,7 @@ import com.example.cs300_dailyapple.R;
 
 public class LoginFragment extends Fragment {
 
-    private EditText editTextUsername;
+
     private EditText editTextPassword;
     TextView forgotPassword;
     TextView createAccount;
@@ -39,7 +39,6 @@ public class LoginFragment extends Fragment {
 
         createAccount.setText(spannableString);
 
-        editTextUsername = view.findViewById(R.id.editTextUsername);
         editTextPassword = view.findViewById(R.id.editTextPassword);
 
         Button loginButton = view.findViewById(R.id.LoginButton);
@@ -55,8 +54,9 @@ public class LoginFragment extends Fragment {
     }
 
     private void handleLoginButtonClick() {
-        String username = editTextUsername.getText().toString();
+
         String password = editTextPassword.getText().toString();
+        // Save data here
 
 
     }

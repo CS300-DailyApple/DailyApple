@@ -1,6 +1,10 @@
 package com.example.cs300_dailyapple.Models;
+import android.content.Context;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+
 public class PersonalInformation {
     // Attributes
     private boolean gender;
@@ -49,5 +53,12 @@ public class PersonalInformation {
 
         this.date = formattedDate;
     }
+    public LinkedList<PersonalInformation> loadPersonalInformationList(Context context){
+        LinkedList<PersonalInformation> listInf= new LinkedList<>();
+        //Load here
+        return listInf;
+    }
+    public static void savePersonalInformationList(LinkedList<PersonalInformation> personalInformationList,Context context){
 
+    }
 }
