@@ -35,7 +35,7 @@ public class MealFragment extends Fragment {
         recyclerViewDish.setLayoutManager(new LinearLayoutManager(context));
         recyclerViewDish.setAdapter(dishAdapter);
         totalCaloriesTextView= view.findViewById(R.id.TotalCalories);
-        totalCaloriesTextView.setText(getTotalCalories(foodList)+ " calo");
+        totalCaloriesTextView.setText(String.valueOf(getTotalCalories(foodList))+ " calo");
 
         return view;
     }
@@ -48,6 +48,6 @@ public class MealFragment extends Fragment {
     }
     public void updateTotalCalories(LinkedList<Food> dishList) {
         int totalCalories = getTotalCalories(dishList);
-        totalCaloriesTextView.setText(totalCalories + " calo");
+        totalCaloriesTextView.setText(String.valueOf(totalCalories) + " calo");
     }
 }

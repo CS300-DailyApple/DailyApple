@@ -1,0 +1,19 @@
+<!-- res/drawable/custom_progress_bar.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background layer -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="20dp" /> <!-- Điều này bo góc tròn -->
+            <solid android:color="#CCCCCC" /> <!-- Màu nền -->
+        </shape>
+    </item>
+    <!-- Progress layer -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <corners android:radius="20dp" /> <!-- Điều này bo góc tròn -->
+                <solid android:color="#47594A" /> <!-- Màu tiến trình -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>

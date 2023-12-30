@@ -48,7 +48,8 @@ public class HomeScreenUserFragment extends Fragment {
         calendar.setTime(day1);
         int dayOfMonth1 = calendar.get(Calendar.DAY_OF_MONTH);
         dateTextView1=view.findViewById(R.id.dateTextView1);
-        dateTextView1.setText(dayOfMonth1);
+        dateTextView1.setText(String.valueOf(dayOfMonth1));
+
         int dayOfWeek1 = calendar.get(Calendar.DAY_OF_WEEK);
         String dayOfWeekString1 = getDayOfWeekString(dayOfWeek1);
         dayOfWeekTextView1= view.findViewById(R.id.dayOfWeekTextView1);
@@ -60,7 +61,7 @@ public class HomeScreenUserFragment extends Fragment {
         calendar.setTime(day2);
         int dayOfMonth2 = calendar.get(Calendar.DAY_OF_MONTH);
         dateTextView2=view.findViewById(R.id.dateTextView2);
-        dateTextView2.setText(dayOfMonth2);
+        dateTextView2.setText(String.valueOf(dayOfMonth2));
         int dayOfWeek2 = calendar.get(Calendar.DAY_OF_WEEK);
         String dayOfWeekString2 = getDayOfWeekString(dayOfWeek2);
         dayOfWeekTextView2= view.findViewById(R.id.dayOfWeekTextView2);
@@ -71,7 +72,7 @@ public class HomeScreenUserFragment extends Fragment {
         calendar.setTime(day3);
         int dayOfMonth3 = calendar.get(Calendar.DAY_OF_MONTH);
         dateTextView3=view.findViewById(R.id.dateTextView3);
-        dateTextView3.setText(dayOfMonth3);
+        dateTextView3.setText(String.valueOf(dayOfMonth3));
         int dayOfWeek3 = calendar.get(Calendar.DAY_OF_WEEK);
         String dayOfWeekString3 = getDayOfWeekString(dayOfWeek3);
         dayOfWeekTextView3= view.findViewById(R.id.dayOfWeekTextView3);
@@ -83,7 +84,7 @@ public class HomeScreenUserFragment extends Fragment {
         calendar.setTime(day4);
         int dayOfMonth4 = calendar.get(Calendar.DAY_OF_MONTH);
         dateTextView4=view.findViewById(R.id.dateTextView4);
-        dateTextView4.setText(dayOfMonth4);
+        dateTextView4.setText(String.valueOf(dayOfMonth4));
         int dayOfWeek4 = calendar.get(Calendar.DAY_OF_WEEK);
         String dayOfWeekString4 = getDayOfWeekString(dayOfWeek4);
         dayOfWeekTextView4= view.findViewById(R.id.dayOfWeekTextView4);
@@ -95,7 +96,7 @@ public class HomeScreenUserFragment extends Fragment {
         calendar.setTime(day5);
         int dayOfMonth5 = calendar.get(Calendar.DAY_OF_MONTH);
         dateTextView5=view.findViewById(R.id.dateTextView5);
-        dateTextView5.setText(dayOfMonth5);
+        dateTextView5.setText(String.valueOf(dayOfMonth5));
         int dayOfWeek5 = calendar.get(Calendar.DAY_OF_WEEK);
         String dayOfWeekString5 = getDayOfWeekString(dayOfWeek5);
         dayOfWeekTextView5= view.findViewById(R.id.dayOfWeekTextView5);
