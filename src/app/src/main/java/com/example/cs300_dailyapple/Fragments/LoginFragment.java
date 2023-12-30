@@ -25,8 +25,7 @@ import com.example.cs300_dailyapple.Services.DataService;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
-
-
+    private EditText editTextEmail;
     private EditText editTextPassword;
     TextView forgotPassword;
     TextView createAccount;
