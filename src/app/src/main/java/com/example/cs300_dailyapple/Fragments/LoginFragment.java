@@ -4,16 +4,25 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.AuthService;
+import com.example.cs300_dailyapple.Services.DataService;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
 
@@ -25,7 +34,11 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.login_fragment, container, false);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         forgotPassword=view.findViewById(R.id.forgotPassword);
         String textfp= "Quên mật khẩu";
         SpannableString spannableStringfp = new SpannableString(textfp);
@@ -39,9 +52,10 @@ public class LoginFragment extends Fragment {
 
         createAccount.setText(spannableString);
 
+        editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
 
-        Button loginButton = view.findViewById(R.id.LoginButton);
+        AppCompatImageButton loginButton = view.findViewById(R.id.LoginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,15 +63,31 @@ public class LoginFragment extends Fragment {
                 handleLoginButtonClick();
             }
         });
-
-        return view;
     }
 
     private void handleLoginButtonClick() {
-
+        String username = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
-        // Save data here
-
-
+        AuthService.getInstance().loginUser(username, password, new AuthService.AuthCallback() {
+            @Override
+            public void onSuccess(FirebaseUser user) {
+                DataService db = DataService.getInstance();
+                String role = db.getUserRole(user.getUid());
+                if (role.equals("admin")) {
+                    // TODO: Navigate to admin page
+                    Log.d("LoginFragment", "Admin login");
+                }
+                else if (role.equals("user")) {
+                    // TODO: Navigate to user page
+                    Log.d("LoginFragment", "User login");
+                    // action_LoginFragment_to_HomeScreenUserFragment
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new HomeScreenUserFragment()).commit();
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
+                Toast.makeText(getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_createAccountFragment"
+            app:destination="@id/createAccountFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_repasswordFragment"
+            app:destination="@id/repasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeScreenUserFragment"
+            app:destination="@id/homeScreenUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDishFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.AddDishFragment"
+        android:label="fragment_add_dish"
+        tools:layout="@layout/fragment_add_dish" >
+        <action
+            android:id="@+id/action_addDishFragment_to_addDishDetailsFragment"
+            app:destination="@id/addDishDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDishDetailsFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.AddDishDetailsFragment"
+        android:label="fragment_add_dish_details"
+        tools:layout="@layout/fragment_add_dish_details" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
+    <fragment
+        android:id="@+id/chartFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.ChartFragment"
+        android:label="fragment_chart"
+        tools:layout="@layout/fragment_chart" />
+    <fragment
+        android:id="@+id/contributeDishDetailsFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.ContributeDishDetailsFragment"
+        android:label="fragment_contribute_dish_details"
+        tools:layout="@layout/fragment_contribute_dish_details" />
+    <fragment
+        android:id="@+id/createAccountFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.CreateAccountFragment"
+        android:label="fragment_create_account"
+        tools:layout="@layout/fragment_create_account" >
+        <action
+            android:id="@+id/action_createAccountFragment_to_getInformation"
+            app:destination="@id/getInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/dishContributeFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.DishContributeFragment"
+        android:label="fragment_dish_contribute"
+        tools:layout="@layout/fragment_dish_contribute" >
+        <action
+            android:id="@+id/action_dishContributeFragment_to_contributeDishDetailsFragment"
+            app:destination="@id/contributeDishDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/getInformation"
+        android:name="com.example.cs300_dailyapple.Fragments.GetInformation"
+        android:label="fragment_get_information"
+        tools:layout="@layout/fragment_get_information" >
+        <action
+            android:id="@+id/action_getInformation_to_summaryStatistic"
+            app:destination="@id/summaryStatistic" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.FoodFragment"
+        android:label="fragment_food"
+        tools:layout="@layout/fragment_food" >
+        <action
+            android:id="@+id/action_foodFragment_to_settingDishFragment"
+            app:destination="@id/settingDishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeScreenUserFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.HomeScreenUserFragment"
+        android:label="fragment_home_screen_user"
+        tools:layout="@layout/fragment_home_screen_user" >
+        <action
+            android:id="@+id/action_homeScreenUserFragment_to_settingBodyInformationFragment"
+            app:destination="@id/settingBodyInformationFragment" />
+        <action
+            android:id="@+id/action_homeScreenUserFragment_to_foodFragment"
+            app:destination="@id/foodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.MealFragment"
+        android:label="fragment_meal"
+        tools:layout="@layout/fragment_meal" />
+    <fragment
+        android:id="@+id/repasswordFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.RepasswordFragment"
+        android:label="fragment_repassword"
+        tools:layout="@layout/fragment_repassword" />
+    <fragment
+        android:id="@+id/settingBodyInformationFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.SettingBodyInformationFragment"
+        android:label="fragment_setting_body_information"
+        tools:layout="@layout/fragment_setting_body_information" >
+        <action
+            android:id="@+id/action_settingBodyInformationFragment_to_updateBodyStatisticFragment"
+            app:destination="@id/updateBodyStatisticFragment" />
+        <action
+            android:id="@+id/action_settingBodyInformationFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingDishFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.SettingDishFragment"
+        android:label="fragment_setting_dish"
+        tools:layout="@layout/fragment_setting_dish" >
+        <action
+            android:id="@+id/action_settingDishFragment_to_dishContributeFragment"
+            app:destination="@id/dishContributeFragment" />
+        <action
+            android:id="@+id/action_settingDishFragment_to_addDishFragment"
+            app:destination="@id/addDishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/summaryStatistic"
+        android:name="com.example.cs300_dailyapple.Fragments.SummaryStatistic"
+        android:label="fragment_summary_statistic"
+        tools:layout="@layout/fragment_summary_statistic" />
+    <fragment
+        android:id="@+id/updateBodyStatisticFragment"
+        android:name="com.example.cs300_dailyapple.Fragments.UpdateBodyStatisticFragment"
+        android:label="fragment_update_body_statistic"
+        tools:layout="@layout/fragment_update_body_statistic" >
+        <action
+            android:id="@+id/action_updateBodyStatisticFragment_to_summaryStatistic"
+            app:destination="@id/summaryStatistic" />
+    </fragment>
+</navigation>
