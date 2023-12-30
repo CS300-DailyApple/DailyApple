@@ -21,6 +21,12 @@ public class BodyInformationFragment extends Fragment {
     private ProgressBar progressBarWater;
     private TextView textProgressCalo;
     private ProgressBar progressBarCalo;
+    private TextView textBMI;
+    private TextView Weight;
+    private TextView Height;
+
+
+
 
     private PersonalInformation personalInformation;
 
@@ -35,7 +41,9 @@ public class BodyInformationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_body_information, container, false);
-
+        textBMI = view.findViewById(R.id.textBMI);
+        Weight = view.findViewById(R.id.Weight);
+        Height = view.findViewById(R.id.Height);
         imageGender = view.findViewById(R.id.imageGender);
         textViewAge = view.findViewById(R.id.textViewAge);
         textProgressWater = view.findViewById(R.id.textProgressWater);
@@ -73,5 +81,9 @@ public class BodyInformationFragment extends Fragment {
                 progressBarCalo.setMax(personalInformation.getCalo());
         progressBarCalo.setProgress(progressCalo);
         textProgressCalo.setText(progressCalo + "/" + personalInformation.getCalo() + " calo");
+        Weight.setText(String.valueOf(personalInformation.getWeight()));
+        Height.setText(String.valueOf(personalInformation.getHeight()));
+        float BMI = personalInformation.getWeight()/(personalInformation.getHeight()*personalInformation.getHeight()/10000);
+        textBMI.setText(String.valueOf(BMI));
     }
 }
