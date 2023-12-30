@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
 
-    private EditText editTextUsername;
+
     private EditText editTextPassword;
     TextView forgotPassword;
     TextView createAccount;
@@ -52,7 +52,7 @@ public class LoginFragment extends Fragment {
 
         createAccount.setText(spannableString);
 
-        editTextUsername = view.findViewById(R.id.editTextEmail);
+        editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
 
         AppCompatImageButton loginButton = view.findViewById(R.id.LoginButton);
@@ -66,7 +66,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void handleLoginButtonClick() {
-        String username = editTextUsername.getText().toString();
+        String username = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
         AuthService.getInstance().loginUser(username, password, new AuthService.AuthCallback() {
             @Override
