@@ -1,73 +1,83 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".Fragments.SummaryStatistic">
+    tools:context=".Fragments.BodyInformationFragment">
+
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chỉ số cơ thể"
+        android:textSize="34dp"
+        android:textStyle="bold"
         android:id="@+id/Text"
+        android:layout_centerHorizontal="true"
+        android:padding="20dp"/>
+    <androidx.appcompat.widget.AppCompatImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:text="Thống kê chỉ số"
-        android:textSize="24dp"
-        android:textStyle="bold" />
+        android:layout_alignParentRight="true"
+        android:src="@drawable/settings"
+        android:id="@+id/Settings"
+        android:backgroundTint="@color/white"
+        android:padding="15dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Năng lượng cần nạp vào (TDEE)"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/Text"
-        android:id="@+id/Text1"
-        android:textSize="24dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="10dp"
-        />
-    <RelativeLayout
-        android:id="@+id/Calories"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:background="@drawable/circle"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/Text1"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/caloriesCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3009"
-            android:layout_centerHorizontal="true"
-            android:textSize="44dp"
-            android:paddingTop="25dp"
-            android:paddingHorizontal="25dp"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_below="@id/caloriesCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kcal/ngày"
-            android:layout_centerHorizontal="true"
-            android:textSize="26dp"
+        android:text="Giới tính"
+        android:layout_marginLeft="80dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/textGender"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textGender"
+        android:layout_below="@id/Text"
+        android:text="Độ tuổi"
+        android:layout_marginHorizontal="80dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/textAge"/>
+    <ImageView
+        android:id="@+id/imageGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textGender"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/genderfemale"
+        android:paddingVertical="10dp"
+        android:background="@drawable/rounded_light_blue"
+        android:paddingHorizontal="30dp"/>
+    <TextView
+        android:id="@+id/textViewAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textGender"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/imageGender"
+        android:text="20"
+        android:textSize="40dp"
+        android:textStyle="bold"
 
-            />
-    </RelativeLayout>
-
+        android:paddingVertical="17dp"
+        android:background="@drawable/rounded_corner_login"
+        android:paddingHorizontal="30dp"/>
     <RelativeLayout
         android:id="@+id/Information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Calories"
-        android:layout_marginStart="20dp"
+        android:layout_below="@id/imageGender"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+
         android:layout_marginBottom="20dp"
-        android:background="@drawable/light_blue">
+        android:background="@drawable/rounded_corner_login">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -191,66 +201,93 @@
         </RelativeLayout>
     </RelativeLayout>
     <TextView
-        android:id="@+id/textWater"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_below="@id/Information"
-        android:layout_marginHorizontal="20dp"
-        android:text="Lượng nước bạn cần uống"
-        android:textSize="24dp"
-        android:layout_marginBottom="5dp"/>
+        android:id="@+id/textWater"
+        android:layout_width="match_parent"
 
+        android:layout_height="wrap_content"
+
+
+        android:text="Lượng nước đã uống trong hôm nay" />
+    <RelativeLayout
+        android:id="@+id/barWater"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/textWater"
+        android:background="@drawable/rounded_corner_login"
+        android:padding="15dp"
+        android:layout_marginHorizontal="30dp"
+        >
+        <TextView
+            android:id="@+id/textProgressWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+
+            android:text="660/2200 ml" />
+        <ProgressBar
+            android:layout_below="@id/textProgressWater"
+            android:id="@+id/progressBarWater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:max="2200"
+            android:progressDrawable="@drawable/straight_progress_bar"
+            android:progress="660" />
+    </RelativeLayout>
+    <TextView
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/barWater"
+        android:id="@+id/textCalo"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+
+
+        android:text="Lượng calo đã nạp trong hôm nay" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textWater"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/light_blue"
 
-        android:paddingLeft="40dp"
-        android:paddingRight="20dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true">
+        android:layout_below="@id/textCalo"
+        android:background="@drawable/rounded_corner_login"
+        android:padding="15dp"
+        android:layout_marginHorizontal="30dp"
+        >
         <TextView
-            android:id="@+id/Water"
+            android:id="@+id/textProgressCalo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1950"
-            android:textSize="44dp"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:layout_toRightOf="@id/Water"
-            android:layout_marginLeft="5dp"
-            android:text="ml"
-            android:textSize="28dp" />
 
-
-        </RelativeLayout>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
+            android:text="800/3001 calo" />
+        <ProgressBar
+            android:layout_below="@id/textProgressCalo"
+            android:id="@+id/progressBarCalo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/droplet" />
-
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:max="3001"
+            android:progressDrawable="@drawable/straight_progress_bar"
+            android:progress="800" />
     </RelativeLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/Continue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Tiếp tục"
-        android:textSize="24dp"
-        android:textAllCaps="false"
-        android:background="@drawable/light_blue"
-        android:paddingHorizontal="50dp"/>
-</RelativeLayout>
 
+
+
+
+
+
+</RelativeLayout>
