@@ -3,12 +3,15 @@ package com.example.cs300_dailyapple.Models;
 public class User {
     // Attributes
     private int id;
+    private String role = "user";
     private String username;
     private String password;
     private int creditPoints;
     private boolean isBanned;
     private PersonalInformation personalInformation;
     private NutritionOverall nutritionOverall;
+
+
 
     // Methods
     public User(String username, String password) {
@@ -29,6 +32,14 @@ public class User {
         this.isBanned = isBanned;
         this.personalInformation = personalInformation;
         this.nutritionOverall = nutritionOverall;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setAdmin() {
+        this.role = "admin";
     }
 
     public int getId() {
