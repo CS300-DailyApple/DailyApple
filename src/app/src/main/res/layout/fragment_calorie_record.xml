@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.CalorieRecord">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/circle_background"
+        android:id="@+id/overall_information">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="65"
+            android:progressDrawable="@drawable/progress_drawable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/date_component"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="27 Oct"
+            android:textColor="#5D6B57"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.952"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.059"></TextView>
+
+        <TextView
+            android:id="@+id/calories_needed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3000"
+            android:textColor="@color/white"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+            app:layout_constraintEnd_toEndOf="@+id/progressBar"
+            app:layout_constraintStart_toStartOf="@+id/progressBar"
+            app:layout_constraintTop_toTopOf="@+id/progressBar"
+            app:layout_constraintVertical_bias="0.445" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cần nạp"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+            app:layout_constraintEnd_toEndOf="@+id/progressBar"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="@+id/progressBar"
+            app:layout_constraintTop_toTopOf="@+id/progressBar"
+            app:layout_constraintVertical_bias="0.666" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="Đã nạp"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.037"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.444"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="800"
+            android:textColor="@color/white"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            android:id="@+id/calories_intake"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.037"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.288"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="Carbs"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.046"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.644"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="220/230"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:id="@+id/carbs"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.016"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.745"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="Chất đạm"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.787"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="22/100"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:id="@+id/protein"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.885"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="Chất béo"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.983"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.646"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="0/88"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:id="@+id/fat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.952"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.745"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/overall_information">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bạn đã uống bao nhiêu nước?"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginVertical="10dp"
+            android:id="@+id/question"
+            ></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/question"
+            android:background="@drawable/rounded_corner_water"
+            android:layout_marginHorizontal="90dp"
+            android:text="2200/2300 ml"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:id="@+id/water_amount_drinking"></TextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/water_amount_drinking"
+            android:background="@drawable/rounded_corner_meal"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="80dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:id="@+id/breakfast">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bữa sáng"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:id="@+id/breakfast_name"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="203 calo"
+                android:layout_toEndOf="@id/breakfast_name"
+                android:gravity="end"
+                android:id="@+id/breakfast_calories"
+                ></TextView>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/breakfast"
+            android:background="@drawable/rounded_corner_meal"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="80dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:id="@+id/lunch">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bữa trưa"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:id="@+id/lunch_name"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="203 calo"
+                android:id="@+id/lunch_calories"
+                android:layout_toEndOf="@id/lunch_name"
+                android:gravity="end"
+                ></TextView>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lunch"
+            android:background="@drawable/rounded_corner_meal"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="80dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:id="@+id/dinner">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bữa tối"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:id="@+id/dinner_name"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="203 calo"
+                android:id="@+id/dinner_calories"
+                android:layout_toEndOf="@id/dinner_name"
+                android:gravity="end"
+                ></TextView>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dinner"
+            android:background="@drawable/rounded_corner_meal"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="80dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:id="@+id/snack">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bữa ăn nhẹ"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:id="@+id/snack_name"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/snack_name"
+                android:gravity="end"
+                android:id="@+id/snack_calories"
+                android:text="203 calo"></TextView>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

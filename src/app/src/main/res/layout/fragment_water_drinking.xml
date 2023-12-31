@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.WaterDrinking">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:id="@+id/tracking">
+
+        <ProgressBar
+            android:id="@+id/water_drinking_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="400dp"
+            android:layout_height="350dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="65"
+            android:progressDrawable="@drawable/progress_water_drawable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.545"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.353" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lịch sử"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.043"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.958" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mục tiêu hàng ngày"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.306"></TextView>
+
+        <TextView
+            android:id="@+id/water_amount_drinking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2200/2300 ml"
+            android:textColor="#46CED7"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.408"></TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_water_background"
+            android:backgroundTint="#C4F8F8"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.549"
+            android:id="@+id/autorenew">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/autorenew"></ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Cốc"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/plus_water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_water_background"
+            android:backgroundTint="#426767"
+            android:padding="10dp"
+            android:text="+ 250 ml"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.668"></TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.984"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:scaleType="center"
+                android:src="@drawable/water_drop_icon"></ImageView>
+
+            <TextView
+                android:id="@+id/cooldown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="00:24"
+                android:textSize="20dp"></TextView>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tracking">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/item_water_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+
+</RelativeLayout>
