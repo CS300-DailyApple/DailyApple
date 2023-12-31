@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.AdminUserListFragment">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh sách người dùng"
+        android:textSize="34dp"
+        android:textStyle="bold"
+        android:id="@+id/Text"
+        android:layout_centerHorizontal="true"
+        android:padding="20dp"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Text"
+        android:iconifiedByDefault="false"
+        android:queryHint="Nhập tên người dùng..."
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:padding="10dp"
+        android:background="@drawable/searchbar"
+        style="@style/CustomSearchView"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/NoResult"
+        android:text="Không có kết quả"
+        android:textSize="20dp"
+        android:layout_below="@id/searchView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchView"
+        android:layout_marginHorizontal="30dp"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFood"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp" />
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
