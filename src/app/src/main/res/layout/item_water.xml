@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_water_background"
+    android:layout_marginHorizontal="30dp"
+    android:padding="20dp"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 250 ml"
+        android:textSize="25dp"
+        android:textColor="#23A7B0"
+        android:textStyle="bold"
+        android:id="@+id/water_amount"></TextView>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"></View>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11:26"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/water_time"
+        android:layout_marginRight="20dp"></TextView>
+
+    <ImageView
+        android:layout_width="46dp"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        android:src="@drawable/close_button"
+        android:id="@+id/close_button"></ImageView>
+</LinearLayout>
