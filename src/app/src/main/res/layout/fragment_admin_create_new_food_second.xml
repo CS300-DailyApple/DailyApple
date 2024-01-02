@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.AdminCreateNewFoodSecond">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal= "true"
+        android:text="Tạo món ăn mới"
+        android:id="@+id/IntroText"
+        android:textSize="34dp"
+        android:textStyle="bold"
+        android:padding="16dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Thành phần dinh dưỡng"
+        android:layout_marginTop="30dp"
+        android:id="@+id/rationText"
+        android:layout_below="@id/IntroText"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:padding="16dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rationText"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/calendar"
+        android:padding="15dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Kcal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kcal"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"/>
+            <EditText
+                android:id="@+id/amountKcal"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_white"
+                android:layout_alignParentRight="true"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:hint="bắt buộc"
+                android:inputType="number"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Fat"
+            android:layout_below="@id/Kcal"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chất béo"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"/>
+            <EditText
+                android:id="@+id/amountFat"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_white"
+                android:layout_alignParentRight="true"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:hint="bắt buộc"
+                android:inputType="number"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Carbs"
+            android:layout_below="@id/Fat"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carbs"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"/>
+            <EditText
+                android:id="@+id/amountCarbs"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_white"
+                android:layout_alignParentRight="true"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:hint="bắt buộc"
+                android:inputType="number"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Protein"
+            android:layout_below="@id/Carbs"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chất đạm"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"/>
+            <EditText
+                android:id="@+id/amountProtein"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_white"
+                android:layout_alignParentRight="true"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:hint="bắt buộc"
+                android:inputType="number"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_corner_login"
+        android:layout_margin="20dp"
+        android:text="Hoàn tất"
+        android:textAllCaps="false"
+        android:id="@+id/completeButton"
+        android:textSize="18dp"
+        android:padding="15dp"/>
+
+</RelativeLayout>

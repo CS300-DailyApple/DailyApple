@@ -53,6 +53,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.6")
     implementation("androidx.navigation:navigation-ui:2.7.6")
 
+    implementation("com.github.blackfizz:eazegraph:1.2.5l@aar")
+    implementation("com.nineoldandroids:library:2.4.0")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.12.4")
     testImplementation("org.robolectric:robolectric:4.5.1")
