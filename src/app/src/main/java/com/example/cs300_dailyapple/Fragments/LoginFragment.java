@@ -14,10 +14,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NavigationRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.AuthService;
@@ -58,8 +60,21 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 handleLoginButtonClick();
+            }
+        });
+
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_createAccountFragment);
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_repasswordFragment);
             }
         });
     }
@@ -67,6 +82,11 @@ public class LoginFragment extends Fragment {
     private void handleLoginButtonClick() {
         String username = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(getContext(), "Tên đăng nhập và mật khẩu không thể để trống", Toast.LENGTH_SHORT).show();
+            return;
+        }
         AuthService.getInstance().loginUser(username, password, new AuthService.AuthCallback() {
             @Override
             public void onSuccess(FirebaseUser user) {
@@ -75,12 +95,14 @@ public class LoginFragment extends Fragment {
                 if (role.equals("admin")) {
                     // TODO: Navigate to admin page
                     Log.d("LoginFragment", "Admin login");
+                    // action_LoginFragment_to_HomeAdminFragment
+                    Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeAdminFragment);
                 }
                 else if (role.equals("user")) {
                     // TODO: Navigate to user page
                     Log.d("LoginFragment", "User login");
                     // action_LoginFragment_to_HomeScreenUserFragment
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new HomeScreenUserFragment()).commit();
+                    Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeScreenUserFragment);
                 }
             }
             @Override

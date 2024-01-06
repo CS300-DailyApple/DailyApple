@@ -2,14 +2,20 @@ package com.example.cs300_dailyapple.Fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.cs300_dailyapple.MainActivity;
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.AuthService;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,6 +34,9 @@ public class HomeScreenUserFragment extends Fragment {
     private TextView dayOfWeekTextView4;
     private TextView dateTextView5;
     private TextView dayOfWeekTextView5;
+    private ImageButton nutritionDiaryButton;
+    private ImageButton bodyInfoButton;
+    private ImageButton foodListButton;
     Calendar calendar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,6 +111,28 @@ public class HomeScreenUserFragment extends Fragment {
         dayOfWeekTextView5= view.findViewById(R.id.dayOfWeekTextView5);
         dayOfWeekTextView5.setText(dayOfWeekString5);
 
+        nutritionDiaryButton = view.findViewById(R.id.NutritionDiaryButton);
+        nutritionDiaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeScreenUserFragment_to_calorieRecord);
+            }
+        });
+        bodyInfoButton = view.findViewById(R.id.BodyInformationButton);
+        bodyInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeScreenUserFragment_to_bodyInformationFragment);
+            }
+        });
+        foodListButton = view.findViewById(R.id.FoodButton);
+        foodListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeScreenUserFragment_to_foodFragment);
+            }
+        });
+
 
         return view;
     }
@@ -124,5 +155,32 @@ public class HomeScreenUserFragment extends Fragment {
             default:
                 return "";
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Override the onBackPressed behavior for this fragment
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Create an AlertDialog to ask the user if they want to exit or logout
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Thoát");
+                builder.setMessage("Bạn có muốn thoát khỏi ứng dụng?");
+                builder.setPositiveButton("Thoát", (dialog, which) -> {
+                    // Exit the app
+                    requireActivity().finish();
+                });
+                builder.setNegativeButton("Đăng xuất", (dialog, which) -> {
+                    // Logout the user
+                    AuthService.getInstance().logoutUser();
+                    // Navigate to login page
+                    Navigation.findNavController(getView()).navigate(R.id.action_homeScreenUserFragment_to_loginFragment);
+                });
+                builder.setNeutralButton("Hủy", null);
+                builder.show();
+            }
+        });
     }
 }

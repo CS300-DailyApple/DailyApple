@@ -24,7 +24,7 @@ public class AuthService {
     public void registerUser(String email, String password, final AuthCallback callback) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Sign in success, update UI with the signed-in user's information
+                // Register success, update UI with the signed-in user's information
                  Log.d(TAG, "createUserWithEmail:success");
                  FirebaseUser user = mAuth.getCurrentUser();
                  callback.onSuccess(user);

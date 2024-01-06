@@ -2,7 +2,7 @@ package com.example.cs300_dailyapple.Models;
 
 public class User {
     // Attributes
-    private int id;
+    private String id;
     private String role = "user";
     private String username;
     private String password;
@@ -15,7 +15,7 @@ public class User {
 
     // Methods
     public User(String username, String password) {
-        this.id = 0;
+        this.id = "";
         this.username = username;
         this.password = password;
         this.creditPoints = 0;
@@ -24,7 +24,7 @@ public class User {
         this.nutritionOverall = new NutritionOverall();
     }
 
-    public User(int id, String username, String password, int creditPoints, boolean isBanned, PersonalInformation personalInformation, NutritionOverall nutritionOverall) {
+    public User(String id, String username, String password, int creditPoints, boolean isBanned, PersonalInformation personalInformation, NutritionOverall nutritionOverall) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -42,7 +42,7 @@ public class User {
         this.role = "admin";
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -70,7 +70,7 @@ public class User {
         return nutritionOverall;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -9,11 +9,11 @@ public class FoodCompound {
     // Methods
     public FoodCompound() {
         this.foodsList = new ArrayList<Food>();
-        this.nutrition = new Nutrition(0, 0, 0, 0, 0);
+        this.nutrition = new Nutrition();
     }
     public FoodCompound(ArrayList<Food> foodsList) {
         this.foodsList = foodsList;
-        this.nutrition = new Nutrition(0, 0, 0, 0, 0);
+        this.nutrition = new Nutrition();
         for (Food food : foodsList) {
             this.nutrition.setCalories(this.nutrition.getCalories() + food.getNutrition().getCalories());
             this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());

@@ -12,6 +12,13 @@ public class Food {
     private Nutrition nutritionPerUnit;
     private boolean favorite;
     // Methods
+    public Food() {
+        this.name = "";
+        this.unit = "";
+        this.numberOfUnits = 0;
+        this.nutritionPerUnit = new Nutrition(0.0, 0.0, 0.0, 0.0, 0.0);
+        this.favorite=false;
+    }
     public Food(String name, String unit, int numberOfUnits, Nutrition nutritionPerUnit) {
         this.name = name;
         this.unit = unit;
