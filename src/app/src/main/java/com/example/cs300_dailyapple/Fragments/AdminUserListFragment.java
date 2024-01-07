@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavAction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +23,7 @@ import com.example.cs300_dailyapple.Services.DataService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminUserListFragment extends Fragment {
+public class AdminUserListFragment extends Fragment implements AdminUserAdapter.OnUserItemClickListener {
 
     private RecyclerView recyclerView;
     private AdminUserAdapter adminUserAdapter;
@@ -47,7 +49,7 @@ public class AdminUserListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adminUserAdapter);
 
-        loadUsers(""); // Initially load all users
+        loadUsers("");
 
         searchView.setQueryHint("Search by username");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -71,18 +73,28 @@ public class AdminUserListFragment extends Fragment {
 
     private void loadUsers(String query) {
         // Query users from your data service based on the search query
-        if (TextUtils.isEmpty(query)) {
-            userList = DataService.getInstance().getAllUsers();
-        } else {
-            userList = DataService.getInstance().searchUsers(query);
-        }
+        userList = DataService.getInstance().searchUsers(query);
 
         if (userList.isEmpty()) {
             Log.d("AdminUserListFragment", "No result");
             noResultTextView.setVisibility(View.VISIBLE);
         } else {
             noResultTextView.setVisibility(View.GONE);
-            adminUserAdapter.setUserList(userList);
+            adminUserAdapter.setUserList(userList, this::onUserItemClick);
         }
+    }
+    @Override
+    public void onUserItemClick(User user) {
+        // put user data to bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("username", user.getUsername());
+        bundle.putInt("creditPoints", user.getCreditPoints());
+        // navigate to AdminUserItemDetail fragment
+        Navigation.findNavController(getView()).navigate(R.id.action_adminUserListFragment_to_adminUserItemDetail, bundle);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUsers("");
     }
 }

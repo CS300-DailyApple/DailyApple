@@ -255,4 +255,18 @@ public class DataService {
         }
         return users;
     }
+    public void banUser(String username) {
+        // Get user with username
+        Task<QuerySnapshot> query = db.collection(USERS_COLLECTION).whereEqualTo("username", username).get();
+        while (!query.isComplete()) {}
+        DocumentSnapshot document = query.getResult().getDocuments().get(0);
+        // Update isBanned field
+        db.collection(USERS_COLLECTION).document(document.getId()).update("isBanned", true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "Ban user successfully");
+            } else {
+                Log.d(TAG, "Ban user failed");
+            }
+        });
+    }
 }

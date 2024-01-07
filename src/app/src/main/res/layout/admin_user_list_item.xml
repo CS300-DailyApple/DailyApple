@@ -39,5 +39,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
+    <ImageView
+        android:id="@+id/imageViewBan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/removed"
+        android:padding="15dp"
+        android:layout_gravity="center_vertical"
+        />
+
 
 </LinearLayout>

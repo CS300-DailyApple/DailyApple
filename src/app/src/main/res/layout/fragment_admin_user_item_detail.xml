@@ -68,17 +68,4 @@
         android:background="@drawable/admin_user_detail_btn_bg"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/AdminUserDetailDelBtn"
-        android:layout_width="226dp"
-        android:layout_height="50dp"
-        android:text="Xóa người dùng"
-        android:textAllCaps="false"
-        android:textSize="16dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/AdminUserDetailBanBtn"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/admin_user_detail_btn_bg"
-        />
-
 </RelativeLayout>
