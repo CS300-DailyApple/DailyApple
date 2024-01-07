@@ -194,7 +194,7 @@
         android:layout_below="@id/UserListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/BodyInformationButton"
+        android:id="@+id/FoodListButton"
         android:src="@drawable/foodlistbtn"
         android:backgroundTint="@color/white"
         android:paddingVertical="10dp"

@@ -269,6 +269,9 @@
         <action
             android:id="@+id/action_homeAdminFragment_to_adminUserListFragment"
             app:destination="@id/adminUserListFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/suggestedFoodFragment"
