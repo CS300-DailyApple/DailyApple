@@ -10,8 +10,8 @@ public class NutritionOverall {
 
     // Methods
     public NutritionOverall() {
-        this.nutritionTarget = new Nutrition(0, 0, 0, 0, 0);
-        this.nutritionAbsorbed = new Nutrition(0, 0, 0, 0, 0);
+        this.nutritionTarget = new Nutrition();
+        this.nutritionAbsorbed = new Nutrition();
         this.mealHistory = new ArrayList<DailyMeal>();
     }
     public NutritionOverall(Nutrition nutritionTarget, Nutrition nutritionAbsorbed, ArrayList<DailyMeal> mealHistory) {

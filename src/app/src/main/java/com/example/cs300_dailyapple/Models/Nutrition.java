@@ -2,53 +2,60 @@ package com.example.cs300_dailyapple.Models;
 
 public class Nutrition {
     // Attributes
-    private int calories;
-    private float protein;
-    private float fibre;
-    private float fat;
-    private float carbs;
+    private Double calories;
+    private Double protein;
+    private Double fiber;
+    private Double fat;
+    private Double carbs;
     // Methods
-    public Nutrition(int calories, float protein, float fibre, float fat, float carbs) {
+    public Nutrition() {
+        this.calories = 0.0;
+        this.protein = 0.0;
+        this.fiber = 0.0;
+        this.fat = 0.0;
+        this.carbs = 0.0;
+    }
+    public Nutrition(Double calories, Double protein,Double fibre, Double fat, Double carbs) {
         this.calories = calories;
         this.protein = protein;
-        this.fibre = fibre;
+        this.fiber = fibre;
         this.fat = fat;
         this.carbs = carbs;
     }
-    public int getCalories() {
+    public Double getCalories() {
         return calories;
     }
-    public float getProtein() {
+    public Double getProtein() {
         return protein;
     }
-    public float getFibre() {
-        return fibre;
+    public Double getFiber() {
+        return fiber;
     }
-    public float getFat() {
+    public Double getFat() {
         return fat;
     }
-    public float getCarbs() {
+    public Double getCarbs() {
         return carbs;
     }
-    public void setCalories(int calories) {
+    public void setCalories(Double calories) {
         this.calories = calories;
     }
-    public void setProtein(float protein) {
+    public void setProtein(Double protein) {
         this.protein = protein;
     }
-    public void setFibre(float fibre) {
-        this.fibre = fibre;
+    public void setFiber(Double fiber) {
+        this.fiber = fiber;
     }
-    public void setFat(float fat) {
+    public void setFat(Double fat) {
         this.fat = fat;
     }
-    public void setCarbs(float carbs) {
+    public void setCarbs(Double carbs) {
         this.carbs = carbs;
     }
     public void updateNutrition(Nutrition nutrition) {
         this.calories = nutrition.getCalories();
         this.protein = nutrition.getProtein();
-        this.fibre = nutrition.getFibre();
+        this.fiber = nutrition.getFiber();
         this.fat = nutrition.getFat();
         this.carbs = nutrition.getCarbs();
     }

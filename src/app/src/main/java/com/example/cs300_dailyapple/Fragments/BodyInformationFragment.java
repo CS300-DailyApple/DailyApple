@@ -59,7 +59,7 @@ public class BodyInformationFragment extends Fragment {
 
     private void displayPersonalInformation() {
         // Hiển thị giới tính
-        if (personalInformation.getGender()) {
+        if (personalInformation.getGender() == "male") {
             // Nếu là nam, sử dụng hình ảnh male
             imageGender.setImageResource(R.drawable.gendermale);
         } else {
@@ -83,7 +83,12 @@ public class BodyInformationFragment extends Fragment {
         textProgressCalo.setText(progressCalo + "/" + personalInformation.getCalo() + " calo");
         Weight.setText(String.valueOf(personalInformation.getWeight()));
         Height.setText(String.valueOf(personalInformation.getHeight()));
-        float BMI = personalInformation.getWeight()/(personalInformation.getHeight()*personalInformation.getHeight()/10000);
-        textBMI.setText(String.valueOf(BMI));
+        try {
+            float BMI = personalInformation.getWeight() / (personalInformation.getHeight() * personalInformation.getHeight());
+        }
+        catch (ArithmeticException e){
+            float BMI = 0;
+            e.printStackTrace();
+        }
     }
 }

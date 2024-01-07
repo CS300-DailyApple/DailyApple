@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class PersonalInformation {
     // Attributes
-    private boolean gender; // true is male, false is female
+    private String gender;
     private int age;
     private int height;
     private int weight;
@@ -16,7 +16,7 @@ public class PersonalInformation {
     private int water;
 
     // Methods
-    public boolean getGender() {
+    public String getGender() {
         return this.gender;
     }
 
@@ -38,7 +38,7 @@ public class PersonalInformation {
         return this.water;
     }
     public String getDate() { return this.date; }
-    public void setGender(boolean gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

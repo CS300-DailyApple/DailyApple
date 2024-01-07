@@ -30,6 +30,7 @@ public class GetInformation extends Fragment {
     private ImageButton smallRightAgeButton;
     private AppCompatImageButton maleButton;
     private AppCompatImageButton femaleButton;
+    private AppCompatImageButton continueButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class GetInformation extends Fragment {
         smallLeftHeightButton = view.findViewById(R.id.SmallLeftHeight);
         bigRightHeightButton = view.findViewById(R.id.BigRightHeight);
         smallRightHeightButton = view.findViewById(R.id.SmallRightHeight);
+        continueButton = view.findViewById(R.id.Continue);
 
         int defaultHeight = 150;
         heightEditText.setText(String.valueOf(defaultHeight));
@@ -166,16 +168,12 @@ public class GetInformation extends Fragment {
             }
         });
 
-
-
         return view;
     }
 
     private void setButtonSelected(boolean isMaleSelected) {
 
         maleButton.setSelected(isMaleSelected);
-
-
         femaleButton.setSelected(!isMaleSelected);
     }
     private void decreaseHeight(int decrement) {

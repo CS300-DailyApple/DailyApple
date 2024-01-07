@@ -68,14 +68,17 @@
         android:inputType="textPassword"/>
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/LoginButton"
+        android:id="@+id/createAccountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/login_button"
         android:layout_below="@id/editTextPassword"
-        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@color/white"
-        android:layout_alignParentRight="true"/>
+        android:src="@drawable/login_button" />
 </RelativeLayout>
 
 
