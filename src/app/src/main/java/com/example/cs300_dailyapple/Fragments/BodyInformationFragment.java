@@ -73,11 +73,11 @@ public class BodyInformationFragment extends Fragment {
         // Hiển thị thông tin nước uống
         // Get water target and round it to integer
         PersonalInformation personalInformation = user.getPersonalInformation();
-        int waterTarget = (int) Math.round(user.getWaterOverall().getWaterTarget());
+        int waterTarget = (int) Math.round(user.getWaterInformation().getWaterTarget());
         Log.d("waterTarget", String.valueOf(waterTarget));
         progressBarWater.setMax(waterTarget);
         // Get water absorbed and round it to integer
-        int waterAbsorbed = (int) Math.round(user.getWaterOverall().getWaterAbsorbed());
+        int waterAbsorbed = (int) Math.round(user.getWaterInformation().getTotalWaterDrank());
         Log.d("waterAbsorbed", String.valueOf(waterAbsorbed));
         progressBarWater.setProgress(waterAbsorbed);
         textProgressWater.setText(waterAbsorbed + "/" + waterTarget + " ml");
