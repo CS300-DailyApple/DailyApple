@@ -22,24 +22,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     NavController navController;
-    
-    /**
-     * Called when the activity is starting. This is where most initialization should go:
-     * calling setContentView(int) to inflate the activity's UI, using findViewById(int) to
-     * programmatically interact with widgets in the UI, and initializing any other necessary
-     * components.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after previously being
-     *                            shut down then this Bundle contains the data it most recently
-     *                            supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
-        AuthService.getInstance().logoutUser();
         FirebaseUser currentUser = AuthService.getInstance().getCurrentUser();
         if (currentUser != null) {
             // set the main activity to the home page corresponding to the user's role

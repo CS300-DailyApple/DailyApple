@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.rpc.context.AttributeContext;
 
 import org.w3c.dom.Document;
 
@@ -77,11 +78,13 @@ public class DataService {
 
         user.put("nutritionOverall", nutritionOverall);
 
-        // add waterOverall
-        Map<String, Object> waterOverall = new HashMap<>();
-        waterOverall.put("waterTarget", PI.calculateWater());
-        waterOverall.put("waterAbsorbed", 0);
-        user.put("waterOverall", waterOverall);
+        // add waterInformation
+        Map<String, Object> waterInformation = new HashMap<>();
+        waterInformation.put("waterTarget", PI.calculateWater());
+        waterInformation.put("totalWaterDrank", 0.0);
+        waterInformation.put("containerCapacity", 0.0);
+        waterInformation.put("waterHistory", new ArrayList<WaterHistoryItem>());
+        user.put("waterInformation", waterInformation);
 
         db.collection(USERS_COLLECTION).document(uid).set(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -181,5 +184,75 @@ public class DataService {
 
     public void updateMeal(String uid) {
 
+    }
+
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        // Get users with role "user"
+        Task<QuerySnapshot> query = db.collection(USERS_COLLECTION).whereEqualTo("role", "user").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    User user = new User();
+                    user.setId(document.getId());
+                    user.setUsername(document.getString("username"));
+                    user.setEmail(document.getString("email"));
+                    user.setCreditPoints(document.getLong("creditPoints").intValue());
+                    user.setIsBanned(document.getBoolean("isBanned"));
+                    user.setPersonalInformation(document.get("PI", PersonalInformation.class));
+                    // get nutritionOverall
+                    NutritionOverall nutritionOverall = new NutritionOverall();
+                    nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
+                    nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
+                    user.setNutritionOverall(nutritionOverall);
+                    // get waterInformation
+                    WaterInformation waterInformation = new WaterInformation();
+                    waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
+                    waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
+                    waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
+                    Gson gson = new Gson();
+                    String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
+                    ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
+                    waterInformation.setWaterHistory(waterHistory);
+                    user.setWaterInformation(waterInformation);
+                    users.add(user);
+                }
+            }
+        });
+        return users;
+    }
+    public ArrayList<User> searchUsers(String query) {
+        ArrayList<User> users = new ArrayList<>();
+        // Get users with role "user" and username contains query
+        Task<QuerySnapshot> querySnapshotTask = db.collection(USERS_COLLECTION)
+                .whereEqualTo("role", "user")
+                .whereGreaterThanOrEqualTo("username", query)
+                .get();
+        while (!querySnapshotTask.isComplete()) {}
+        for (DocumentSnapshot document : querySnapshotTask.getResult()) {
+            User user = new User();
+            user.setId(document.getId());
+            user.setUsername(document.getString("username"));
+            user.setEmail(document.getString("email"));
+            user.setCreditPoints(document.getLong("creditPoints").intValue());
+            user.setIsBanned(document.getBoolean("isBanned"));
+            user.setPersonalInformation(document.get("PI", PersonalInformation.class));
+            // get nutritionOverall
+            NutritionOverall nutritionOverall = new NutritionOverall();
+            nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
+            nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
+            user.setNutritionOverall(nutritionOverall);
+            // get waterInformation
+            WaterInformation waterInformation = new WaterInformation();
+            waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
+            waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
+            waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
+            Gson gson = new Gson();
+            String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
+            ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
+            waterInformation.setWaterHistory(waterHistory);
+            user.setWaterInformation(waterInformation);
+            users.add(user);
+        }
+        return users;
     }
 }

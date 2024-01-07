@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/rounded_corner_login"
-    android:layout_marginHorizontal="20dp"
     android:layout_marginTop="15dp"
     android:backgroundTint="#EBF8EB"
     >
