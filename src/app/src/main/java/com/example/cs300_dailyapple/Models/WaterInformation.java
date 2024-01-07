@@ -1,5 +1,6 @@
 package com.example.cs300_dailyapple.Models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class WaterInformation {
@@ -50,6 +51,11 @@ public class WaterInformation {
     }
 
     public void addWaterHistoryItem(WaterHistoryItem waterHistoryItem) {
-        waterHistory.add(waterHistoryItem);
+        waterHistory.add(0, waterHistoryItem);
+    }
+
+    public void addWaterHistoryItem() {
+        //default
+        waterHistory.add(0, new WaterHistoryItem(containerCapacity, LocalDateTime.now()));
     }
 }

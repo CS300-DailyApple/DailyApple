@@ -1,60 +1,114 @@
 package com.example.cs300_dailyapple.Fragments;
 
+import static java.lang.Integer.min;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.cs300_dailyapple.Models.WaterHistoryItem;
+import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.example.cs300_dailyapple.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WaterDrinking#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class WaterDrinking extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    ProgressBar water_drinking_bar;
+    TextView water_amount, add_button, cool_down;
+    LinearLayout change_cup_button;
+    RecyclerView drink_history;
+    WaterInformation Data;
+    int inputCap;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public void UpdateView() {
+        String conCap = "+ " + Data.getContainerCapacity() + " ml";
+        add_button.setText(conCap);
+        String waterAmount = String.valueOf(Data.getTotalWaterDrank()) + " / " + String.valueOf(Data.getWaterTarget());
+        water_amount.setText(waterAmount);
+        water_drinking_bar.setProgress(min(Data.getTotalWaterDrank(), Data.getWaterTarget())  * 100 / Data.getWaterTarget());
 
-    public WaterDrinking() {
-        // Required empty public constructor
+
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WaterDrinking.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WaterDrinking newInstance(String param1, String param2) {
-        WaterDrinking fragment = new WaterDrinking();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //Id binding
+        water_amount = view.findViewById(R.id.water_amount_drinking);
+        water_drinking_bar = view.findViewById(R.id.water_drinking_progress);
+        cool_down = view.findViewById(R.id.cooldown);
+        add_button = view.findViewById(R.id.plus_water);
+        change_cup_button = view.findViewById(R.id.autorenew);
+        drink_history = view.findViewById(R.id.item_water_list); //implement ?
+
+        //data
+        Data =  new WaterInformation(2300, 2200, 250, new ArrayList<WaterHistoryItem>());
+
+        //init view value
+        UpdateView();
+        drink_history.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        WaterHistoryAdapter adapter = new WaterHistoryAdapter(Data.getWaterHistory());
+        drink_history.setAdapter(adapter);
+
+        //button setting
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Data.addWaterHistoryItem();
+                UpdateView();
+                drink_history.getAdapter().notifyItemInserted(0);
+            }
+        });
+
+        change_cup_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Title");
+
+// Set up the input
+                final EditText input = new EditText(getContext());
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                builder.setView(input);
+
+// Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        inputCap = Integer.parseInt(input.getText().toString());
+                        Data.setContainerCapacity(inputCap);
+                        UpdateView();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
     }
 
     @Override
