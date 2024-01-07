@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.R;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
@@ -75,7 +78,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         }
 
         public void bind(PersonalInformation personalInformation) {
-            dateTimeTextView.setText(personalInformation.getDate());
+            // Set today's date
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDate date = LocalDate.now();
+            dateTimeTextView.setText(dtf.format(date));
             heightTextView.setText(String.valueOf(personalInformation.getHeight()) + " cm");
             weightTextView.setText(String.valueOf(personalInformation.getWeight()) + " kg");
         }

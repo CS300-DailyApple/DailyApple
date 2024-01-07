@@ -16,7 +16,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        tools:layout="@layout/login_fragment"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
         />

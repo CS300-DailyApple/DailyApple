@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
+import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.AuthService;
+import com.example.cs300_dailyapple.Services.DataService;
 
 public class BodyInformationFragment extends Fragment {
 
@@ -24,18 +27,12 @@ public class BodyInformationFragment extends Fragment {
     private TextView textBMI;
     private TextView Weight;
     private TextView Height;
-
-
-
-
-    private PersonalInformation personalInformation;
+    private User user;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Khởi tạo đối tượng PersonalInformation và load dữ liệu nếu có
-        personalInformation = new PersonalInformation();
-        // Load PersonalInformation ở đây
+        user = DataService.getInstance().getUser(AuthService.getInstance().getCurrentUser().getUid());
     }
 
     @Override
@@ -59,7 +56,7 @@ public class BodyInformationFragment extends Fragment {
 
     private void displayPersonalInformation() {
         // Hiển thị giới tính
-        if (personalInformation.getGender() == "male") {
+        if (user.getPersonalInformation().getGender() == "male") {
             // Nếu là nam, sử dụng hình ảnh male
             imageGender.setImageResource(R.drawable.gendermale);
         } else {
@@ -68,23 +65,32 @@ public class BodyInformationFragment extends Fragment {
         }
 
         // Hiển thị độ tuổi
-        textViewAge.setText(String.valueOf(personalInformation.getAge()));
+        textViewAge.setText(String.valueOf(user.getPersonalInformation().getAge()));
 
         // Hiển thị thông tin nước uống
         int progressWater = 0;// Set progress ở đây
-                progressBarWater.setMax(personalInformation.getWater());
-        progressBarWater.setProgress(progressWater);
-        textProgressWater.setText(progressWater + "/" + personalInformation.getWater() + " ml");
+        // Get water target and round it to integer
+        PersonalInformation personalInformation = user.getPersonalInformation();
+        int waterTarget = (int) Math.round(user.getWaterOverall().getWaterTarget());
+        progressBarWater.setMax(waterTarget);
+        // Get water absorbed and round it to integer
+        int waterAbsorbed = (int) Math.round(user.getWaterOverall().getWaterAbsorbed());
+        progressBarWater.setProgress(waterAbsorbed);
+        textProgressWater.setText(waterAbsorbed + "/" + waterTarget + " ml");
 
         // Hiển thị thông tin calo
         int progressCalo = 0;// Set progress ở đây
-                progressBarCalo.setMax(personalInformation.getCalo());
-        progressBarCalo.setProgress(progressCalo);
-        textProgressCalo.setText(progressCalo + "/" + personalInformation.getCalo() + " calo");
+        // Get calo target and round it to integer
+        int caloTarget = (int) Math.round(user.getNutritionOverall().getNutritionTarget().getCalories());
+        progressBarCalo.setMax(caloTarget);
+        // Get calo absorbed and round it to integer
+        int caloAbsorbed = (int) Math.round(user.getNutritionOverall().getNutritionAbsorbed().getCalories());
+        progressBarCalo.setProgress(caloAbsorbed);
+        textProgressCalo.setText(caloAbsorbed + "/" + caloTarget + " calo");
         Weight.setText(String.valueOf(personalInformation.getWeight()));
         Height.setText(String.valueOf(personalInformation.getHeight()));
         try {
-            float BMI = personalInformation.getWeight() / (personalInformation.getHeight() * personalInformation.getHeight());
+            Double BMI = personalInformation.getWeight() / (personalInformation.getHeight() * personalInformation.getHeight());
         }
         catch (ArithmeticException e){
             float BMI = 0;

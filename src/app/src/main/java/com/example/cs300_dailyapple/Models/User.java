@@ -10,8 +10,7 @@ public class User {
     private boolean isBanned;
     private PersonalInformation personalInformation;
     private NutritionOverall nutritionOverall;
-    private Double waterTarget;
-    private Double waterAbsorbed;
+    private WaterOverall waterOverall;
 
     // Methods
     public User() {
@@ -22,8 +21,7 @@ public class User {
         this.isBanned = false;
         this.personalInformation = new PersonalInformation();
         this.nutritionOverall = new NutritionOverall();
-        this.waterTarget = 0.0;
-        this.waterAbsorbed = 0.0;
+        this.waterOverall = new WaterOverall();
     }
     public User(String username) {
         this.id = "";
@@ -42,22 +40,6 @@ public class User {
         this.isBanned = isBanned;
         this.personalInformation = personalInformation;
         this.nutritionOverall = nutritionOverall;
-    }
-
-    public Double getWaterAbsorbed() {
-        return waterAbsorbed;
-    }
-
-    public Double getWaterTarget() {
-        return waterTarget;
-    }
-
-    public void setWaterAbsorbed(Double waterAbsorbed) {
-        this.waterAbsorbed = waterAbsorbed;
-    }
-
-    public void setWaterTarget(Double waterTarget) {
-        this.waterTarget = waterTarget;
     }
 
     public String getRole() {
@@ -122,5 +104,11 @@ public class User {
 
     public void setNutritionOverall(NutritionOverall nutritionOverall) {
         this.nutritionOverall = nutritionOverall;
+    }
+    public WaterOverall getWaterOverall() {
+        return waterOverall;
+    }
+    public void setWaterOverall(WaterOverall waterOverall) {
+        this.waterOverall = waterOverall;
     }
 }
