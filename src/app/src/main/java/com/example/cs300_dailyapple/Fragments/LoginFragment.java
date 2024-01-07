@@ -14,9 +14,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NavigationRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -108,6 +110,26 @@ public class LoginFragment extends Fragment {
             @Override
             public void onFailure(Exception exception) {
                 Toast.makeText(getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Override the onBackPressed behavior for this fragment
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Create an AlertDialog to ask the user if they want to exit or logout
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Thoát");
+                builder.setMessage("Bạn có muốn thoát khỏi ứng dụng?");
+                builder.setPositiveButton("Thoát", (dialog, which) -> {
+                    // Exit the app
+                    requireActivity().finish();
+                });
+                builder.setNeutralButton("Hủy", null);
+                builder.show();
             }
         });
     }

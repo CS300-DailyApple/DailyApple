@@ -58,6 +58,18 @@ public class CreateAccountFragment extends Fragment {
             AuthService.getInstance().registerUser(email, password, new AuthService.AuthCallback() {
                 @Override
                 public void onSuccess(FirebaseUser user) {
+                    // login that user
+                    AuthService.getInstance().loginUser(email, password, new AuthService.AuthCallback() {
+                        @Override
+                        public void onSuccess(FirebaseUser user) {
+                            // do nothing
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+                            Toast.makeText(getContext(), "Account creation failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     // get the user id and add it to bundle
                     // then navigate to the getInformation
                     String uid = user.getUid();
