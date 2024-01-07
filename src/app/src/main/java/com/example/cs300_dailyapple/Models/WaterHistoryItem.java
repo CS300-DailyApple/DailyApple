@@ -15,7 +15,7 @@ public class WaterHistoryItem {
     }
 
     public int getWaterAmount() {
-        return waterAmount;
+        return this.waterAmount;
     }
 
     public String get_hm() {
@@ -23,6 +23,6 @@ public class WaterHistoryItem {
     }
 
     public LocalDateTime getTime() {
-        return time;
+        return this.time;
     }
 }
