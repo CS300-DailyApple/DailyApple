@@ -64,7 +64,7 @@ public class Food {
     }
     public Nutrition getNutrition() {
         return new Nutrition(
-                this.nutritionPerUnit.getCalories() * this.numberOfUnits,
+                this.nutritionPerUnit.getKcal() * this.numberOfUnits,
                 this.nutritionPerUnit.getProtein() * this.numberOfUnits,
                 this.nutritionPerUnit.getFiber() * this.numberOfUnits,
                 this.nutritionPerUnit.getFat() * this.numberOfUnits,

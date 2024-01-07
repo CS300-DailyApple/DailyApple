@@ -15,7 +15,7 @@ public class FoodCompound {
         this.foodsList = foodsList;
         this.nutrition = new Nutrition();
         for (Food food : foodsList) {
-            this.nutrition.setCalories(this.nutrition.getCalories() + food.getNutrition().getCalories());
+            this.nutrition.setKcal(this.nutrition.getKcal() + food.getNutrition().getKcal());
             this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());
             this.nutrition.setFiber(this.nutrition.getFiber() + food.getNutrition().getFiber());
             this.nutrition.setFat(this.nutrition.getFat() + food.getNutrition().getFat());
@@ -30,7 +30,7 @@ public class FoodCompound {
     }
     public void addFood(Food food) {
         this.foodsList.add(food);
-        this.nutrition.setCalories(this.nutrition.getCalories() + food.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() + food.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());
         this.nutrition.setFiber(this.nutrition.getFiber() + food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() + food.getNutrition().getFat());
@@ -38,7 +38,7 @@ public class FoodCompound {
     }
     public void removeFood(Food food) {
         this.foodsList.remove(food);
-        this.nutrition.setCalories(this.nutrition.getCalories() - food.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() - food.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() - food.getNutrition().getProtein());
         this.nutrition.setFiber(this.nutrition.getFiber() - food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() - food.getNutrition().getFat());
@@ -47,13 +47,13 @@ public class FoodCompound {
 
     public void editFood(Food food, Food newFood) {
         this.foodsList.remove(food);
-        this.nutrition.setCalories(this.nutrition.getCalories() - food.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() - food.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() - food.getNutrition().getProtein());
         this.nutrition.setFiber(this.nutrition.getFiber() - food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() - food.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() - food.getNutrition().getCarbs());
         this.foodsList.add(newFood);
-        this.nutrition.setCalories(this.nutrition.getCalories() + newFood.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() + newFood.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() + newFood.getNutrition().getProtein());
         this.nutrition.setFiber(this.nutrition.getFiber() + newFood.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() + newFood.getNutrition().getFat());

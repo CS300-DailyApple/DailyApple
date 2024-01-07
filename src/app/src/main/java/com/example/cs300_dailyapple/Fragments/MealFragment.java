@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.cs300_dailyapple.Models.Food;
@@ -42,7 +41,7 @@ public class MealFragment extends Fragment {
     private int getTotalCalories(LinkedList<Food> dishList){
         int total=0;
         for (Food dish : dishList) {
-            total += dish.getNutritionPerUnit().getCalories();
+            total += dish.getNutritionPerUnit().getKcal();
         }
         return total;
     }

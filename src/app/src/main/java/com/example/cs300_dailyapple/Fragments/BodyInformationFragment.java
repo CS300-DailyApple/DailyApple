@@ -1,6 +1,7 @@
 package com.example.cs300_dailyapple.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class BodyInformationFragment extends Fragment {
     private TextView textBMI;
     private TextView Weight;
     private TextView Height;
+    private TextView weightEvaluation;
     private User user;
 
     @Override
@@ -47,6 +49,7 @@ public class BodyInformationFragment extends Fragment {
         progressBarWater = view.findViewById(R.id.progressBarWater);
         textProgressCalo = view.findViewById(R.id.textProgressCalo);
         progressBarCalo = view.findViewById(R.id.progressBarCalo);
+        weightEvaluation = view.findViewById(R.id.weightEvaluation);
 
         // Hiển thị thông tin từ PersonalInformation
         displayPersonalInformation();
@@ -68,33 +71,50 @@ public class BodyInformationFragment extends Fragment {
         textViewAge.setText(String.valueOf(user.getPersonalInformation().getAge()));
 
         // Hiển thị thông tin nước uống
-        int progressWater = 0;// Set progress ở đây
         // Get water target and round it to integer
         PersonalInformation personalInformation = user.getPersonalInformation();
         int waterTarget = (int) Math.round(user.getWaterOverall().getWaterTarget());
+        Log.d("waterTarget", String.valueOf(waterTarget));
         progressBarWater.setMax(waterTarget);
         // Get water absorbed and round it to integer
         int waterAbsorbed = (int) Math.round(user.getWaterOverall().getWaterAbsorbed());
+        Log.d("waterAbsorbed", String.valueOf(waterAbsorbed));
         progressBarWater.setProgress(waterAbsorbed);
         textProgressWater.setText(waterAbsorbed + "/" + waterTarget + " ml");
 
         // Hiển thị thông tin calo
-        int progressCalo = 0;// Set progress ở đây
         // Get calo target and round it to integer
-        int caloTarget = (int) Math.round(user.getNutritionOverall().getNutritionTarget().getCalories());
+        int caloTarget = (int) Math.round(user.getNutritionOverall().getNutritionTarget().getKcal());
         progressBarCalo.setMax(caloTarget);
         // Get calo absorbed and round it to integer
-        int caloAbsorbed = (int) Math.round(user.getNutritionOverall().getNutritionAbsorbed().getCalories());
+        int caloAbsorbed = (int) Math.round(user.getNutritionOverall().getNutritionAbsorbed().getKcal());
         progressBarCalo.setProgress(caloAbsorbed);
         textProgressCalo.setText(caloAbsorbed + "/" + caloTarget + " calo");
         Weight.setText(String.valueOf(personalInformation.getWeight()));
         Height.setText(String.valueOf(personalInformation.getHeight()));
+        textBMI.setText(String.valueOf(Math.round(personalInformation.calculateBMI())));
+        weightEvaluation.setText(evaluateBMI(personalInformation.calculateBMI()));
+
         try {
             Double BMI = personalInformation.getWeight() / (personalInformation.getHeight() * personalInformation.getHeight());
         }
         catch (ArithmeticException e){
             float BMI = 0;
             e.printStackTrace();
+        }
+    }
+    private String evaluateBMI(Double BMI){
+        if (BMI < 18.5){
+            return "Thiếu cân";
+        }
+        else if (BMI >= 18.5 && BMI < 24.9){
+            return "Bình thường";
+        }
+        else if (BMI >= 24.9 && BMI < 29.9){
+            return "Thừa cân";
+        }
+        else {
+            return "Béo phì";
         }
     }
 }

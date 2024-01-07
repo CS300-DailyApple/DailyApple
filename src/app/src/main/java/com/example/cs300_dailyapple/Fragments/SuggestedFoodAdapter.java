@@ -44,7 +44,7 @@ public class SuggestedFoodAdapter extends RecyclerView.Adapter<SuggestedFoodAdap
         setResized8080(context, foodName, holder.foodImage);
 
         holder.textViewName.setText(currentFood.getName());
-        String attributes = currentFood.getNumberOfUnits() + " " + currentFood.getUnit() + " - " + currentFood.getNutritionPerUnit().getCalories() + " calo";
+        String attributes = currentFood.getNumberOfUnits() + " " + currentFood.getUnit() + " - " + currentFood.getNutritionPerUnit().getKcal() + " calo";
         holder.textViewAttributes.setText(attributes);
     }
 

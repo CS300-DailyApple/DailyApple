@@ -14,8 +14,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Document;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -46,8 +44,8 @@ public class DataService {
         user.put("email", email);
         user.put("username", username);
         user.put("role", "user");
-        user.put("credit_points", 100);
-        user.put("is_banned", false);
+        user.put("creditPoints", 100);
+        user.put("isBanned", false);
         user.put("PI", PI);
         // add target and absorbed into nutritionOverall
         Map<String, Object> nutritionOverall = new HashMap<>();
@@ -102,7 +100,7 @@ public class DataService {
         Map<String, Object> food_to_add = new HashMap<>();
         food_to_add.put("name", food.getName());
         food_to_add.put("unit", '1' + food.getUnit());
-        food_to_add.put("energy", food.getNutritionPerUnit().getCalories());
+        food_to_add.put("energy", food.getNutritionPerUnit().getKcal());
         food_to_add.put("protein", food.getNutritionPerUnit().getProtein());
         food_to_add.put("fiber", food.getNutritionPerUnit().getFiber());
         food_to_add.put("fat", food.getNutritionPerUnit().getFat());
@@ -124,7 +122,7 @@ public class DataService {
                     Food food = new Food();
                     food.setName(document.getString("name"));
                     food.setUnit(document.getString("unit").substring(1));
-                    food.getNutritionPerUnit().setCalories(document.getDouble("energy"));
+                    food.getNutritionPerUnit().setKcal(document.getDouble("energy"));
                     food.getNutritionPerUnit().setProtein(document.getDouble("protein"));
                     food.getNutritionPerUnit().setFiber(document.getDouble("fiber"));
                     food.getNutritionPerUnit().setFat(document.getDouble("fat"));
@@ -143,8 +141,8 @@ public class DataService {
         user.setId(uid);
         user.setUsername(document.getString("username"));
         user.setEmail(document.getString("email"));
-        user.setCreditPoints(document.getLong("credit_points").intValue());
-        user.setIsBanned(document.getBoolean("is_banned"));
+        user.setCreditPoints(document.getLong("creditPoints").intValue());
+        user.setIsBanned(document.getBoolean("isBanned"));
         user.setPersonalInformation(document.get("PI", PersonalInformation.class));
         // get nutritionOverall
         NutritionOverall nutritionOverall = new NutritionOverall();
