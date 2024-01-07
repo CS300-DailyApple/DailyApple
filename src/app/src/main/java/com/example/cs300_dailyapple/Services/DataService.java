@@ -19,6 +19,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Document;
 
@@ -169,7 +171,10 @@ public class DataService {
         waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
         waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
         waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
-        waterInformation.setWaterHistory(document.get("waterInformation.waterHistory", ArrayList.class));
+        Gson gson = new Gson();
+        String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
+        ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
+        waterInformation.setWaterHistory(waterHistory);
         user.setWaterInformation(waterInformation);
         return user;
     }
