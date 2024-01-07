@@ -58,7 +58,7 @@ public class SummaryStatistic extends Fragment {
         // get weight evaluation
         weightEvaluation.setText(getWeightEvaluation(user.getPersonalInformation().calculateBMI()));
         // get water
-waterText.setText(String.valueOf(Math.round(user.getPersonalInformation().calculateWater())));
+        waterText.setText(String.valueOf(Math.round(user.getPersonalInformation().calculateWater())));
         // continue button
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
