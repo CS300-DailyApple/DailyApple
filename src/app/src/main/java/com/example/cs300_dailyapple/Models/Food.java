@@ -2,6 +2,8 @@ package com.example.cs300_dailyapple.Models;
 
 import android.content.Context;
 
+import com.example.cs300_dailyapple.Services.DataService;
+
 import java.util.LinkedList;
 
 public class Food {
@@ -64,14 +66,14 @@ public class Food {
         return new Nutrition(
                 this.nutritionPerUnit.getCalories() * this.numberOfUnits,
                 this.nutritionPerUnit.getProtein() * this.numberOfUnits,
-                this.nutritionPerUnit.getFibre() * this.numberOfUnits,
+                this.nutritionPerUnit.getFiber() * this.numberOfUnits,
                 this.nutritionPerUnit.getFat() * this.numberOfUnits,
                 this.nutritionPerUnit.getCarbs() * this.numberOfUnits
         );
     }
     public static LinkedList<Food> loadFoodList(Context context){
         LinkedList<Food> foodList = new LinkedList<>();
-        // load Foodlist here
+        foodList = DataService.getInstance().getSharedFoods();
         return foodList;
     }
     public static void saveFoodList(LinkedList<Food> foodList,Context context){

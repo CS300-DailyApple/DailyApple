@@ -4,21 +4,21 @@ public class Nutrition {
     // Attributes
     private Double calories;
     private Double protein;
-    private Double fibre;
+    private Double fiber;
     private Double fat;
     private Double carbs;
     // Methods
     public Nutrition() {
         this.calories = 0.0;
         this.protein = 0.0;
-        this.fibre = 0.0;
+        this.fiber = 0.0;
         this.fat = 0.0;
         this.carbs = 0.0;
     }
     public Nutrition(Double calories, Double protein,Double fibre, Double fat, Double carbs) {
         this.calories = calories;
         this.protein = protein;
-        this.fibre = fibre;
+        this.fiber = fibre;
         this.fat = fat;
         this.carbs = carbs;
     }
@@ -28,8 +28,8 @@ public class Nutrition {
     public Double getProtein() {
         return protein;
     }
-    public Double getFibre() {
-        return fibre;
+    public Double getFiber() {
+        return fiber;
     }
     public Double getFat() {
         return fat;
@@ -43,8 +43,8 @@ public class Nutrition {
     public void setProtein(Double protein) {
         this.protein = protein;
     }
-    public void setFibre(Double fibre) {
-        this.fibre = fibre;
+    public void setFiber(Double fiber) {
+        this.fiber = fiber;
     }
     public void setFat(Double fat) {
         this.fat = fat;
@@ -55,7 +55,7 @@ public class Nutrition {
     public void updateNutrition(Nutrition nutrition) {
         this.calories = nutrition.getCalories();
         this.protein = nutrition.getProtein();
-        this.fibre = nutrition.getFibre();
+        this.fiber = nutrition.getFiber();
         this.fat = nutrition.getFat();
         this.carbs = nutrition.getCarbs();
     }

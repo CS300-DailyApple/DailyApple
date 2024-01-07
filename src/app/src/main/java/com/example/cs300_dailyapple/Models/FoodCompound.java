@@ -17,7 +17,7 @@ public class FoodCompound {
         for (Food food : foodsList) {
             this.nutrition.setCalories(this.nutrition.getCalories() + food.getNutrition().getCalories());
             this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());
-            this.nutrition.setFibre(this.nutrition.getFibre() + food.getNutrition().getFibre());
+            this.nutrition.setFiber(this.nutrition.getFiber() + food.getNutrition().getFiber());
             this.nutrition.setFat(this.nutrition.getFat() + food.getNutrition().getFat());
             this.nutrition.setCarbs(this.nutrition.getCarbs() + food.getNutrition().getCarbs());
         }
@@ -32,7 +32,7 @@ public class FoodCompound {
         this.foodsList.add(food);
         this.nutrition.setCalories(this.nutrition.getCalories() + food.getNutrition().getCalories());
         this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() + food.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() + food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() + food.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() + food.getNutrition().getCarbs());
     }
@@ -40,7 +40,7 @@ public class FoodCompound {
         this.foodsList.remove(food);
         this.nutrition.setCalories(this.nutrition.getCalories() - food.getNutrition().getCalories());
         this.nutrition.setProtein(this.nutrition.getProtein() - food.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() - food.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() - food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() - food.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() - food.getNutrition().getCarbs());
     }
@@ -49,13 +49,13 @@ public class FoodCompound {
         this.foodsList.remove(food);
         this.nutrition.setCalories(this.nutrition.getCalories() - food.getNutrition().getCalories());
         this.nutrition.setProtein(this.nutrition.getProtein() - food.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() - food.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() - food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() - food.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() - food.getNutrition().getCarbs());
         this.foodsList.add(newFood);
         this.nutrition.setCalories(this.nutrition.getCalories() + newFood.getNutrition().getCalories());
         this.nutrition.setProtein(this.nutrition.getProtein() + newFood.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() + newFood.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() + newFood.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() + newFood.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() + newFood.getNutrition().getCarbs());
     }

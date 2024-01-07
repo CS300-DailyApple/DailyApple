@@ -3,35 +3,61 @@ package com.example.cs300_dailyapple.Models;
 public class User {
     // Attributes
     private String id;
+    private String email;
     private String role = "user";
     private String username;
-    private String password;
     private int creditPoints;
     private boolean isBanned;
     private PersonalInformation personalInformation;
     private NutritionOverall nutritionOverall;
-
-
+    private Double waterTarget;
+    private Double waterAbsorbed;
 
     // Methods
-    public User(String username, String password) {
+    public User() {
+        this.id = "";
+        this.username = "";
+        this.email = "";
+        this.creditPoints = 0;
+        this.isBanned = false;
+        this.personalInformation = new PersonalInformation();
+        this.nutritionOverall = new NutritionOverall();
+        this.waterTarget = 0.0;
+        this.waterAbsorbed = 0.0;
+    }
+    public User(String username) {
         this.id = "";
         this.username = username;
-        this.password = password;
+        this.email = "";
         this.creditPoints = 0;
         this.isBanned = false;
         this.personalInformation = new PersonalInformation();
         this.nutritionOverall = new NutritionOverall();
     }
 
-    public User(String id, String username, String password, int creditPoints, boolean isBanned, PersonalInformation personalInformation, NutritionOverall nutritionOverall) {
+    public User(String id, String username, int creditPoints, boolean isBanned, PersonalInformation personalInformation, NutritionOverall nutritionOverall) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.creditPoints = creditPoints;
         this.isBanned = isBanned;
         this.personalInformation = personalInformation;
         this.nutritionOverall = nutritionOverall;
+    }
+
+    public Double getWaterAbsorbed() {
+        return waterAbsorbed;
+    }
+
+    public Double getWaterTarget() {
+        return waterTarget;
+    }
+
+    public void setWaterAbsorbed(Double waterAbsorbed) {
+        this.waterAbsorbed = waterAbsorbed;
+    }
+
+    public void setWaterTarget(Double waterTarget) {
+        this.waterTarget = waterTarget;
     }
 
     public String getRole() {
@@ -46,12 +72,12 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUsername() {
+        return username;
     }
 
     public int getCreditPoints() {
@@ -74,12 +100,12 @@ public class User {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password= password;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setCreditPoints(int creditPoints) {
