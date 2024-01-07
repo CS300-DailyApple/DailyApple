@@ -8,10 +8,13 @@ import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.Models.NutritionOverall;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
+import com.example.cs300_dailyapple.Models.WaterOverall;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -149,13 +152,10 @@ public class DataService {
         nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
         user.setNutritionOverall(nutritionOverall);
         // get waterOverall
-        Map<String, Object> waterOverall = document.get("waterOverall", Map.class);
-        // get waterTarget
-        Double waterTarget = (Double) waterOverall.get("waterTarget");
-        // get waterAbsorbed
-        Double waterAbsorbed = (Double) waterOverall.get("waterAbsorbed");
-        user.setWaterTarget(waterTarget);
-        user.setWaterAbsorbed(waterAbsorbed);
+        WaterOverall waterOverall = new WaterOverall();
+        waterOverall.setWaterTarget(document.getDouble("waterOverall.waterTarget"));
+        waterOverall.setWaterAbsorbed(document.getDouble("waterOverall.waterAbsorbed"));
+        user.setWaterOverall(waterOverall);
         return user;
     }
 }

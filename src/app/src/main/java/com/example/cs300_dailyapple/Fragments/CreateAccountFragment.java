@@ -22,6 +22,7 @@ import com.google.rpc.context.AttributeContext;
 public class CreateAccountFragment extends Fragment {
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private EditText editTextUsername;
     private AppCompatImageButton buttonCreateAccount;
 
     @Override
@@ -36,6 +37,7 @@ public class CreateAccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
+        editTextUsername = view.findViewById(R.id.editTextUsername);
         buttonCreateAccount = view.findViewById(R.id.createAccountButton);
         buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,18 +50,33 @@ public class CreateAccountFragment extends Fragment {
     private void handleCreateAccount(View view) {
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(getContext(), "Email and password cannot be empty", Toast.LENGTH_SHORT).show();
+        String username = editTextUsername.getText().toString();
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
+            Toast.makeText(getContext(), "Email, password and username cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else {
             AuthService.getInstance().registerUser(email, password, new AuthService.AuthCallback() {
                 @Override
                 public void onSuccess(FirebaseUser user) {
+                    // login that user
+                    AuthService.getInstance().loginUser(email, password, new AuthService.AuthCallback() {
+                        @Override
+                        public void onSuccess(FirebaseUser user) {
+                            // do nothing
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+                            Toast.makeText(getContext(), "Account creation failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     // get the user id and add it to bundle
                     // then navigate to the getInformation
                     String uid = user.getUid();
                     Bundle bundle = new Bundle();
                     bundle.putString("uid", uid);
+                    bundle.putString("username", username);
+                    bundle.putString("email", email);
                     Toast.makeText(getContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
                     Navigation.findNavController(view).navigate(R.id.action_createAccountFragment_to_getInformation, bundle);
                 }
