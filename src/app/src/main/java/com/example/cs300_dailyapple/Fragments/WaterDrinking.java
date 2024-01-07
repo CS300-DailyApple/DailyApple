@@ -34,6 +34,7 @@ public class WaterDrinking extends Fragment {
     LinearLayout change_cup_button;
     RecyclerView drink_history;
     WaterInformation Data;
+    WaterHistoryAdapter adapter;
     int inputCap;
 
     public void UpdateView() {
@@ -55,15 +56,15 @@ public class WaterDrinking extends Fragment {
         cool_down = view.findViewById(R.id.cooldown);
         add_button = view.findViewById(R.id.plus_water);
         change_cup_button = view.findViewById(R.id.autorenew);
-        drink_history = view.findViewById(R.id.item_water_list); //implement ?
+        drink_history = view.findViewById(R.id.item_water_list);
 
         //data
-        Data =  new WaterInformation(2300, 2200, 250, new ArrayList<WaterHistoryItem>());
+        Data =  new WaterInformation(2300, 0, 250, new ArrayList<WaterHistoryItem>());
 
         //init view value
         UpdateView();
         drink_history.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        WaterHistoryAdapter adapter = new WaterHistoryAdapter(Data.getWaterHistory());
+        adapter = new WaterHistoryAdapter(Data.getWaterHistory());
         drink_history.setAdapter(adapter);
 
         //button setting
@@ -71,8 +72,8 @@ public class WaterDrinking extends Fragment {
             @Override
             public void onClick(View view) {
                 Data.addWaterHistoryItem();
-                UpdateView();
-                drink_history.getAdapter().notifyItemInserted(0);
+                adapter.notifyItemInserted(0);
+                drink_history.scrollToPosition(0);
             }
         });
 
@@ -80,9 +81,8 @@ public class WaterDrinking extends Fragment {
             @Override
             public void onClick(View view) {
 
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Title");
+                builder.setTitle("Change cup size");
 
 // Set up the input
                 final EditText input = new EditText(getContext());

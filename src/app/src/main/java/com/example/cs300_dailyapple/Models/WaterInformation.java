@@ -63,5 +63,6 @@ public class WaterInformation {
     public void addWaterHistoryItem() {
         //default
         waterHistory.add(0, new WaterHistoryItem(containerCapacity, LocalDateTime.now()));
+        totalWaterDrank += containerCapacity;
     }
 }
