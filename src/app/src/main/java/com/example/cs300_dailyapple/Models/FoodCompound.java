@@ -9,15 +9,15 @@ public class FoodCompound {
     // Methods
     public FoodCompound() {
         this.foodsList = new ArrayList<Food>();
-        this.nutrition = new Nutrition(0, 0, 0, 0, 0);
+        this.nutrition = new Nutrition();
     }
     public FoodCompound(ArrayList<Food> foodsList) {
         this.foodsList = foodsList;
-        this.nutrition = new Nutrition(0, 0, 0, 0, 0);
+        this.nutrition = new Nutrition();
         for (Food food : foodsList) {
-            this.nutrition.setCalories(this.nutrition.getCalories() + food.getNutrition().getCalories());
+            this.nutrition.setKcal(this.nutrition.getKcal() + food.getNutrition().getKcal());
             this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());
-            this.nutrition.setFibre(this.nutrition.getFibre() + food.getNutrition().getFibre());
+            this.nutrition.setFiber(this.nutrition.getFiber() + food.getNutrition().getFiber());
             this.nutrition.setFat(this.nutrition.getFat() + food.getNutrition().getFat());
             this.nutrition.setCarbs(this.nutrition.getCarbs() + food.getNutrition().getCarbs());
         }
@@ -30,32 +30,32 @@ public class FoodCompound {
     }
     public void addFood(Food food) {
         this.foodsList.add(food);
-        this.nutrition.setCalories(this.nutrition.getCalories() + food.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() + food.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() + food.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() + food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() + food.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() + food.getNutrition().getCarbs());
     }
     public void removeFood(Food food) {
         this.foodsList.remove(food);
-        this.nutrition.setCalories(this.nutrition.getCalories() - food.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() - food.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() - food.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() - food.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() - food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() - food.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() - food.getNutrition().getCarbs());
     }
 
     public void editFood(Food food, Food newFood) {
         this.foodsList.remove(food);
-        this.nutrition.setCalories(this.nutrition.getCalories() - food.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() - food.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() - food.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() - food.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() - food.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() - food.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() - food.getNutrition().getCarbs());
         this.foodsList.add(newFood);
-        this.nutrition.setCalories(this.nutrition.getCalories() + newFood.getNutrition().getCalories());
+        this.nutrition.setKcal(this.nutrition.getKcal() + newFood.getNutrition().getKcal());
         this.nutrition.setProtein(this.nutrition.getProtein() + newFood.getNutrition().getProtein());
-        this.nutrition.setFibre(this.nutrition.getFibre() + newFood.getNutrition().getFibre());
+        this.nutrition.setFiber(this.nutrition.getFiber() + newFood.getNutrition().getFiber());
         this.nutrition.setFat(this.nutrition.getFat() + newFood.getNutrition().getFat());
         this.nutrition.setCarbs(this.nutrition.getCarbs() + newFood.getNutrition().getCarbs());
     }

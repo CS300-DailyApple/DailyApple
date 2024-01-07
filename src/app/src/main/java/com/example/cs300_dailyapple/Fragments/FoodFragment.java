@@ -38,23 +38,22 @@ public class FoodFragment extends Fragment {
         LinkedList<Food> foodList = Food.loadFoodList(context);
         fullFoodList = new LinkedList<>(foodList);
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);
-        foodAdapter = new FoodAdapter(Food.loadFoodList(context),context,this);
+        foodAdapter = new FoodAdapter(Food.loadFoodList(context), context, this);
         recyclerViewFood.setLayoutManager(new LinearLayoutManager(context));
         recyclerViewFood.setAdapter(foodAdapter);
         noResultTextView = view.findViewById(R.id.NoResult);
         noResultTextView.setVisibility(View.GONE);
 
 
-        SearchView searchView = view.findViewById(R.id.searchView);
+        androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Tìm kiếm món ăn...");
         // Xử lý sự kiện khi người dùng thay đổi nội dung tìm kiếm
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Xử lý khi người dùng nhấn nút Search trên bàn phím
-                performSearch(query);
-                return true;
+                // Xử lý khi người dùng ấn nút tìm kiếm trên bàn phím
+                return false;
             }
 
             @Override
@@ -64,8 +63,6 @@ public class FoodFragment extends Fragment {
                 return false;
             }
         });
-
-
         return view;
     }
     private void performSearch(String query) {
@@ -94,5 +91,4 @@ public class FoodFragment extends Fragment {
             noResultTextView.setVisibility(View.GONE); // Ẩn khi có kết quả
         }
     }
-
 }

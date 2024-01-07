@@ -48,6 +48,8 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.code.gson:gson:2.8.9")
+
 
     implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.navigation:navigation-fragment:2.7.6")

@@ -66,12 +66,12 @@ public class DailyMeal {
         return date;
     }
 
-    public int getTotalCalories() {
-        int totalCalories = 0;
-        int breakfastCalories = breakfast == null ? 0 : breakfast.getNutrition().getCalories();
-        int lunchCalories = lunch == null ? 0 : lunch.getNutrition().getCalories();
-        int dinnerCalories = dinner == null ? 0 : dinner.getNutrition().getCalories();
-        int snackCalories = snack == null ? 0 : snack.getNutrition().getCalories();
+    public Double getTotalCalories() {
+        Double totalCalories = 0.0;
+        Double breakfastCalories = breakfast == null ? 0.0 : breakfast.getNutrition().getKcal();
+        Double lunchCalories = lunch == null ? 0.0 : lunch.getNutrition().getKcal();
+        Double dinnerCalories = dinner == null ? 0.0 : dinner.getNutrition().getKcal();
+        Double snackCalories = snack == null ? 0.0 : snack.getNutrition().getKcal();
         totalCalories = breakfastCalories + lunchCalories + dinnerCalories + snackCalories;
         return totalCalories;
     }

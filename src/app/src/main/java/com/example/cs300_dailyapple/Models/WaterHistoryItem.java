@@ -18,6 +18,10 @@ public class WaterHistoryItem {
         return waterAmount;
     }
 
+    public String get_hm() {
+        return String.valueOf(time.getHour()) + ":" + String.valueOf(time.getMinute());
+    }
+
     public LocalDateTime getTime() {
         return time;
     }

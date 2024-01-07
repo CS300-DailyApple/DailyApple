@@ -6,11 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.DataService;
 
 public class GetInformation extends Fragment {
     private EditText heightEditText;
@@ -30,6 +35,7 @@ public class GetInformation extends Fragment {
     private ImageButton smallRightAgeButton;
     private AppCompatImageButton maleButton;
     private AppCompatImageButton femaleButton;
+    private AppCompatButton continueButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +65,7 @@ public class GetInformation extends Fragment {
         smallLeftHeightButton = view.findViewById(R.id.SmallLeftHeight);
         bigRightHeightButton = view.findViewById(R.id.BigRightHeight);
         smallRightHeightButton = view.findViewById(R.id.SmallRightHeight);
+        continueButton = view.findViewById(R.id.continueButton);
 
         int defaultHeight = 150;
         heightEditText.setText(String.valueOf(defaultHeight));
@@ -165,17 +172,46 @@ public class GetInformation extends Fragment {
                 increaseAge(1);
             }
         });
-
-
-
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lấy thông tin từ các EditText
+                Double height = Double.parseDouble(heightEditText.getText().toString());
+                Double weight = Double.parseDouble(WeightEditText.getText().toString());
+                int age = Integer.parseInt(AgeEditText.getText().toString());
+                String gender = "male";
+                if (femaleButton.isSelected()) {
+                    gender = "female";
+                }
+                // Tạo đối tượng PersonalInformation
+                PersonalInformation PI = new PersonalInformation();
+                PI.setAge(age);
+                PI.setHeight(height);
+                PI.setWeight(weight);
+                PI.setGender(gender);
+                // Tạo người dùng trong collection users
+                // Lấy uid từ bundle
+                String uid = getArguments().getString("uid");
+                String username = getArguments().getString("username");
+                String email = getArguments().getString("email");
+                DataService db = DataService.getInstance();
+                db.addUser(uid, email, username, PI);
+                // nếu thành công, chuyển sang summary fragment
+                if (db.getUserRole(uid).equals("user")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uid", uid);
+                    Navigation.findNavController(v).navigate(R.id.action_getInformation_to_summaryStatistic, bundle);
+                }
+                else {
+                    Toast.makeText(getContext(), "Create account failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return view;
     }
 
     private void setButtonSelected(boolean isMaleSelected) {
-
         maleButton.setSelected(isMaleSelected);
-
-
         femaleButton.setSelected(!isMaleSelected);
     }
     private void decreaseHeight(int decrement) {

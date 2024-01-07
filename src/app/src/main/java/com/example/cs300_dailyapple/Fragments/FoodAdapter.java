@@ -55,7 +55,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         setResized8080(context,foodName,holder.foodImage);
 
         holder.textViewName.setText(food.getName());
-        String attributes = food.getNumberOfUnits() + " " + food.getUnit() + " - "+ food.getNutritionPerUnit().getCalories()+" calo";
+        String attributes = food.getNumberOfUnits() + " " + food.getUnit() + " - "+ food.getNutritionPerUnit().getKcal()+" calo";
         holder.textViewAttributes.setText(attributes);
         if (food.getFavorite()==true){
             holder.favoriteButton.setSelected(true);

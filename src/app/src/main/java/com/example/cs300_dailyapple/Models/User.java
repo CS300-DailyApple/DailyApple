@@ -2,32 +2,60 @@ package com.example.cs300_dailyapple.Models;
 
 public class User {
     // Attributes
-    private int id;
+    private String id;
+    private String email;
     private String role = "user";
     private String username;
-    private String password;
     private int creditPoints;
     private boolean isBanned;
+    private WaterInformation waterInformation;
     private PersonalInformation personalInformation;
     private NutritionOverall nutritionOverall;
+    public void setRole(String role) {
+        this.role = role;
+    }
 
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
+    public WaterInformation getWaterInformation() {
+        return waterInformation;
+    }
+
+    public void setWaterInformation(WaterInformation waterInformation) {
+        this.waterInformation = waterInformation;
+    }
 
 
     // Methods
-    public User(String username, String password) {
-        this.id = 0;
+    public User() {
+        this.id = "";
+        this.username = "";
+        this.email = "";
+        this.creditPoints = 0;
+        this.isBanned = false;
+        this.waterInformation = new WaterInformation();
+        this.personalInformation = new PersonalInformation();
+        this.nutritionOverall = new NutritionOverall();
+    }
+    public User(String username) {
+        this.id = "";
         this.username = username;
-        this.password = password;
+        this.email = "";
         this.creditPoints = 0;
         this.isBanned = false;
         this.personalInformation = new PersonalInformation();
         this.nutritionOverall = new NutritionOverall();
     }
 
-    public User(int id, String username, String password, int creditPoints, boolean isBanned, PersonalInformation personalInformation, NutritionOverall nutritionOverall) {
+    public User(String id, String username, int creditPoints, boolean isBanned, PersonalInformation personalInformation, NutritionOverall nutritionOverall) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.creditPoints = creditPoints;
         this.isBanned = isBanned;
         this.personalInformation = personalInformation;
@@ -42,16 +70,16 @@ public class User {
         this.role = "admin";
     }
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public int getCreditPoints() {
@@ -70,16 +98,16 @@ public class User {
         return nutritionOverall;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password= password;
     }
 
     public void setCreditPoints(int creditPoints) {
@@ -97,4 +125,5 @@ public class User {
     public void setNutritionOverall(NutritionOverall nutritionOverall) {
         this.nutritionOverall = nutritionOverall;
     }
+
 }

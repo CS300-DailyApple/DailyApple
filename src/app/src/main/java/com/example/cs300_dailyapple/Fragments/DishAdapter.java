@@ -47,7 +47,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
 
 
         holder.textViewName.setText(dish.getName());
-        String attributes = dish.getNumberOfUnits() + " " + dish.getUnit() + " - "+ dish.getNutritionPerUnit().getCalories()+" calo";
+        String attributes = dish.getNumberOfUnits() + " " + dish.getUnit() + " - "+ dish.getNutritionPerUnit().getKcal()+" calo";
         holder.textViewAttributes.setText(attributes);
 
 

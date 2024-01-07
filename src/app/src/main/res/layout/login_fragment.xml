@@ -23,7 +23,7 @@
         android:layout_below="@id/TextLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email đăng ký"
+        android:text="Email đăng nhập"
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"/>

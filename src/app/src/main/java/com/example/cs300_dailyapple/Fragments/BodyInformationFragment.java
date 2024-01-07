@@ -1,6 +1,7 @@
 package com.example.cs300_dailyapple.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
+import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.AuthService;
+import com.example.cs300_dailyapple.Services.DataService;
 
 public class BodyInformationFragment extends Fragment {
 
@@ -24,18 +28,13 @@ public class BodyInformationFragment extends Fragment {
     private TextView textBMI;
     private TextView Weight;
     private TextView Height;
-
-
-
-
-    private PersonalInformation personalInformation;
+    private TextView weightEvaluation;
+    private User user;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Khởi tạo đối tượng PersonalInformation và load dữ liệu nếu có
-        personalInformation = new PersonalInformation();
-        // Load PersonalInformation ở đây
+        user = DataService.getInstance().getUser(AuthService.getInstance().getCurrentUser().getUid());
     }
 
     @Override
@@ -50,6 +49,7 @@ public class BodyInformationFragment extends Fragment {
         progressBarWater = view.findViewById(R.id.progressBarWater);
         textProgressCalo = view.findViewById(R.id.textProgressCalo);
         progressBarCalo = view.findViewById(R.id.progressBarCalo);
+        weightEvaluation = view.findViewById(R.id.weightEvaluation);
 
         // Hiển thị thông tin từ PersonalInformation
         displayPersonalInformation();
@@ -59,7 +59,7 @@ public class BodyInformationFragment extends Fragment {
 
     private void displayPersonalInformation() {
         // Hiển thị giới tính
-        if (personalInformation.getGender()) {
+        if (user.getPersonalInformation().getGender() == "male") {
             // Nếu là nam, sử dụng hình ảnh male
             imageGender.setImageResource(R.drawable.gendermale);
         } else {
@@ -68,22 +68,53 @@ public class BodyInformationFragment extends Fragment {
         }
 
         // Hiển thị độ tuổi
-        textViewAge.setText(String.valueOf(personalInformation.getAge()));
+        textViewAge.setText(String.valueOf(user.getPersonalInformation().getAge()));
 
         // Hiển thị thông tin nước uống
-        int progressWater = 0;// Set progress ở đây
-                progressBarWater.setMax(personalInformation.getWater());
-        progressBarWater.setProgress(progressWater);
-        textProgressWater.setText(progressWater + "/" + personalInformation.getWater() + " ml");
+        // Get water target and round it to integer
+        PersonalInformation personalInformation = user.getPersonalInformation();
+        int waterTarget = (int) Math.round(user.getWaterInformation().getWaterTarget());
+        Log.d("waterTarget", String.valueOf(waterTarget));
+        progressBarWater.setMax(waterTarget);
+        // Get water absorbed and round it to integer
+        int waterAbsorbed = (int) Math.round(user.getWaterInformation().getTotalWaterDrank());
+        Log.d("waterAbsorbed", String.valueOf(waterAbsorbed));
+        progressBarWater.setProgress(waterAbsorbed);
+        textProgressWater.setText(waterAbsorbed + "/" + waterTarget + " ml");
 
         // Hiển thị thông tin calo
-        int progressCalo = 0;// Set progress ở đây
-                progressBarCalo.setMax(personalInformation.getCalo());
-        progressBarCalo.setProgress(progressCalo);
-        textProgressCalo.setText(progressCalo + "/" + personalInformation.getCalo() + " calo");
+        // Get calo target and round it to integer
+        int caloTarget = (int) Math.round(user.getNutritionOverall().getNutritionTarget().getKcal());
+        progressBarCalo.setMax(caloTarget);
+        // Get calo absorbed and round it to integer
+        int caloAbsorbed = (int) Math.round(user.getNutritionOverall().getNutritionAbsorbed().getKcal());
+        progressBarCalo.setProgress(caloAbsorbed);
+        textProgressCalo.setText(caloAbsorbed + "/" + caloTarget + " calo");
         Weight.setText(String.valueOf(personalInformation.getWeight()));
         Height.setText(String.valueOf(personalInformation.getHeight()));
-        float BMI = personalInformation.getWeight()/(personalInformation.getHeight()*personalInformation.getHeight()/10000);
-        textBMI.setText(String.valueOf(BMI));
+        textBMI.setText(String.valueOf(Math.round(personalInformation.calculateBMI())));
+        weightEvaluation.setText(evaluateBMI(personalInformation.calculateBMI()));
+
+        try {
+            Double BMI = personalInformation.getWeight() / (personalInformation.getHeight() * personalInformation.getHeight());
+        }
+        catch (ArithmeticException e){
+            float BMI = 0;
+            e.printStackTrace();
+        }
+    }
+    private String evaluateBMI(Double BMI){
+        if (BMI < 18.5){
+            return "Thiếu cân";
+        }
+        else if (BMI >= 18.5 && BMI < 24.9){
+            return "Bình thường";
+        }
+        else if (BMI >= 24.9 && BMI < 29.9){
+            return "Thừa cân";
+        }
+        else {
+            return "Béo phì";
+        }
     }
 }
