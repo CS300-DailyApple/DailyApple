@@ -8,9 +8,29 @@ public class User {
     private String username;
     private int creditPoints;
     private boolean isBanned;
+    private WaterInformation waterInformation;
     private PersonalInformation personalInformation;
     private NutritionOverall nutritionOverall;
-    private WaterOverall waterOverall;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
+    public WaterInformation getWaterInformation() {
+        return waterInformation;
+    }
+
+    public void setWaterInformation(WaterInformation waterInformation) {
+        this.waterInformation = waterInformation;
+    }
+
 
     // Methods
     public User() {
@@ -19,9 +39,9 @@ public class User {
         this.email = "";
         this.creditPoints = 0;
         this.isBanned = false;
+        this.waterInformation = new WaterInformation();
         this.personalInformation = new PersonalInformation();
         this.nutritionOverall = new NutritionOverall();
-        this.waterOverall = new WaterOverall();
     }
     public User(String username) {
         this.id = "";
@@ -105,10 +125,5 @@ public class User {
     public void setNutritionOverall(NutritionOverall nutritionOverall) {
         this.nutritionOverall = nutritionOverall;
     }
-    public WaterOverall getWaterOverall() {
-        return waterOverall;
-    }
-    public void setWaterOverall(WaterOverall waterOverall) {
-        this.waterOverall = waterOverall;
-    }
+
 }

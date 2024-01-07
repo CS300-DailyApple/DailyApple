@@ -3,17 +3,26 @@ package com.example.cs300_dailyapple.Services;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.Models.NutritionOverall;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
+import com.example.cs300_dailyapple.Models.WaterHistoryItem;
+import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.example.cs300_dailyapple.Models.WaterOverall;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Document;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -80,6 +89,7 @@ public class DataService {
             }
         });
     }
+
     public String getUserRole(String uid) {
         Task<DocumentSnapshot> query = db.collection(USERS_COLLECTION).document(uid).get();
         while (!query.isComplete()) {}
@@ -96,6 +106,7 @@ public class DataService {
         Task<QuerySnapshot> query2 = db.collection(CUSTOM_FOODS_COLLECTION).whereEqualTo("name", foodName).get();
         return query2.getResult().size() > 0;
     }
+
     public void addSharedFood(Food food) {
         Map<String, Object> food_to_add = new HashMap<>();
         food_to_add.put("name", food.getName());
@@ -138,6 +149,10 @@ public class DataService {
         while (!query.isComplete()) {}
         DocumentSnapshot document = query.getResult();
         User user = new User();
+        if (!document.exists()){
+            Log.d(TAG, "get-user query failed!");
+            return user;
+        }
         user.setId(uid);
         user.setUsername(document.getString("username"));
         user.setEmail(document.getString("email"));
@@ -149,11 +164,17 @@ public class DataService {
         nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
         nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
         user.setNutritionOverall(nutritionOverall);
-        // get waterOverall
-        WaterOverall waterOverall = new WaterOverall();
-        waterOverall.setWaterTarget(document.getDouble("waterOverall.waterTarget"));
-        waterOverall.setWaterAbsorbed(document.getDouble("waterOverall.waterAbsorbed"));
-        user.setWaterOverall(waterOverall);
+        // get waterInformation
+        WaterInformation waterInformation = new WaterInformation();
+        waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
+        waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
+        waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
+        waterInformation.setWaterHistory(document.get("waterInformation.waterHistory", ArrayList.class));
+        user.setWaterInformation(waterInformation);
         return user;
+    }
+
+    public void updateMeal(String uid) {
+
     }
 }

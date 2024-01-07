@@ -3,7 +3,10 @@ package com.example.cs300_dailyapple.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +25,10 @@ public class MealFragment extends Fragment {
     private RecyclerView recyclerViewDish;
     private DishAdapter dishAdapter;
     TextView totalCaloriesTextView;
+    NavController navController;
+
+    AppCompatButton addButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,7 +42,15 @@ public class MealFragment extends Fragment {
         recyclerViewDish.setAdapter(dishAdapter);
         totalCaloriesTextView= view.findViewById(R.id.TotalCalories);
         totalCaloriesTextView.setText(String.valueOf(getTotalCalories(foodList))+ " calo");
+        navController = Navigation.findNavController(view);
+        addButton = view.findViewById(R.id.Add);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_mealFragment_to_foodFragment);
 
+            }
+        });
         return view;
     }
     private int getTotalCalories(LinkedList<Food> dishList){

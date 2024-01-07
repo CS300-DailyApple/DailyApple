@@ -10,6 +10,12 @@ public class WaterInformation {
     private int containerCapacity;
     private ArrayList<WaterHistoryItem> waterHistory;
 
+    public WaterInformation() {
+        this.waterTarget = 1000;
+        this.totalWaterDrank = 100;
+        this.containerCapacity = 100;
+        this.waterHistory = new ArrayList<>();
+    }
     // Methods
     public WaterInformation(int waterTarget, int totalWaterDrank, int containerCapacity, ArrayList<WaterHistoryItem> waterHistory) {
         this.waterTarget = waterTarget;

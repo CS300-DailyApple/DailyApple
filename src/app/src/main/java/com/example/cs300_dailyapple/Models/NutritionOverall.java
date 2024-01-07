@@ -6,15 +6,15 @@ public class NutritionOverall {
     // Attributes
     private Nutrition nutritionTarget;
     private Nutrition nutritionAbsorbed;
-    private ArrayList<DailyMeal> mealHistory;
+    private DailyMeal mealHistory;
 
     // Methods
     public NutritionOverall() {
         this.nutritionTarget = new Nutrition();
         this.nutritionAbsorbed = new Nutrition();
-        this.mealHistory = new ArrayList<DailyMeal>();
+        this.mealHistory = new DailyMeal();
     }
-    public NutritionOverall(Nutrition nutritionTarget, Nutrition nutritionAbsorbed, ArrayList<DailyMeal> mealHistory) {
+    public NutritionOverall(Nutrition nutritionTarget, Nutrition nutritionAbsorbed, DailyMeal mealHistory) {
         this.nutritionTarget = nutritionTarget;
         this.nutritionAbsorbed = nutritionAbsorbed;
         this.mealHistory = mealHistory;
@@ -28,7 +28,7 @@ public class NutritionOverall {
         return nutritionAbsorbed;
     }
 
-    public ArrayList<DailyMeal> getMealHistory() {
+    public DailyMeal getMealHistory() {
         return mealHistory;
     }
 
@@ -40,7 +40,7 @@ public class NutritionOverall {
         this.nutritionAbsorbed = nutritionAbsorbed;
     }
 
-    public void setMealHistory(ArrayList<DailyMeal> mealHistory) {
+    public void setMealHistory(DailyMeal mealHistory) {
         this.mealHistory = mealHistory;
     }
 }
