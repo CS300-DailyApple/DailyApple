@@ -1,66 +1,81 @@
 package com.example.cs300_dailyapple.Fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.DataService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AdminFoodDetailSetting#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AdminFoodDetailSetting extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TextView adminFoodDetailSettingName;
+    private Button adminFoodDetailSettingDeleteBtn;
+    private Button adminFoodDetailSettingEditBtn;
 
     public AdminFoodDetailSetting() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminFoodDetailSetting.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AdminFoodDetailSetting newInstance(String param1, String param2) {
-        AdminFoodDetailSetting fragment = new AdminFoodDetailSetting();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_food_detail_setting, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_food_detail_setting, container, false);
+
+        adminFoodDetailSettingName = view.findViewById(R.id.AdminFoodDetailSettingName);
+        adminFoodDetailSettingDeleteBtn = view.findViewById(R.id.AdminFoodDetailSettingDeleteBtn);
+        adminFoodDetailSettingEditBtn = view.findViewById(R.id.AdminFoodDetailSettingEditBtn);
+
+        // get data from bundle or your data source
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String foodName = bundle.getString("foodName");
+            adminFoodDetailSettingName.setText(foodName);
+        }
+
+        adminFoodDetailSettingDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle delete button click
+                onDeleteButtonClick();
+            }
+        });
+
+        adminFoodDetailSettingEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle edit button click
+                onEditButtonClick();
+            }
+        });
+
+        return view;
+    }
+
+    private void onDeleteButtonClick() {
+        // Implement your logic for deleting the food item
+        Bundle bundle = getArguments();
+        String foodId = bundle.getString("foodId");
+        DataService.getInstance().deleteSharedFoodById(foodId);
+        Toast.makeText(getContext(), "Delete successfully", Toast.LENGTH_SHORT).show();
+        Navigation.findNavController(getView()).navigate(R.id.action_adminFoodDetailSetting_to_adminFoodList);
+    }
+
+    private void onEditButtonClick() {
+        // Implement your logic for editing the food item
+        Bundle bundle = getArguments();
+        String foodId = bundle.getString("foodId");
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("foodId", foodId);
+        bundle1.putString("foodName", adminFoodDetailSettingName.getText().toString());
+        Navigation.findNavController(getView()).navigate(R.id.action_adminFoodDetailSetting_to_adminFoodEditingFirst, bundle1);
     }
 }

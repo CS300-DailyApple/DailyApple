@@ -1,66 +1,67 @@
 package com.example.cs300_dailyapple.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.cs300_dailyapple.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AdminFoodEditingSecond#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AdminFoodEditingSecond extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AdminFoodEditingSecond() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminFoodEditingSecond.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AdminFoodEditingSecond newInstance(String param1, String param2) {
-        AdminFoodEditingSecond fragment = new AdminFoodEditingSecond();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    EditText amountKcalEditText;
+    EditText amountFatEditText;
+    EditText amountCarbsEditText;
+    EditText amountProteinEditText;
+    Button complete;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_food_editing_second, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_admin_food_editing_second, container, false);
+        amountKcalEditText = view.findViewById(R.id.amountKcal);
+        amountFatEditText = view.findViewById(R.id.amountFat);
+        amountCarbsEditText = view.findViewById(R.id.amountCarbs);
+        amountProteinEditText = view.findViewById(R.id.amountProtein);
+        complete = view.findViewById(R.id.completeButton);
+        Context context=this.getContext();
+        complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (toNumber(amountCarbsEditText)==-1 || toNumber(amountFatEditText)==-1 || toNumber(amountKcalEditText)==-1 || toNumber(amountProteinEditText)==-1){
+                    Toast.makeText(context, "Bạn phải điền đầy đủ các thông tin của món ăn", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Save data and navigate here
+                }
+            }
+        });
+
+
+
+
+        return view;
+    }
+    private int toNumber(EditText editText) {
+        String textFromEditText = editText.getText().toString();
+
+        if (TextUtils.isEmpty(textFromEditText)) {
+            return -1;
+        } else {
+            try {
+                return Integer.parseInt(textFromEditText);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
     }
 }

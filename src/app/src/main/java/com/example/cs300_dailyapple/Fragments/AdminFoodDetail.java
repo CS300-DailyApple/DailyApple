@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.R;
@@ -47,6 +48,14 @@ public class AdminFoodDetail extends Fragment {
         adminFoodDetailCarbs = view.findViewById(R.id.AdminFoodDetailCarbs);
         adminFoodDetailPieChart = view.findViewById(R.id.NutritionPieChart);
         adminFoodDetailEditBtn = view.findViewById(R.id.AdminFoodDetailEdit);
+        adminFoodDetailEditBtn.setOnClickListener(v -> {
+            Bundle bundle = getArguments();
+            String foodId = bundle.getString("foodId");
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("foodId", foodId);
+            bundle1.putString("foodName", adminFoodDetailName.getText().toString());
+            Navigation.findNavController(view).navigate(R.id.action_adminFoodDetail_to_adminFoodDetailSetting, bundle1);
+        });
 
         // get data from bundle
         Bundle bundle = getArguments();

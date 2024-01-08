@@ -43,6 +43,13 @@ public class AdminFoodListFragment extends Fragment implements AdminFoodListItem
         noResultTextView = view.findViewById(R.id.NoResult);
         foodListAdapter = new AdminFoodListItemAdapter(new ArrayList<>());
         recyclerViewFood.setAdapter(foodListAdapter);
+        adminFoodSettingBtn = view.findViewById(R.id.Settings);
+        adminFoodSettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(getView()).navigate(R.id.action_adminFoodList_to_adminFoodSetting);
+            }
+        });
 
         loadFoods("");
 

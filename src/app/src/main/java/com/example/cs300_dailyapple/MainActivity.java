@@ -36,12 +36,10 @@ public class MainActivity extends AppCompatActivity {
             if (role.equals("admin")) {
                 // change to admin home page using action in nav graph
                 navController.navigate(R.id.action_loginFragment_to_homeAdminFragment);
-                navController.popBackStack(R.id.loginFragment, false);
             }
             else if (role.equals("user")) {
                 // inflate user home page
                 navController.navigate(R.id.action_loginFragment_to_homeScreenUserFragment);
-                navController.popBackStack(R.id.loginFragment, false);
             }
             else {
                 Log.d("MainActivity", "Unknown role");
