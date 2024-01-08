@@ -4,6 +4,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -22,12 +24,14 @@ public class SettingDishFragment extends Fragment {
     TextView addFood;
     TextView contributeFood;
     TextView resetFoodList;
+
+    NavController navController;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_setting_dish, container, false);
         addFood= view.findViewById(R.id.AddFood);
+        navController = Navigation.findNavController(view);
         SpannableString addFoodString = new SpannableString("Thêm món ăn");
         addFoodString.setSpan(new StyleSpan(Typeface.BOLD), 0, addFoodString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         addFoodString.setSpan(new UnderlineSpan(), 0, addFoodString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -36,6 +40,7 @@ public class SettingDishFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
+                navController.navigate(R.id.action_settingDishFragment_to_addDishFragment);
             }
         });
         contributeFood= view.findViewById(R.id.ContributeFood);
@@ -47,6 +52,7 @@ public class SettingDishFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
+                navController.navigate(R.id.action_settingDishFragment_to_dishContributeFragment);
             }
         });
         resetFoodList= view.findViewById(R.id.ResetFoodList);
@@ -58,6 +64,7 @@ public class SettingDishFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
+                navController.navigate(R.id.action_settingDishFragment_to_addDishFragment);
             }
         });
         return view;

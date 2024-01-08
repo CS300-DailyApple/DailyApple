@@ -43,4 +43,12 @@ public class NutritionOverall {
     public void setMealHistory(DailyMeal mealHistory) {
         this.mealHistory = mealHistory;
     }
+
+    public void updateNutritionAbsorbed() {
+        nutritionAbsorbed.setKcal(mealHistory.getTotalCalories());
+        nutritionAbsorbed.setFat(mealHistory.getTotalFat());
+        nutritionAbsorbed.setCarbs(mealHistory.getTotalCarbs());
+        nutritionAbsorbed.setProtein(mealHistory.getTotalProtein());
+        nutritionAbsorbed.setFiber(mealHistory.getTotalFiber());
+    }
 }

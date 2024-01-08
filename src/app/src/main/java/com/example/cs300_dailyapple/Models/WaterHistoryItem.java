@@ -1,6 +1,8 @@
 package com.example.cs300_dailyapple.Models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 
 public class WaterHistoryItem {
@@ -19,7 +21,8 @@ public class WaterHistoryItem {
     }
 
     public String get_hm() {
-        return String.valueOf(time.getHour()) + ":" + String.valueOf(time.getMinute());
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
+        return time.format(df);
     }
 
     public LocalDateTime getTime() {

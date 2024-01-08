@@ -7,6 +7,7 @@ public class GlobalApplication extends Application {
 
     String currentMealChoosing = "";
 
+
     public String getCurrentMealChoosing() {
         return currentMealChoosing;
     }

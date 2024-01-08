@@ -15,6 +15,7 @@ import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.example.cs300_dailyapple.Models.WaterOverall;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,9 +26,12 @@ import com.google.rpc.context.AttributeContext;
 
 import org.w3c.dom.Document;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class DataService {
@@ -155,6 +159,7 @@ public class DataService {
         });
         return foods;
     }
+    
     public User getUser(String uid) {
         Task<DocumentSnapshot> query = db.collection(USERS_COLLECTION).document(uid).get();
         while (!query.isComplete()) {}
@@ -180,9 +185,14 @@ public class DataService {
         waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
         waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
         waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
-        Gson gson = new Gson();
-        String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
-        ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
+
+        ArrayList<WaterHistoryItem> waterHistory = new ArrayList<>();
+        ArrayList<Map<String, Object>> list = (ArrayList<Map<String, Object>>) document.get("waterInformation.waterHistory");
+        for (Map<String, Object> mapElement: list){
+            Timestamp timestamp = (Timestamp) mapElement.get("time");
+            WaterHistoryItem waterHistoryItem = new WaterHistoryItem(((Long)mapElement.get("waterAmount")).intValue(), LocalDateTime.ofInstant(timestamp.toDate().toInstant(), ZoneId.systemDefault()));
+            waterHistory.add(waterHistoryItem);
+        }
         waterInformation.setWaterHistory(waterHistory);
         user.setWaterInformation(waterInformation);
         return user;
