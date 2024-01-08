@@ -101,14 +101,14 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="20dp"/>
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/BigRightHeight"
+            android:id="@+id/SmallRightHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/right"
             android:backgroundTint="@color/white"
             android:paddingVertical="30dp"/>
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/SmallRightHeight"
+            android:id="@+id/BigRightHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bigright"
@@ -163,14 +163,14 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="20dp"/>
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/BigRightWeight"
+            android:id="@+id/SmallRightWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/right"
             android:backgroundTint="@color/white"
             android:paddingVertical="30dp"/>
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/SmallRightWeight"
+            android:id="@+id/BigRightWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bigright"
@@ -225,14 +225,14 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="20dp"/>
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/BigRightAge"
+            android:id="@+id/SmallRightAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/right"
             android:backgroundTint="@color/white"
             android:paddingVertical="30dp"/>
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/SmallRightAge"
+            android:id="@+id/BigRightAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bigright"
