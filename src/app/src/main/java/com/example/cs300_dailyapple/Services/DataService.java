@@ -155,6 +155,50 @@ public class DataService {
         });
         return foods;
     }
+    public LinkedList<Food> searchSharedFoods(String query) {
+        LinkedList<Food> foods = new LinkedList<>();
+        Task<QuerySnapshot> querySnapshotTask = db.collection(SHARED_FOODS_COLLECTION)
+                .whereGreaterThanOrEqualTo("name", query)
+                .get();
+        while (!querySnapshotTask.isComplete()) {}
+        for (DocumentSnapshot document : querySnapshotTask.getResult()) {
+            Food food = new Food();
+            food.setName(document.getString("name"));
+            food.setUnit(document.getString("unit"));
+            food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+            Nutrition nutritionPerUnit = new Nutrition();
+            nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+            nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+            nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+            nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+            nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+            food.setNutritionPerUnit(nutritionPerUnit);
+            foods.add(food);
+        }
+        return foods;
+    }
+    public String getFoodId(String name) {
+        Task<QuerySnapshot> query = db.collection(SHARED_FOODS_COLLECTION).whereEqualTo("name", name).get();
+        while (!query.isComplete()) {}
+        return query.getResult().getDocuments().get(0).getId();
+    }
+    public Food getFoodById(String foodId) {
+        Task<DocumentSnapshot> query = db.collection(SHARED_FOODS_COLLECTION).document(foodId).get();
+        while (!query.isComplete()) {}
+        DocumentSnapshot document = query.getResult();
+        Food food = new Food();
+        food.setName(document.getString("name"));
+        food.setUnit(document.getString("unit"));
+        food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+        Nutrition nutritionPerUnit = new Nutrition();
+        nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+        nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+        nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+        nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+        nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+        food.setNutritionPerUnit(nutritionPerUnit);
+        return food;
+    }
     public User getUser(String uid) {
         Task<DocumentSnapshot> query = db.collection(USERS_COLLECTION).document(uid).get();
         while (!query.isComplete()) {}

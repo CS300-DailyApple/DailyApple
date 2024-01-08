@@ -219,7 +219,7 @@
         tools:layout="@layout/fragment_admin_food_editing_second" />
     <fragment
         android:id="@+id/adminFoodList"
-        android:name="com.example.cs300_dailyapple.Fragments.AdminFoodList"
+        android:name="com.example.cs300_dailyapple.Fragments.AdminFoodListFragment"
         android:label="fragment_admin_food_list"
         tools:layout="@layout/fragment_admin_food_list" >
         <action

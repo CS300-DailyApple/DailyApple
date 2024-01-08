@@ -79,6 +79,21 @@ public class Food {
     public static void saveFoodList(LinkedList<Food> foodList,Context context){
 
     }
+    public String getAmount(){
+        return String.valueOf(this.numberOfUnits)+" "+this.unit;
+    }
+    public long getKcal(){
+        return Math.round(this.nutritionPerUnit.getKcal()*this.numberOfUnits);
+    }
+    public long getProtein(){
+        return Math.round(this.nutritionPerUnit.getProtein()*this.numberOfUnits);
+    }
+    public long getFat(){
+        return Math.round(this.nutritionPerUnit.getFat()*this.numberOfUnits);
+    }
+    public long getCarbs(){
+        return Math.round(this.nutritionPerUnit.getCarbs()*this.numberOfUnits);
+    }
 //    public void toggleFavorite() {
 //        favorite = !favorite;
 //    }
