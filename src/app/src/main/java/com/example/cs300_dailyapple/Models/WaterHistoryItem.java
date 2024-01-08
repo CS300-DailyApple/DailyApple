@@ -1,5 +1,7 @@
 package com.example.cs300_dailyapple.Models;
 
+import com.google.firebase.Timestamp;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -8,10 +10,10 @@ import java.util.Date;
 public class WaterHistoryItem {
     // Attributes
     private int waterAmount;
-    private LocalDateTime time;
+    private Timestamp time;
 
     // Methods
-    public WaterHistoryItem(int waterAmount, LocalDateTime time) {
+    public WaterHistoryItem(int waterAmount, Timestamp time) {
         this.waterAmount = waterAmount;
         this.time = time;
     }
@@ -22,10 +24,11 @@ public class WaterHistoryItem {
 
     public String get_hm() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
-        return time.format(df);
+        LocalDateTime localDateTime = time.toDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+        return localDateTime.format(df);
     }
 
-    public LocalDateTime getTime() {
+    public Timestamp getTime() {
         return this.time;
     }
 }

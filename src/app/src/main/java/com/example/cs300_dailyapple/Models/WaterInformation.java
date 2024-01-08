@@ -1,5 +1,7 @@
 package com.example.cs300_dailyapple.Models;
 
+import com.google.firebase.Timestamp;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -62,7 +64,7 @@ public class WaterInformation {
 
     public void addWaterHistoryItem() {
         //default
-        waterHistory.add(0, new WaterHistoryItem(containerCapacity, LocalDateTime.now()));
+        waterHistory.add(0, new WaterHistoryItem(containerCapacity, Timestamp.now()));
         totalWaterDrank += containerCapacity;
     }
 }
