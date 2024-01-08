@@ -14,8 +14,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.cs300_dailyapple.MainActivity;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.AuthService;
+import com.example.cs300_dailyapple.Services.DataService;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,13 +39,20 @@ public class HomeScreenUserFragment extends Fragment {
     private ImageButton nutritionDiaryButton;
     private ImageButton bodyInfoButton;
     private ImageButton foodListButton;
+
+    GlobalApplication globalApplication;
     Calendar calendar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home_screen_user, container, false);
-
+        globalApplication = (GlobalApplication) this.getActivity().getApplication();
+        String id = AuthService.getInstance().getCurrentUser().getUid();
+        globalApplication.setUser(DataService.getInstance().getUser(id));
+        globalApplication.setFoodList();
+        globalApplication.setUserCustomList();
+        globalApplication.setCurrentMealChoosing("breakfast");
         calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);

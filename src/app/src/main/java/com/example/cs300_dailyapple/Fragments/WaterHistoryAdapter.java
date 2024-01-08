@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class WaterHistoryAdapter extends RecyclerView.Adapter<WaterHistoryAdapter.WaterHistoryViewHolder>{
     ArrayList<WaterHistoryItem> WaterHistory;
-    WaterHistoryAdapter adapter;
 
     public WaterHistoryAdapter(ArrayList<WaterHistoryItem> WaterHistory) {
         this.WaterHistory = WaterHistory;
@@ -34,7 +33,7 @@ public class WaterHistoryAdapter extends RecyclerView.Adapter<WaterHistoryAdapte
     @Override
     public void onBindViewHolder(@NonNull WaterHistoryViewHolder holder, int position) {
         WaterHistoryItem item = WaterHistory.get(position);
-        holder.waterAmount.setText(item.getWaterAmount());
+        holder.waterAmount.setText("+ " + item.getWaterAmount() + " ml");
         holder.time.setText(item.get_hm());
         holder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,6 +13,7 @@ import com.example.cs300_dailyapple.Fragments.HomeAdminFragment;
 import com.example.cs300_dailyapple.Fragments.HomeScreenUserFragment;
 import com.example.cs300_dailyapple.Fragments.LoginFragment;
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Services.AuthService;
 import com.example.cs300_dailyapple.Services.DataService;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,15 +36,27 @@ public class MainActivity extends AppCompatActivity {
             String role = db.getUserRole(currentUser.getUid());
             if (role.equals("admin")) {
                 // change to admin home page using action in nav graph
+                DataService.getInstance().setCalled(true);
                 navController.navigate(R.id.action_loginFragment_to_homeAdminFragment);
             }
             else if (role.equals("user")) {
                 // inflate user home page
+                DataService.getInstance().setCalled(true);
                 navController.navigate(R.id.action_loginFragment_to_homeScreenUserFragment);
             }
             else {
                 Log.d("MainActivity", "Unknown role");
             }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        DataService dataService = DataService.getInstance();
+        GlobalApplication globalApplication = (GlobalApplication) this.getApplication();
+        if (dataService.isCalled()){
+            dataService.saveUser(globalApplication.getUser());
         }
     }
 }

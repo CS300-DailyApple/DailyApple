@@ -12,21 +12,30 @@ public class Food {
     private String unit;
     private int numberOfUnits;
     private Nutrition nutritionPerUnit;
-//    private boolean favorite;
+    private boolean favorite;
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     // Methods
     public Food() {
         this.name = "";
         this.unit = "";
         this.numberOfUnits = 0;
         this.nutritionPerUnit = new Nutrition(0.0, 0.0, 0.0, 0.0, 0.0);
-//        this.favorite=false;
+        this.favorite=false;
     }
     public Food(String name, String unit, int numberOfUnits, Nutrition nutritionPerUnit) {
         this.name = name;
         this.unit = unit;
         this.numberOfUnits = numberOfUnits;
         this.nutritionPerUnit = nutritionPerUnit;
-//        this.favorite=false;
+        this.favorite=false;
     }
     public String getName() {
         return name;

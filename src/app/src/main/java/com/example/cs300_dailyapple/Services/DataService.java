@@ -3,8 +3,6 @@ package com.example.cs300_dailyapple.Services;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.Models.NutritionOverall;
@@ -12,20 +10,15 @@ import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.Models.WaterHistoryItem;
 import com.example.cs300_dailyapple.Models.WaterInformation;
-import com.example.cs300_dailyapple.Models.WaterOverall;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.rpc.context.AttributeContext;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -35,10 +28,23 @@ public class DataService {
     private static final String USERS_COLLECTION = "users";
     private static final String SHARED_FOODS_COLLECTION = "shared_foods";
     private static final String CUSTOM_FOODS_COLLECTION = "custom_foods";
+
+    private static final String SUGGESTED_FOODS_COLLECTION = "suggested_foods";
     private static final String USER_CUSTOM_FOODS_COLLECTION = "user_custom_foods";
 
     // Singleton
     private static DataService instance = null;
+
+    private boolean called = false;
+
+    public boolean isCalled() {
+        return called;
+    }
+
+    public void setCalled(boolean called) {
+        this.called = called;
+    }
+
     private final FirebaseFirestore db;
     private DataService() {
         db = FirebaseFirestore.getInstance();
@@ -95,6 +101,64 @@ public class DataService {
         });
     }
 
+    public LinkedList<Food> getUserFoodList(Map<String, Boolean> favorite){
+        LinkedList<Food> foods = new LinkedList<>();
+        foods.addAll(getSharedFoods());
+        foods.addAll(getUserCustomFood());
+        for (Food foodElement: foods){
+            if (favorite.containsKey(foodElement.getName())) {
+                foodElement.setFavorite(true);
+            }
+        }
+        Comparator<Food> foodComparator = Comparator.comparing(Food::isFavorite);
+        foods.sort(foodComparator);
+        return foods;
+    }
+
+    public LinkedList<Food> getUserCustomFood(){
+        LinkedList<Food> foods = new LinkedList<>();
+        Task<QuerySnapshot> query = db.collection(USER_CUSTOM_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    Food food = new Food();
+                    food.setName(document.getString("name"));
+                    food.setUnit(document.getString("unit"));
+                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+                    Nutrition nutritionPerUnit = new Nutrition();
+                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+                    food.setNutritionPerUnit(nutritionPerUnit);
+                    foods.add(food);
+                }
+            }
+        });
+        return foods;
+    }
+    public LinkedList<Food> getSuggestedFood(){
+        LinkedList<Food> foods = new LinkedList<>();
+        Task<QuerySnapshot> query = db.collection(SUGGESTED_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    Food food = new Food();
+                    food.setName(document.getString("name"));
+                    food.setUnit(document.getString("unit"));
+                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+                    Nutrition nutritionPerUnit = new Nutrition();
+                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+                    food.setNutritionPerUnit(nutritionPerUnit);
+                    foods.add(food);
+                }
+            }
+        });
+        return foods;
+    }
     public String getUserRole(String uid) {
         Task<DocumentSnapshot> query = db.collection(USERS_COLLECTION).document(uid).get();
         while (!query.isComplete()) {}
@@ -237,6 +301,7 @@ public class DataService {
         waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
         waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
         waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
+
         Gson gson = new Gson();
         String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
         ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
@@ -245,9 +310,6 @@ public class DataService {
         return user;
     }
 
-    public void updateMeal(String uid) {
-
-    }
 
     public ArrayList<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
@@ -334,5 +396,33 @@ public class DataService {
                 Log.d(TAG, "Ban user failed");
             }
         });
+    }
+
+    public void saveUser(User user) {
+        Map<String, Object> tmp = new HashMap<>();
+        tmp.put("username", user.getUsername());
+        tmp.put("email", user.getEmail());
+        tmp.put("role", user.getRole());
+        tmp.put("creditPoints", user.getCreditPoints());
+        tmp.put("isBanned", user.getIsBanned());
+        tmp.put("PI", user.getPersonalInformation());
+        tmp.put("waterInformation", user.getWaterInformation());
+        tmp.put("nutritionOverall", user.getNutritionOverall());
+        tmp.put("favorite", user.getFavorite());
+        db.collection(USERS_COLLECTION).document(user.getId()).set(tmp).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "Save user successfully");
+            } else {
+                Log.d(TAG, "Save user failed");
+            }
+        });
+    }
+
+    public void saveUserCustomList(LinkedList<Food> userCustomList) {
+
+    }
+
+    public void saveUserSuggestedFoodList(LinkedList<Food> userSuggestedFoodList) {
+
     }
 }

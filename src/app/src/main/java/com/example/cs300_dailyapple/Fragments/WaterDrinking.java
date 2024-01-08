@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Models.WaterHistoryItem;
 import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.example.cs300_dailyapple.R;
@@ -44,7 +45,6 @@ public class WaterDrinking extends Fragment {
         water_amount.setText(waterAmount);
         water_drinking_bar.setProgress(min(Data.getTotalWaterDrank(), Data.getWaterTarget())  * 100 / Data.getWaterTarget());
 
-
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -59,7 +59,9 @@ public class WaterDrinking extends Fragment {
         drink_history = view.findViewById(R.id.item_water_list);
 
         //data
-        Data =  new WaterInformation(2300, 0, 250, new ArrayList<WaterHistoryItem>());
+        GlobalApplication GA = (GlobalApplication) this.getActivity().getApplication();
+
+        Data = GA.getUser().getWaterInformation();
 
         //init view value
         UpdateView();
@@ -74,6 +76,7 @@ public class WaterDrinking extends Fragment {
                 Data.addWaterHistoryItem();
                 adapter.notifyItemInserted(0);
                 drink_history.scrollToPosition(0);
+                UpdateView();
             }
         });
 

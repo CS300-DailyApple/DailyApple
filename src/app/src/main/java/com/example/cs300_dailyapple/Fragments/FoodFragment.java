@@ -3,7 +3,12 @@ package com.example.cs300_dailyapple.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,14 +33,15 @@ public class FoodFragment extends Fragment {
     private LinkedList<Food> fullFoodList;
     private TextView noResultTextView;
 
+    private AppCompatImageButton settingButton;
+    NavController navController;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_food, container, false);
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         Context context = this.getContext();
         LinkedList<Food> foodList = Food.loadFoodList(context);
+        navController = Navigation.findNavController(view);
         fullFoodList = new LinkedList<>(foodList);
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);
         foodAdapter = new FoodAdapter(Food.loadFoodList(context), context, this);
@@ -43,7 +49,13 @@ public class FoodFragment extends Fragment {
         recyclerViewFood.setAdapter(foodAdapter);
         noResultTextView = view.findViewById(R.id.NoResult);
         noResultTextView.setVisibility(View.GONE);
-
+        settingButton = view.findViewById(R.id.Settings);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_foodFragment_to_settingDishFragment);
+            }
+        });
 
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
@@ -63,6 +75,13 @@ public class FoodFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_food, container, false);
         return view;
     }
     private void performSearch(String query) {
@@ -79,7 +98,6 @@ public class FoodFragment extends Fragment {
                 }
             }
         }
-
         // Cập nhật danh sách hiển thị trong adapter
         foodAdapter.setFoodList(filteredList);
         foodAdapter.notifyDataSetChanged();

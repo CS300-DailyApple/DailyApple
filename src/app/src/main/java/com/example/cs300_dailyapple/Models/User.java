@@ -1,5 +1,9 @@
 package com.example.cs300_dailyapple.Models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class User {
     // Attributes
     private String id;
@@ -11,6 +15,16 @@ public class User {
     private WaterInformation waterInformation;
     private PersonalInformation personalInformation;
     private NutritionOverall nutritionOverall;
+    private Map<String, Boolean> favorite;
+
+    public Map<String, Boolean> getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(Map<String, Boolean> favorite) {
+        this.favorite = favorite;
+    }
+
     public void setRole(String role) {
         this.role = role;
     }
@@ -25,6 +39,10 @@ public class User {
 
     public WaterInformation getWaterInformation() {
         return waterInformation;
+    }
+
+    public void updateNutritionOverall(){
+        nutritionOverall.updateNutritionAbsorbed();
     }
 
     public void setWaterInformation(WaterInformation waterInformation) {
@@ -42,6 +60,7 @@ public class User {
         this.waterInformation = new WaterInformation();
         this.personalInformation = new PersonalInformation();
         this.nutritionOverall = new NutritionOverall();
+        this.favorite = new HashMap<>();
     }
     public User(String username) {
         this.id = "";
@@ -51,6 +70,7 @@ public class User {
         this.isBanned = false;
         this.personalInformation = new PersonalInformation();
         this.nutritionOverall = new NutritionOverall();
+        this.favorite = new HashMap<>();
     }
 
     public User(String id, String username, int creditPoints, boolean isBanned, PersonalInformation personalInformation, NutritionOverall nutritionOverall) {
@@ -60,6 +80,7 @@ public class User {
         this.isBanned = isBanned;
         this.personalInformation = personalInformation;
         this.nutritionOverall = nutritionOverall;
+        this.favorite = new HashMap<>();
     }
 
     public String getRole() {
