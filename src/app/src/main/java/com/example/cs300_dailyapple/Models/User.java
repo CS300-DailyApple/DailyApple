@@ -27,6 +27,10 @@ public class User {
         return waterInformation;
     }
 
+    public void updateNutritionOverall(){
+        nutritionOverall.updateNutritionAbsorbed();
+    }
+
     public void setWaterInformation(WaterInformation waterInformation) {
         this.waterInformation = waterInformation;
     }

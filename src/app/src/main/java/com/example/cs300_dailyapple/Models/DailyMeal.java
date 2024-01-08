@@ -75,4 +75,44 @@ public class DailyMeal {
         totalCalories = breakfastCalories + lunchCalories + dinnerCalories + snackCalories;
         return totalCalories;
     }
+
+    public Double getTotalProtein() {
+        Double totalProtein = 0.0;
+        Double breakfastProtein = breakfast == null ? 0.0 : breakfast.getNutrition().getProtein();
+        Double lunchProtein = lunch == null ? 0.0 : lunch.getNutrition().getProtein();
+        Double dinnerProtein = dinner == null ? 0.0 : dinner.getNutrition().getProtein();
+        Double snackProtein = snack == null ? 0.0 : snack.getNutrition().getProtein();
+        totalProtein = breakfastProtein + lunchProtein + dinnerProtein + snackProtein;
+        return totalProtein;
+    }
+
+    public Double getTotalCarbs() {
+        Double totalCarbs = 0.0;
+        Double breakfastCarbs = breakfast == null ? 0.0 : breakfast.getNutrition().getCarbs();
+        Double lunchCarbs = lunch == null ? 0.0 : lunch.getNutrition().getCarbs();
+        Double dinnerCarbs = dinner == null ? 0.0 : dinner.getNutrition().getCarbs();
+        Double snackCarbs = snack == null ? 0.0 : snack.getNutrition().getCarbs();
+        totalCarbs = breakfastCarbs + lunchCarbs + dinnerCarbs + snackCarbs;
+        return totalCarbs;
+    }
+
+    public Double getTotalFat() {
+        Double totalFat = 0.0;
+        Double breakfastFat = breakfast == null ? 0.0 : breakfast.getNutrition().getFat();
+        Double lunchFat = lunch == null ? 0.0 : lunch.getNutrition().getFat();
+        Double dinnerFat = dinner == null ? 0.0 : dinner.getNutrition().getFat();
+        Double snackFat = snack == null ? 0.0 : snack.getNutrition().getFat();
+        totalFat = breakfastFat + lunchFat + dinnerFat + snackFat;
+        return totalFat;
+    }
+
+    public Double getTotalFiber() {
+        Double totalFiber = 0.0;
+        Double breakfastFiber = breakfast == null ? 0.0 : breakfast.getNutrition().getFiber();
+        Double lunchFiber = lunch == null ? 0.0 : lunch.getNutrition().getFiber();
+        Double dinnerFiber = dinner == null ? 0.0 : dinner.getNutrition().getFiber();
+        Double snackFiber = snack == null ? 0.0 : snack.getNutrition().getFiber();
+        totalFiber = breakfastFiber + lunchFiber + dinnerFiber + snackFiber;
+        return totalFiber;
+    }
 }

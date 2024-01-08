@@ -1,5 +1,7 @@
 package com.example.cs300_dailyapple.Fragments;
 
+import static java.lang.Math.min;
+
 import android.annotation.SuppressLint;
 import android.health.connect.datatypes.NutritionRecord;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.Models.NutritionOverall;
 import com.example.cs300_dailyapple.Models.User;
@@ -37,6 +40,8 @@ public class CalorieRecord extends Fragment {
     AuthService authService;
     DataService dataService;
     User currentUser;
+
+    GlobalApplication globalApplication;
     String id;
     Date date;
 
@@ -60,24 +65,24 @@ public class CalorieRecord extends Fragment {
     }
     @SuppressLint("SetTextI18n")
     public void loadDataForViews(){
-        authService = AuthService.getInstance();
-        dataService = DataService.getInstance();
-        id = authService.getCurrentUser().getUid();
-        currentUser = dataService.getUser(id);
+        globalApplication = (GlobalApplication)this.getActivity().getApplication();
+        currentUser = globalApplication.getUser();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
         dateView.setText(dateFormat.format(new Date()));
         Nutrition nutritionAbsorbed = currentUser.getNutritionOverall().getNutritionAbsorbed();
         Nutrition nutritionTarget = currentUser.getNutritionOverall().getNutritionTarget();
-        carbsView.setText(String.valueOf(nutritionAbsorbed.getCarbs()) + "/" + String.valueOf(nutritionTarget.getCarbs()));
-        proteinView.setText(String.valueOf(nutritionAbsorbed.getProtein()) + "/" + String.valueOf(nutritionTarget.getProtein()));
-        fatView.setText(String.valueOf(nutritionAbsorbed.getFat()) + "/" + String.valueOf(nutritionTarget.getFat()));
-        caloriesIntakeView.setText(String.valueOf(nutritionAbsorbed.getKcal()));
-        caloriesNeededView.setText(String.valueOf(nutritionTarget.getKcal()));
+        carbsView.setText(String.valueOf(nutritionAbsorbed.getCarbs().intValue()) + "/" + String.valueOf(nutritionTarget.getCarbs().intValue()));
+        proteinView.setText(String.valueOf(nutritionAbsorbed.getProtein().intValue()) + "/" + String.valueOf(nutritionTarget.getProtein().intValue()));
+        fatView.setText(String.valueOf(nutritionAbsorbed.getFat().intValue()) + "/" + String.valueOf(nutritionTarget.getFat().intValue()));
+        caloriesIntakeView.setText(String.valueOf(nutritionAbsorbed.getKcal().intValue()));
+        caloriesNeededView.setText(String.valueOf(nutritionTarget.getKcal().intValue()));
+        progressView.setProgress(min(nutritionAbsorbed.getKcal().intValue(), nutritionTarget.getKcal().intValue()));
+        progressView.setMax(nutritionTarget.getKcal().intValue());
         waterDrinkingView.setText(String.valueOf(currentUser.getWaterInformation().getTotalWaterDrank()) + "/" + String.valueOf(currentUser.getWaterInformation().getWaterTarget()));
-        breakfastCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getBreakfast().getNutrition().getKcal()));
-        lunchCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getLunch().getNutrition().getKcal()));
-        dinnerCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getDinner().getNutrition().getKcal()));
-        snackCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getSnack().getNutrition().getKcal()));
+        breakfastCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getBreakfast().getNutrition().getKcal().intValue()));
+        lunchCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getLunch().getNutrition().getKcal().intValue()));
+        dinnerCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getDinner().getNutrition().getKcal().intValue()));
+        snackCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getSnack().getNutrition().getKcal().intValue()));
 
     }
 
@@ -85,28 +90,32 @@ public class CalorieRecord extends Fragment {
         breakfastView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                globalApplication.setCurrentMealChoosing("breakfast");
+                navController.navigate(R.id.action_calorieRecord_to_mealFragment);
             }
         });
 
         lunchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                globalApplication.setCurrentMealChoosing("lunch");
+                navController.navigate(R.id.action_calorieRecord_to_mealFragment);
             }
         });
 
         dinnerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                globalApplication.setCurrentMealChoosing("dinner");
+                navController.navigate(R.id.action_calorieRecord_to_mealFragment);
             }
         });
 
         snackView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                globalApplication.setCurrentMealChoosing("snack");
+                navController.navigate(R.id.action_calorieRecord_to_mealFragment);
             }
         });
 
