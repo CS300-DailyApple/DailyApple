@@ -5,34 +5,38 @@ import android.provider.ContactsContract;
 
 import com.example.cs300_dailyapple.Services.DataService;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GlobalApplication extends Application {
     private User user;
-
     String currentMealChoosing = "";
-
     LinkedList<Food> foodList, userCustomList, userSuggestedFoodList;
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        DataService dataService = DataService.getInstance();
-        dataService.saveUser(user);
-        dataService.saveUserCustomList(userCustomList);
-        dataService.saveUserSuggestedFoodList(userSuggestedFoodList);
-    }
+    ArrayList<User> forAdminUserList;
+    LinkedList<Food> forAdminFoodList;
 
     public LinkedList<Food> getUserSuggestedFoodList() {
         return userSuggestedFoodList;
     }
-
-    public void setUserSuggestedFoodList() {
+    public void queryForAdminLists() {
+        this.forAdminUserList = DataService.getInstance().searchUsers("");
+        this.forAdminFoodList = DataService.getInstance().searchSharedFoods("");
+    }
+    public ArrayList<User> getForAdminUserList() {
+        return this.forAdminUserList;
+    }
+    public LinkedList<Food> getForAdminFoodList() {
+        return this.forAdminFoodList;
+    }
+    public void setForAdminUserList(ArrayList<User> forAdminUserList) {
+        this.forAdminUserList = forAdminUserList;
+    }
+    public void setForAdminFoodList(LinkedList<Food> forAdminFoodList) {
+        this.forAdminFoodList = forAdminFoodList;
+    }
+    public void queryUserSuggestedFoodList() {
         this.userSuggestedFoodList = DataService.getInstance().getSuggestedFood();
     }
-
-
-
     public LinkedList<Food> getFoodList() {
         return foodList;
     }

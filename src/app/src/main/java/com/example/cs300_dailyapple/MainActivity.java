@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     NavController navController;
+    GlobalApplication globalApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             String role = db.getUserRole(currentUser.getUid());
             if (role.equals("admin")) {
                 // change to admin home page using action in nav graph
+                globalApplication = (GlobalApplication) this.getApplication();
+                globalApplication.queryForAdminLists();
                 DataService.getInstance().setCalled(true);
                 navController.navigate(R.id.action_loginFragment_to_homeAdminFragment);
             }
