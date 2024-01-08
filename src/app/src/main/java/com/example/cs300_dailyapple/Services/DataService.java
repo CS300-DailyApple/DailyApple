@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.rpc.context.AttributeContext;
 
 import org.w3c.dom.Document;
 
@@ -77,11 +78,13 @@ public class DataService {
 
         user.put("nutritionOverall", nutritionOverall);
 
-        // add waterOverall
-        Map<String, Object> waterOverall = new HashMap<>();
-        waterOverall.put("waterTarget", PI.calculateWater());
-        waterOverall.put("waterAbsorbed", 0);
-        user.put("waterOverall", waterOverall);
+        // add waterInformation
+        Map<String, Object> waterInformation = new HashMap<>();
+        waterInformation.put("waterTarget", PI.calculateWater());
+        waterInformation.put("totalWaterDrank", 0.0);
+        waterInformation.put("containerCapacity", 0.0);
+        waterInformation.put("waterHistory", new ArrayList<WaterHistoryItem>());
+        user.put("waterInformation", waterInformation);
 
         db.collection(USERS_COLLECTION).document(uid).set(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -112,12 +115,15 @@ public class DataService {
     public void addSharedFood(Food food) {
         Map<String, Object> food_to_add = new HashMap<>();
         food_to_add.put("name", food.getName());
-        food_to_add.put("unit", '1' + food.getUnit());
-        food_to_add.put("energy", food.getNutritionPerUnit().getKcal());
-        food_to_add.put("protein", food.getNutritionPerUnit().getProtein());
-        food_to_add.put("fiber", food.getNutritionPerUnit().getFiber());
-        food_to_add.put("fat", food.getNutritionPerUnit().getFat());
-        food_to_add.put("carb", food.getNutritionPerUnit().getCarbs());
+        food_to_add.put("unit", food.getUnit());
+        food_to_add.put("numberOfUnits", food.getNumberOfUnits());
+        Map<String, Object> nutritionPerUnit = new HashMap<>();
+        nutritionPerUnit.put("kcal", food.getNutritionPerUnit().getKcal());
+        nutritionPerUnit.put("protein", food.getNutritionPerUnit().getProtein());
+        nutritionPerUnit.put("fiber", food.getNutritionPerUnit().getFiber());
+        nutritionPerUnit.put("fat", food.getNutritionPerUnit().getFat());
+        nutritionPerUnit.put("carbs", food.getNutritionPerUnit().getCarbs());
+        food_to_add.put("nutritionPerUnit", nutritionPerUnit);
         db.collection(SHARED_FOODS_COLLECTION).add(food_to_add).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(null, "Add food successfully", Toast.LENGTH_SHORT).show();
@@ -134,12 +140,15 @@ public class DataService {
                 for (DocumentSnapshot document : task.getResult()) {
                     Food food = new Food();
                     food.setName(document.getString("name"));
-                    food.setUnit(document.getString("unit").substring(1));
-                    food.getNutritionPerUnit().setKcal(document.getDouble("energy"));
-                    food.getNutritionPerUnit().setProtein(document.getDouble("protein"));
-                    food.getNutritionPerUnit().setFiber(document.getDouble("fiber"));
-                    food.getNutritionPerUnit().setFat(document.getDouble("fat"));
-                    food.getNutritionPerUnit().setCarbs(document.getDouble("carb"));
+                    food.setUnit(document.getString("unit"));
+                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+                    Nutrition nutritionPerUnit = new Nutrition();
+                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+                    food.setNutritionPerUnit(nutritionPerUnit);
                     foods.add(food);
                 }
             }
@@ -181,5 +190,89 @@ public class DataService {
 
     public void updateMeal(String uid) {
 
+    }
+
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        // Get users with role "user"
+        Task<QuerySnapshot> query = db.collection(USERS_COLLECTION).whereEqualTo("role", "user").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    User user = new User();
+                    user.setId(document.getId());
+                    user.setUsername(document.getString("username"));
+                    user.setEmail(document.getString("email"));
+                    user.setCreditPoints(document.getLong("creditPoints").intValue());
+                    user.setIsBanned(document.getBoolean("isBanned"));
+                    user.setPersonalInformation(document.get("PI", PersonalInformation.class));
+                    // get nutritionOverall
+                    NutritionOverall nutritionOverall = new NutritionOverall();
+                    nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
+                    nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
+                    user.setNutritionOverall(nutritionOverall);
+                    // get waterInformation
+                    WaterInformation waterInformation = new WaterInformation();
+                    waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
+                    waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
+                    waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
+                    Gson gson = new Gson();
+                    String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
+                    ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
+                    waterInformation.setWaterHistory(waterHistory);
+                    user.setWaterInformation(waterInformation);
+                    users.add(user);
+                }
+            }
+        });
+        return users;
+    }
+    public ArrayList<User> searchUsers(String query) {
+        ArrayList<User> users = new ArrayList<>();
+        // Get users with role "user" and username contains query
+        Task<QuerySnapshot> querySnapshotTask = db.collection(USERS_COLLECTION)
+                .whereEqualTo("role", "user")
+                .whereGreaterThanOrEqualTo("username", query)
+                .get();
+        while (!querySnapshotTask.isComplete()) {}
+        for (DocumentSnapshot document : querySnapshotTask.getResult()) {
+            User user = new User();
+            user.setId(document.getId());
+            user.setUsername(document.getString("username"));
+            user.setEmail(document.getString("email"));
+            user.setCreditPoints(document.getLong("creditPoints").intValue());
+            user.setIsBanned(document.getBoolean("isBanned"));
+            user.setPersonalInformation(document.get("PI", PersonalInformation.class));
+            // get nutritionOverall
+            NutritionOverall nutritionOverall = new NutritionOverall();
+            nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
+            nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
+            user.setNutritionOverall(nutritionOverall);
+            // get waterInformation
+            WaterInformation waterInformation = new WaterInformation();
+            waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
+            waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
+            waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
+            Gson gson = new Gson();
+            String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
+            ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
+            waterInformation.setWaterHistory(waterHistory);
+            user.setWaterInformation(waterInformation);
+            users.add(user);
+        }
+        return users;
+    }
+    public void banUser(String username) {
+        // Get user with username
+        Task<QuerySnapshot> query = db.collection(USERS_COLLECTION).whereEqualTo("username", username).get();
+        while (!query.isComplete()) {}
+        DocumentSnapshot document = query.getResult().getDocuments().get(0);
+        // Update isBanned field
+        db.collection(USERS_COLLECTION).document(document.getId()).update("isBanned", true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "Ban user successfully");
+            } else {
+                Log.d(TAG, "Ban user failed");
+            }
+        });
     }
 }

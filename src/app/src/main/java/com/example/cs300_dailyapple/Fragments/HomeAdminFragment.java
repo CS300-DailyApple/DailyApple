@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.cs300_dailyapple.R;
@@ -21,7 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class HomeAdminFragment extends Fragment {
-
     private TextView monthYear;
     private TextView dateTextView1;
     private TextView dayOfWeekTextView1;
@@ -34,6 +34,8 @@ public class HomeAdminFragment extends Fragment {
     private TextView dateTextView5;
     private TextView dayOfWeekTextView5;
     Calendar calendar;
+    private ImageButton userListButton;
+    private ImageButton foodListButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,14 @@ public class HomeAdminFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        userListButton = view.findViewById(R.id.UserListButton);
+        userListButton.setOnClickListener(v -> {
+            Navigation.findNavController(view).navigate(R.id.action_homeAdminFragment_to_adminUserListFragment);
+        });
+        foodListButton = view.findViewById(R.id.FoodListButton);
+        foodListButton.setOnClickListener(v -> {
+            Navigation.findNavController(view).navigate(R.id.action_homeAdminFragment_to_adminFoodList);
+        });
         calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
@@ -134,7 +144,6 @@ public class HomeAdminFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         // Override the onBackPressed behavior for this fragment
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override

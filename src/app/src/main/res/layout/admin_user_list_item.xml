@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/rounded_corner_login"
-    android:layout_marginHorizontal="20dp"
     android:layout_marginTop="15dp"
     android:backgroundTint="#EBF8EB"
     >
@@ -40,5 +39,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
+    <ImageView
+        android:id="@+id/imageViewBan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/removed"
+        android:padding="15dp"
+        android:layout_gravity="center_vertical"
+        />
+
 
 </LinearLayout>

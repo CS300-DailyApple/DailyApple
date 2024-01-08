@@ -12,21 +12,21 @@ public class Food {
     private String unit;
     private int numberOfUnits;
     private Nutrition nutritionPerUnit;
-    private boolean favorite;
+//    private boolean favorite;
     // Methods
     public Food() {
         this.name = "";
         this.unit = "";
         this.numberOfUnits = 0;
         this.nutritionPerUnit = new Nutrition(0.0, 0.0, 0.0, 0.0, 0.0);
-        this.favorite=false;
+//        this.favorite=false;
     }
     public Food(String name, String unit, int numberOfUnits, Nutrition nutritionPerUnit) {
         this.name = name;
         this.unit = unit;
         this.numberOfUnits = numberOfUnits;
         this.nutritionPerUnit = nutritionPerUnit;
-        this.favorite=false;
+//        this.favorite=false;
     }
     public String getName() {
         return name;
@@ -40,7 +40,7 @@ public class Food {
     public Nutrition getNutritionPerUnit() {
         return nutritionPerUnit;
     }
-    public boolean getFavorite() { return favorite; }
+//    public boolean getFavorite() { return favorite; }
     public void setName(String name) {
         this.name = name;
     }
@@ -59,9 +59,9 @@ public class Food {
         this.numberOfUnits = food.getNumberOfUnits();
         this.nutritionPerUnit = food.getNutritionPerUnit();
     }
-    public void updateFavorite(boolean favorite){
-        this.favorite=favorite;
-    }
+//    public void updateFavorite(boolean favorite){
+//        this.favorite=favorite;
+//    }
     public Nutrition getNutrition() {
         return new Nutrition(
                 this.nutritionPerUnit.getKcal() * this.numberOfUnits,
@@ -79,7 +79,7 @@ public class Food {
     public static void saveFoodList(LinkedList<Food> foodList,Context context){
 
     }
-    public void toggleFavorite() {
-        favorite = !favorite;
-    }
+//    public void toggleFavorite() {
+//        favorite = !favorite;
+//    }
 }

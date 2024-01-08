@@ -80,5 +80,4 @@ public class AuthService {
         void onSuccess(FirebaseUser user);
         void onFailure(Exception e);
     }
-
 }
