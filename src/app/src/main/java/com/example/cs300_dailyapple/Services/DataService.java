@@ -115,12 +115,15 @@ public class DataService {
     public void addSharedFood(Food food) {
         Map<String, Object> food_to_add = new HashMap<>();
         food_to_add.put("name", food.getName());
-        food_to_add.put("unit", '1' + food.getUnit());
-        food_to_add.put("energy", food.getNutritionPerUnit().getKcal());
-        food_to_add.put("protein", food.getNutritionPerUnit().getProtein());
-        food_to_add.put("fiber", food.getNutritionPerUnit().getFiber());
-        food_to_add.put("fat", food.getNutritionPerUnit().getFat());
-        food_to_add.put("carb", food.getNutritionPerUnit().getCarbs());
+        food_to_add.put("unit", food.getUnit());
+        food_to_add.put("numberOfUnits", food.getNumberOfUnits());
+        Map<String, Object> nutritionPerUnit = new HashMap<>();
+        nutritionPerUnit.put("kcal", food.getNutritionPerUnit().getKcal());
+        nutritionPerUnit.put("protein", food.getNutritionPerUnit().getProtein());
+        nutritionPerUnit.put("fiber", food.getNutritionPerUnit().getFiber());
+        nutritionPerUnit.put("fat", food.getNutritionPerUnit().getFat());
+        nutritionPerUnit.put("carbs", food.getNutritionPerUnit().getCarbs());
+        food_to_add.put("nutritionPerUnit", nutritionPerUnit);
         db.collection(SHARED_FOODS_COLLECTION).add(food_to_add).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(null, "Add food successfully", Toast.LENGTH_SHORT).show();
@@ -137,12 +140,15 @@ public class DataService {
                 for (DocumentSnapshot document : task.getResult()) {
                     Food food = new Food();
                     food.setName(document.getString("name"));
-                    food.setUnit(document.getString("unit").substring(1));
-                    food.getNutritionPerUnit().setKcal(document.getDouble("energy"));
-                    food.getNutritionPerUnit().setProtein(document.getDouble("protein"));
-                    food.getNutritionPerUnit().setFiber(document.getDouble("fiber"));
-                    food.getNutritionPerUnit().setFat(document.getDouble("fat"));
-                    food.getNutritionPerUnit().setCarbs(document.getDouble("carb"));
+                    food.setUnit(document.getString("unit"));
+                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+                    Nutrition nutritionPerUnit = new Nutrition();
+                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+                    food.setNutritionPerUnit(nutritionPerUnit);
                     foods.add(food);
                 }
             }
