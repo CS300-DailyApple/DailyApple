@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavAction;
 import androidx.navigation.Navigation;
 
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.DataService;
 
-public class AdminCreateNewFoodSecond extends Fragment {
+import java.util.LinkedList;
 
+public class AdminCreateNewFoodSecond extends Fragment {
+    GlobalApplication globalApplication;
+    LinkedList<Food> foodList;
     EditText amountKcalEditText;
     EditText amountFatEditText;
     EditText amountCarbsEditText;
@@ -32,6 +37,8 @@ public class AdminCreateNewFoodSecond extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_admin_create_new_food_second, container, false);
+        globalApplication = (GlobalApplication) getActivity().getApplicationContext();
+        foodList = globalApplication.getForAdminFoodList();
         amountKcalEditText = view.findViewById(R.id.amountKcal);
         amountFatEditText = view.findViewById(R.id.amountFat);
         amountCarbsEditText = view.findViewById(R.id.amountCarbs);
@@ -61,11 +68,11 @@ public class AdminCreateNewFoodSecond extends Fragment {
                     nutrition.setProtein(amountProtein);
                     food.setNutritionPerUnit(nutrition);
                     // Add food to database
-                    DataService.getInstance().addSharedFood(food);
+                    foodList.add(food);
+                    globalApplication.setForAdminFoodList(foodList);
                     Toast.makeText(context, "Thêm món ăn thành công", Toast.LENGTH_SHORT).show();
                     // pop back to adminFoodSetting
                     Navigation.findNavController(view).popBackStack(R.id.adminFoodSetting, false);
-                    Navigation.findNavController(getView()).navigate(R.id.action_adminCreateNewFoodSecond_to_adminFoodSetting);
                 }
             }
         });
