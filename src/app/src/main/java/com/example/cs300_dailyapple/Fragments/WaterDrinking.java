@@ -27,6 +27,7 @@ import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.example.cs300_dailyapple.R;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 public class WaterDrinking extends Fragment {
 
@@ -44,7 +45,7 @@ public class WaterDrinking extends Fragment {
         String waterAmount = String.valueOf(Data.getTotalWaterDrank()) + " / " + String.valueOf(Data.getWaterTarget());
         water_amount.setText(waterAmount);
         water_drinking_bar.setProgress(min(Data.getTotalWaterDrank(), Data.getWaterTarget())  * 100 / Data.getWaterTarget());
-
+        cool_down.setText(Data.getCooldownString());
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class WaterDrinking extends Fragment {
         GlobalApplication GA = (GlobalApplication) this.getActivity().getApplication();
 
         Data = GA.getUser().getWaterInformation();
+        Data.setContext(this.getContext());
 
         //init view value
         UpdateView();
