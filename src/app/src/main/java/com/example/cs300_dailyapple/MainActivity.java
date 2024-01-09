@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 globalApplication.setUser(DataService.getInstance().getUser(id));
                 globalApplication.setFoodList();
                 globalApplication.setUserCustomList();
-                globalApplication.setCurrentMealChoosing("breakfast");
                 navController.navigate(R.id.action_loginFragment_to_homeScreenUserFragment);
             }
             else {

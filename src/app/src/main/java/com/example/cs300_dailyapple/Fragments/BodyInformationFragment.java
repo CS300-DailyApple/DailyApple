@@ -10,7 +10,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
@@ -29,7 +33,11 @@ public class BodyInformationFragment extends Fragment {
     private TextView Weight;
     private TextView Height;
     private TextView weightEvaluation;
+
+    private AppCompatImageButton settingButton;
     private User user;
+
+    NavController navController;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,8 +46,8 @@ public class BodyInformationFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_body_information, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         textBMI = view.findViewById(R.id.textBMI);
         Weight = view.findViewById(R.id.Weight);
         Height = view.findViewById(R.id.Height);
@@ -50,10 +58,22 @@ public class BodyInformationFragment extends Fragment {
         textProgressCalo = view.findViewById(R.id.textProgressCalo);
         progressBarCalo = view.findViewById(R.id.progressBarCalo);
         weightEvaluation = view.findViewById(R.id.weightEvaluation);
-
+        settingButton = view.findViewById(R.id.Settings);
+        navController = Navigation.findNavController(view);
         // Hiển thị thông tin từ PersonalInformation
         displayPersonalInformation();
 
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_bodyInformationFragment_to_settingBodyInformationFragment);
+            }
+        });
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_body_information, container, false);
         return view;
     }
 
