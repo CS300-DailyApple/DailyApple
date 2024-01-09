@@ -1,5 +1,6 @@
 package com.example.cs300_dailyapple.Fragments;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,15 @@ import java.util.ArrayList;
 
 public class WaterHistoryAdapter extends RecyclerView.Adapter<WaterHistoryAdapter.WaterHistoryViewHolder>{
     ArrayList<WaterHistoryItem> WaterHistory;
+    WaterDrinking fragment = null;
 
     public WaterHistoryAdapter(ArrayList<WaterHistoryItem> WaterHistory) {
         this.WaterHistory = WaterHistory;
+    }
+
+    public WaterHistoryAdapter(ArrayList<WaterHistoryItem> WaterHistory, WaterDrinking fragment) {
+        this.WaterHistory = WaterHistory;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -40,6 +47,7 @@ public class WaterHistoryAdapter extends RecyclerView.Adapter<WaterHistoryAdapte
             public void onClick(View view) {
                 WaterHistory.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
+                fragment.UpdateView();
             }
         });
     }

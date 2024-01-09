@@ -68,7 +68,7 @@ public class WaterDrinking extends Fragment {
         //init view value
         UpdateView();
         drink_history.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new WaterHistoryAdapter(Data.getWaterHistory());
+        adapter = new WaterHistoryAdapter(Data.getWaterHistory(), this);
         drink_history.setAdapter(adapter);
 
         drink_history.setOnClickListener(new View.OnClickListener() {
