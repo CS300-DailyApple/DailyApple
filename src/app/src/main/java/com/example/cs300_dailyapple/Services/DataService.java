@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -128,25 +129,9 @@ public class DataService {
             Log.d(TAG, "get-user-custom-food query failed!");
             return foods;
         }
-        ArrayList<Map<String, Object>> foodList = (ArrayList<Map<String, Object>>) document.get("foods");
-        if (foodList == null){
-            Log.d(TAG, "get-user-custom-food query failed!");
-            return foods;
-        }
-        for (Map<String, Object> foodElement: foodList){
-            Food food = new Food();
-            food.setName((String) foodElement.get("name"));
-            food.setUnit((String) foodElement.get("unit"));
-            food.setNumberOfUnits(((Long) foodElement.get("numberOfUnits")).intValue());
-            Nutrition nutritionPerUnit = new Nutrition();
-            nutritionPerUnit.setKcal((Double) foodElement.get("nutritionPerUnit.kcal"));
-            nutritionPerUnit.setProtein((Double) foodElement.get("nutritionPerUnit.protein"));
-            nutritionPerUnit.setFiber((Double) foodElement.get("nutritionPerUnit.fiber"));
-            nutritionPerUnit.setFat((Double) foodElement.get("nutritionPerUnit.fat"));
-            nutritionPerUnit.setCarbs((Double) foodElement.get("nutritionPerUnit.carbs"));
-            food.setNutritionPerUnit(nutritionPerUnit);
-            foods.add(food);
-        }
+        Gson gson = new Gson();
+        String foodsJson = gson.toJson(document.get("foods"));
+        foods = gson.fromJson(foodsJson, new TypeToken<LinkedList<Food>>() {}.getType());
         Log.d(TAG, "Get user custom food successfully");
         return foods;
     }
@@ -307,19 +292,22 @@ public class DataService {
             Log.d(TAG, "get-user query failed!");
             return user;
         }
+        Gson gson = new Gson();
         user.setId(uid);
         user.setUsername(document.getString("username"));
         user.setEmail(document.getString("email"));
         user.setCreditPoints(document.getLong("creditPoints").intValue());
         user.setIsBanned(document.getBoolean("isBanned"));
+
+        // get personalInformation
         PersonalInformation PI = new PersonalInformation();
         PI.setAge(document.getLong("PI.age").intValue());
         PI.setGender(document.getString("PI.gender"));
-        String historyPIJson = new Gson().toJson(document.get("PI.historyPI"));
-        ArrayList<BodyInformation> historyPI = new Gson().fromJson(historyPIJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
+        String historyPIJson = gson.toJson(document.get("PI.historyPI"));
+        ArrayList<BodyInformation> historyPI = gson.fromJson(historyPIJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
         PI.setHistoryPI(historyPI);
         user.setPersonalInformation(PI);
-        Gson gson = new Gson();
+
         String favoriteJson = gson.toJson(document.get("favorite"));
         Map<String, Boolean> favorite = gson.fromJson(favoriteJson, new TypeToken<Map<String, Boolean>>() {}.getType());
         user.setFavorite(favorite);

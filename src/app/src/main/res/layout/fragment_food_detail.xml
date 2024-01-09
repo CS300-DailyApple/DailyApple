@@ -7,7 +7,7 @@
     tools:context=".Fragments.FoodDetail">
 
     <TextView
-        android:id="@+id/AdminFoodDetailName"
+        android:id="@+id/FoodDetailName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chè trôi nước"
@@ -18,22 +18,22 @@
         />
 
     <ImageView
-        android:id="@+id/AdminFoodDetailImage"
+        android:id="@+id/FoodDetailImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/AdminFoodDetailName"
+        android:layout_below="@+id/FoodDetailName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:src="@drawable/food_photo_placeholder"
         android:contentDescription="food_photo"/>
 
     <LinearLayout
-        android:id="@+id/AdminFoodDetailNutritionTitle"
+        android:id="@+id/FoodDetailNutritionTitle"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/AdminFoodDetailImage"
+        android:layout_below="@id/FoodDetailImage"
         android:layout_centerHorizontal="true">
         <TextView
             android:layout_width="wrap_content"
@@ -41,11 +41,16 @@
             android:text="Thành phần dinh dưỡng"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
-            android:textSize="24dp"/>
+            android:textSize="24sp"/>
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/edit_button"
+            android:src="@drawable/edit_icon"></ImageView>
 
     </LinearLayout>
 
@@ -55,7 +60,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:layout_below="@id/AdminFoodDetailNutritionTitle"
+        android:layout_below="@id/FoodDetailNutritionTitle"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="20dp"
         android:backgroundTint="#E7E7E7">
@@ -66,7 +71,8 @@
             android:textSize="24dp"
             android:textStyle="bold"
             android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/NumberOfUnit"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,7 +114,7 @@
                             android:textStyle="bold"
                             android:layout_gravity="center_vertical"/>
                         <TextView
-                            android:id="@+id/AdminFoodDetailCarbs"
+                            android:id="@+id/FoodDetailCarbs"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="14.0g"
@@ -141,7 +147,7 @@
                             android:textStyle="bold"
                             android:layout_gravity="center_vertical"/>
                         <TextView
-                            android:id="@+id/AdminFoodDetailProtein"
+                            android:id="@+id/FoodDetailProtein"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3.0g"
@@ -175,7 +181,7 @@
                             android:textStyle="bold"
                             android:layout_gravity="center_vertical"/>
                         <TextView
-                            android:id="@+id/AdminFoodDetailFat"
+                            android:id="@+id/FoodDetailFat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="14.0g"

@@ -337,5 +337,9 @@
         android:id="@+id/foodDetail"
         android:name="com.example.cs300_dailyapple.Fragments.FoodDetail"
         android:label="fragment_food_detail"
-        tools:layout="@layout/fragment_food_detail" />
+        tools:layout="@layout/fragment_food_detail" >
+        <action
+            android:id="@+id/action_foodDetail_to_mealFragment"
+            app:destination="@id/mealFragment" />
+    </fragment>
 </navigation>

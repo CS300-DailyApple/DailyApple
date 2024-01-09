@@ -108,4 +108,8 @@ public class GlobalApplication extends Application {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void setMeal(String currentMealChoosing, FoodCompound meal) {
+        user.setMeal(currentMealChoosing, meal);
+    }
 }

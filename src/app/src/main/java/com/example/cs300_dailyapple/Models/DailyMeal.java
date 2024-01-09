@@ -115,4 +115,20 @@ public class DailyMeal {
         totalFiber = breakfastFiber + lunchFiber + dinnerFiber + snackFiber;
         return totalFiber;
     }
+
+    public void addFood(String currentMealChoosing, Food food) {
+        if (currentMealChoosing.equals("breakfast")){
+            breakfast.addFood(food);
+        }
+        else if (currentMealChoosing.equals("lunch")){
+            lunch.addFood(food);
+        }
+        else if (currentMealChoosing.equals("dinner")){
+            dinner.addFood(food);
+        }
+        else{
+            snack.addFood(food);
+        }
+    }
+
 }

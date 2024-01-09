@@ -147,4 +147,11 @@ public class User {
         this.nutritionOverall = nutritionOverall;
     }
 
+    public void addFood(String currentMealChoosing, Food food) {
+        nutritionOverall.addFood(currentMealChoosing, food);
+    }
+
+    public void setMeal(String currentMealChoosing, FoodCompound meal) {
+        nutritionOverall.setMeal(currentMealChoosing, meal);
+    }
 }
