@@ -109,7 +109,7 @@ public class DataService {
                 foodElement.setFavorite(true);
             }
         }
-        Comparator<Food> foodComparator = Comparator.comparing(Food::isFavorite);
+        Comparator<Food> foodComparator = Comparator.comparing(food -> food.isFavorite()? 0 : 1);
         foods.sort(foodComparator);
         Log.d(TAG, "Get user food list successfully");
         return foods;
@@ -237,6 +237,10 @@ public class DataService {
         user.setCreditPoints(document.getLong("creditPoints").intValue());
         user.setIsBanned(document.getBoolean("isBanned"));
         user.setPersonalInformation(document.get("PI", PersonalInformation.class));
+        Gson gson = new Gson();
+        String favoriteJson = gson.toJson(document.get("favorite"));
+        Map<String, Boolean> favorite = gson.fromJson(favoriteJson, new TypeToken<Map<String, Boolean>>() {}.getType());
+        user.setFavorite(favorite);
         // get nutritionOverall
         NutritionOverall nutritionOverall = new NutritionOverall();
         nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
@@ -247,7 +251,6 @@ public class DataService {
         waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
         waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
 
-        Gson gson = new Gson();
         String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
         ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
         waterInformation.setWaterHistory(waterHistory);
