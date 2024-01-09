@@ -7,15 +7,39 @@ import com.example.cs300_dailyapple.Services.DataService;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class GlobalApplication extends Application {
     private User user;
+    private Food currentFoodChoosing;
+
+    private static Application instance;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+    }
+
+    public static Application getInstance(){
+        return instance;
+    }
     String currentMealChoosing = "";
     LinkedList<Food> foodList, userCustomList, userSuggestedFoodList;
     ArrayList<User> forAdminUserList;
     LinkedList<Food> forAdminFoodList;
     LinkedList<SuggestedFood> forAdminSuggestedFoodList;
 
+    public void checkFavorite(String foodName, Boolean b){
+        Map<String, Boolean> favorite = user.getFavorite();
+        if (b){
+            if (!favorite.containsKey(foodName)){
+                favorite.put(foodName, true);
+            }
+        }
+        else favorite.remove(foodName);
+        user.setFavorite(favorite);
+    }
     public LinkedList<Food> getUserSuggestedFoodList() {
         return userSuggestedFoodList;
     }
@@ -42,8 +66,19 @@ public class GlobalApplication extends Application {
     public void setForAdminSuggestedFoodList(LinkedList<SuggestedFood> forAdminSuggestedFoodList) {
         this.forAdminSuggestedFoodList = forAdminSuggestedFoodList;
     }
+
+    public Food getCurrentFoodChoosing(){
+        return currentFoodChoosing;
+    }
+    public void setCurrentFoodChoosing(Food currentFoodChoosing){
+        this.currentFoodChoosing=currentFoodChoosing;
+    }
     public LinkedList<Food> getFoodList() {
         return foodList;
+    }
+
+    public void setFoodList(LinkedList<Food> foodList){
+        this.foodList = foodList;
     }
 
     public void setFoodList() {

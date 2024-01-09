@@ -31,6 +31,7 @@ public class SuggestedFoodFragment extends Fragment implements SuggestedFoodAdap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         globalApplication = (GlobalApplication) getActivity().getApplicationContext();
         suggestedFoodList = globalApplication.getForAdminSuggestedFoodList();
         adapter = new SuggestedFoodAdapter(requireContext(), suggestedFoodList, this);

@@ -3,6 +3,7 @@ package com.example.cs300_dailyapple.Fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
+import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
 
 import java.text.Normalizer;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder>{
@@ -25,10 +30,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     private Context context;
     private FoodFragment foodFragment;
 
+    static GlobalApplication globalApplication;
+
+    NavController navController;
     public FoodAdapter(LinkedList<Food> FoodList, Context context, FoodFragment foodFragment) {
         this.FoodList = FoodList;
         this.context = context;
         this.foodFragment = foodFragment;
+        globalApplication = (GlobalApplication) GlobalApplication.getInstance();
     }
     public void setFoodList(LinkedList<Food> foodList) {
         this.FoodList = foodList;
@@ -45,6 +54,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food, parent, false);
         return new FoodViewHolder(view, this);
     }
+    private void setFavorite(int position, Food element) {
+        FoodList.set(position, element);
+    }
+
     public Food getFoodAtPosition(int position) {
         return FoodList.get(position);
     }
@@ -57,12 +70,25 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.textViewName.setText(food.getName());
         String attributes = food.getNumberOfUnits() + " " + food.getUnit() + " - "+ food.getNutritionPerUnit().getKcal()+" calo";
         holder.textViewAttributes.setText(attributes);
-//        if (food.getFavorite()==true){
-//            holder.favoriteButton.setSelected(true);
-//        } else {
-//            holder.favoriteButton.setSelected(false);
-//        }
+        if (food.getFavorite()){
+            holder.favoriteButton.setSelected(true);
+        } else {
+            holder.favoriteButton.setSelected(false);
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() != R.id.favoriteButton) {
+                    navigateToFoodDetail(food);
+                }
+            }
+        });
 
+    }
+    private void navigateToFoodDetail(Food selectedFood) {
+        // Use NavController to navigate to FoodDetailFragment
+        globalApplication.setCurrentFoodChoosing(selectedFood);
+        navController.navigate(R.id.action_foodFragment_to_foodDetail);
     }
 
     @Override
@@ -100,22 +126,28 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
                         Food selectedFood = adapter.getFoodAtPosition(position);
 
-                        // Đảo ngược trạng thái favorite của Food
-//                        selectedFood.toggleFavorite();
-
-                        // Cập nhật trạng thái selected hoặc no selected của Food
-//                        if (selectedFood.getFavorite()) {
-//                            favoriteButton.setSelected(true);
-//                        } else {
-//                            favoriteButton.setSelected(false);
-//                        }
+//                         Đảo ngược trạng thái favorite của Food
+                        selectedFood.toggleFavorite();
+//
+//                         Cập nhật trạng thái selected hoặc no selected của Food
+                        if (selectedFood.getFavorite()) {
+                            favoriteButton.setSelected(true);
+                            selectedFood.setFavorite(true);
+                            adapter.setFavorite(position, selectedFood);
+                            globalApplication.checkFavorite(selectedFood.getName(), true);
+                        } else {
+                            favoriteButton.setSelected(false);
+                            selectedFood.setFavorite(false);
+                            adapter.setFavorite(position, selectedFood);
+                            globalApplication.checkFavorite(selectedFood.getName(), false);
+                        }
 
                         // Cập nhật giao diện người dùng tại vị trí đã nhấn nút
                         adapter.notifyItemChanged(position);
 
                         // Cập nhật danh sách thức ăn trong fragment
                         LinkedList<Food> updatedFoodList = adapter.getFoodList();
-                        Food.saveFoodList(updatedFoodList, context);
+                        globalApplication.setFoodList(updatedFoodList);
                     }
                 }
             });
@@ -125,6 +157,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         }
 
     }
+
+
     public static String convertToNonAccent(String input) {
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
 

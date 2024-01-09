@@ -56,7 +56,7 @@ public class Food {
     public Nutrition getNutritionPerUnit() {
         return nutritionPerUnit;
     }
-//    public boolean getFavorite() { return favorite; }
+    public boolean getFavorite() { return favorite; }
     public void setName(String name) {
         this.name = name;
     }
@@ -74,10 +74,11 @@ public class Food {
         this.unit = food.getUnit();
         this.numberOfUnits = food.getNumberOfUnits();
         this.nutritionPerUnit = food.getNutritionPerUnit();
+        this.favorite=food.getFavorite();
     }
-//    public void updateFavorite(boolean favorite){
-//        this.favorite=favorite;
-//    }
+    public void updateFavorite(boolean favorite){
+        this.favorite=favorite;
+    }
     public Nutrition getNutrition() {
         return new Nutrition(
                 this.nutritionPerUnit.getKcal() * this.numberOfUnits,
@@ -87,13 +88,8 @@ public class Food {
                 this.nutritionPerUnit.getCarbs() * this.numberOfUnits
         );
     }
-    public static LinkedList<Food> loadFoodList(Context context){
-        LinkedList<Food> foodList = new LinkedList<>();
-        foodList = DataService.getInstance().getSharedFoods();
-        return foodList;
-    }
-    public static void saveFoodList(LinkedList<Food> foodList,Context context){
-
+    public void toggleFavorite() {
+        favorite = !favorite;
     }
     public String getAmount(){
         return String.valueOf(this.numberOfUnits)+" "+this.unit;

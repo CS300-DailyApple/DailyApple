@@ -7,46 +7,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.R;
 
 import java.util.LinkedList;
 
-public class HistoryFragment extends Fragment implements HistoryAdapter.OnCancelButtonClickListener {
+public class HistoryFragment extends Fragment {
 
-    private LinkedList<PersonalInformation> personalInformationList;
-    private HistoryAdapter historyAdapter;
-    private RecyclerView recyclerView;
+    public PersonalInformation Data;
+    public HistoryAdapter adapter;
+    public RecyclerView recyclerView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.recyclerViewHistory);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // Load personal information list
-        personalInformationList = new PersonalInformation().loadPersonalInformationList(getActivity());
+        //Data loading
+        GlobalApplication GA = (GlobalApplication) this.getActivity().getApplication();
 
-        historyAdapter = new HistoryAdapter(getActivity(), personalInformationList, this);
-        recyclerView.setAdapter(historyAdapter);
+        Data = GA.getUser().getPersonalInformation();
 
-        return view;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        adapter = new HistoryAdapter(Data.getHistoryPI());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void onCancelButtonClick(int position) {
-        removeItem(position);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_history, container, false);
     }
 
-    private void removeItem(int position) {
-        personalInformationList.remove(position);
-        historyAdapter.notifyItemRemoved(position);
-        Context context= this.getContext();
-        PersonalInformation.savePersonalInformationList(personalInformationList, context);
-    }
 }

@@ -23,6 +23,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.AuthService;
 import com.example.cs300_dailyapple.Services.DataService;
@@ -33,6 +34,7 @@ public class LoginFragment extends Fragment {
     private EditText editTextPassword;
     TextView forgotPassword;
     TextView createAccount;
+    GlobalApplication globalApplication;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -42,6 +44,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        globalApplication = (GlobalApplication)this.getActivity().getApplication();
         forgotPassword=view.findViewById(R.id.forgotPassword);
         String textfp= "Quên mật khẩu";
         SpannableString spannableStringfp = new SpannableString(textfp);
@@ -103,6 +106,13 @@ public class LoginFragment extends Fragment {
                 else if (role.equals("user")) {
                     // TODO: Navigate to user page
                     Log.d("LoginFragment", "User login");
+                    DataService.getInstance().setCalled(true);
+                    String id = AuthService.getInstance().getCurrentUser().getUid();
+                    globalApplication.setUser(DataService.getInstance().getUser(id));
+                    globalApplication.setFoodList();
+                    globalApplication.setUserCustomList();
+                    globalApplication.setCurrentMealChoosing("breakfast");
+                    Log.d("GlobalApplication", "Successfully loaded data");
                     // action_LoginFragment_to_HomeScreenUserFragment
                     Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeScreenUserFragment);
                 }
