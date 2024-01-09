@@ -57,11 +57,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.textViewName.setText(food.getName());
         String attributes = food.getNumberOfUnits() + " " + food.getUnit() + " - "+ food.getNutritionPerUnit().getKcal()+" calo";
         holder.textViewAttributes.setText(attributes);
-//        if (food.getFavorite()==true){
-//            holder.favoriteButton.setSelected(true);
-//        } else {
-//            holder.favoriteButton.setSelected(false);
-//        }
+        if (food.getFavorite()==true){
+            holder.favoriteButton.setSelected(true);
+        } else {
+            holder.favoriteButton.setSelected(false);
+        }
 
     }
 
@@ -100,15 +100,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
                         Food selectedFood = adapter.getFoodAtPosition(position);
 
-                        // Đảo ngược trạng thái favorite của Food
-//                        selectedFood.toggleFavorite();
-
-                        // Cập nhật trạng thái selected hoặc no selected của Food
-//                        if (selectedFood.getFavorite()) {
-//                            favoriteButton.setSelected(true);
-//                        } else {
-//                            favoriteButton.setSelected(false);
-//                        }
+//                         Đảo ngược trạng thái favorite của Food
+                        selectedFood.toggleFavorite();
+//
+//                         Cập nhật trạng thái selected hoặc no selected của Food
+                        if (selectedFood.getFavorite()) {
+                            favoriteButton.setSelected(true);
+                        } else {
+                            favoriteButton.setSelected(false);
+                        }
 
                         // Cập nhật giao diện người dùng tại vị trí đã nhấn nút
                         adapter.notifyItemChanged(position);

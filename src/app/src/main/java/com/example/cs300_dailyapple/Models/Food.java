@@ -49,7 +49,7 @@ public class Food {
     public Nutrition getNutritionPerUnit() {
         return nutritionPerUnit;
     }
-//    public boolean getFavorite() { return favorite; }
+    public boolean getFavorite() { return favorite; }
     public void setName(String name) {
         this.name = name;
     }
@@ -68,9 +68,9 @@ public class Food {
         this.numberOfUnits = food.getNumberOfUnits();
         this.nutritionPerUnit = food.getNutritionPerUnit();
     }
-//    public void updateFavorite(boolean favorite){
-//        this.favorite=favorite;
-//    }
+    public void updateFavorite(boolean favorite){
+        this.favorite=favorite;
+    }
     public Nutrition getNutrition() {
         return new Nutrition(
                 this.nutritionPerUnit.getKcal() * this.numberOfUnits,
@@ -80,7 +80,7 @@ public class Food {
                 this.nutritionPerUnit.getCarbs() * this.numberOfUnits
         );
     }
-//    public void toggleFavorite() {
-//        favorite = !favorite;
-//    }
+    public void toggleFavorite() {
+        favorite = !favorite;
+    }
 }

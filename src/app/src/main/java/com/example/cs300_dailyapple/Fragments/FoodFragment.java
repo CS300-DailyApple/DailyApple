@@ -1,6 +1,7 @@
 package com.example.cs300_dailyapple.Fragments;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,9 @@ import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
+import java.text.Normalizer;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 
 public class FoodFragment extends Fragment {
@@ -37,6 +40,56 @@ public class FoodFragment extends Fragment {
 
     private GlobalApplication globalApplication;
     NavController navController;
+    private class SearchAsyncTask extends AsyncTask<String, Void, LinkedList<Food>> {
+
+        private FoodFragment foodFragment;
+
+        public SearchAsyncTask(FoodFragment foodFragment) {
+            this.foodFragment = foodFragment;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Hiển thị tiến trình tìm kiếm (nếu cần)
+        }
+
+        @Override
+        protected LinkedList<Food> doInBackground(String... params) {
+            String query = params[0];
+            LinkedList<Food> filteredList = new LinkedList<>();
+
+            // Thực hiện công việc tìm kiếm ở đây (tương tự như trong hàm performSearch)
+            // Chuyển đổi query và tên thức ăn về chữ thường
+            String lowerCaseQuery = convertToNonAccent(query);
+            for (Food food : foodFragment.foodList) {
+                if (convertToNonAccent(food.getName()).contains(lowerCaseQuery)) {
+                    filteredList.add(food);
+                }
+            }
+
+            return filteredList;
+        }
+
+        @Override
+        protected void onPostExecute(LinkedList<Food> result) {
+            super.onPostExecute(result);
+            // Ẩn tiến trình tìm kiếm (nếu cần)
+            // Cập nhật RecyclerView và hiển thị kết quả
+            foodFragment.updateFoodList(result);
+        }
+        private String convertToNonAccent(String input) {
+            String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            String result = pattern.matcher(normalized)
+                    .replaceAll("")
+                    .replaceAll("[^\\p{Alnum}]", ""); // chỉ giữ lại chữ cái và chữ số
+
+            // Chuyển đổi thành chữ thường
+            return result.toLowerCase();
+        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -68,13 +121,14 @@ public class FoodFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Xử lý khi người dùng ấn nút tìm kiếm trên bàn phím
+                performSearchAsync(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Xử lý khi người dùng thay đổi nội dung tìm kiếm
-                performSearch(newText);
+                performSearchAsync(newText);
                 return false;
             }
         });
@@ -91,7 +145,7 @@ public class FoodFragment extends Fragment {
         LinkedList<Food> filteredList = new LinkedList<>();
 
         // Nếu query rỗng, hiển thị toàn bộ danh sách
-        if (query.isEmpty()) {
+        if (query.equals("")) {
             filteredList.addAll(foodList);
         } else {
             // Lọc danh sách dựa trên query
@@ -112,4 +166,18 @@ public class FoodFragment extends Fragment {
             noResultTextView.setVisibility(View.GONE); // Ẩn khi có kết quả
         }
     }
+    private void performSearchAsync(String query) {
+        SearchAsyncTask searchAsyncTask = new SearchAsyncTask(this);
+        searchAsyncTask.execute(query);
+    }
+
+    private void updateFoodList(LinkedList<Food> filteredList) {
+        // Cập nhật danh sách hiển thị trong adapter
+        foodAdapter.setFoodList(filteredList);
+        foodAdapter.notifyDataSetChanged();
+
+        // Hiển thị thông báo nếu không có kết quả
+        noResultTextView.setVisibility(filteredList.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
 }
