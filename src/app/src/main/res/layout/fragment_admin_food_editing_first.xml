@@ -98,10 +98,10 @@
             android:textStyle="bold"
             android:layout_marginHorizontal="10dp"/>
         <EditText
+            android:id="@+id/portionEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#A5A5A5"
-
             android:text="100"/>
         <Space
             android:layout_width="match_parent"

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -31,17 +32,18 @@ import java.io.InputStream;
 public class AdminFoodEditingFirst extends Fragment {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
+    EditText foodNameEditText;
     private ImageView imageView;
     private Button btnCamera;
     private Button btnGallery;
     private Spinner unitSpinner;
+    EditText numberOfUnitsEditText;
     private Button btnNext;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<String> galleryLauncher;
 
     public AdminFoodEditingFirst() {
         // Required empty public constructor
-        Log.d("AdminFoodEditingFirst", "AdminFoodEditingFirst: ");
     }
 
     @Override
@@ -55,14 +57,26 @@ public class AdminFoodEditingFirst extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         unitSpinner = view.findViewById(R.id.unitSpinner);
+        foodNameEditText = view.findViewById(R.id.editTextDishName);
+        Bundle bundle = getArguments();
+        String foodName = bundle.getString("foodName");
+        foodNameEditText.setText(foodName);
+        foodNameEditText.setEnabled(false);
+        numberOfUnitsEditText = view.findViewById(R.id.portionEditText);
         btnNext = view.findViewById(R.id.continueButton);
         btnNext.setOnClickListener(v -> {
             // Handle continue button click
-            Navigation.findNavController(getView()).navigate(R.id.action_adminFoodEditingFirst_to_adminFoodEditingSecond);
+            String unit = unitSpinner.getSelectedItem().toString();
+            int numberOfUnits = Integer.parseInt(numberOfUnitsEditText.getText().toString());
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("foodName", foodName);
+            bundle1.putString("unit", unit);
+            bundle1.putInt("numberOfUnits", numberOfUnits);
+            Navigation.findNavController(getView()).navigate(R.id.action_adminFoodEditingFirst_to_adminFoodEditingSecond, bundle1);
         });
 
         // Tạo một mảng chứa các đơn vị
-        String[] units = {"Gram", "Mililit"};
+        String[] units = {"g", "ml"};
 
         // Tạo Adapter cho Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, units);
@@ -85,8 +99,6 @@ public class AdminFoodEditingFirst extends Fragment {
             }
 
             private int getUnitPosition(String unit) {
-                String[] units = {"Gram", "Mililit"};
-
                 // Duyệt qua mảng để tìm vị trí của đơn vị
                 for (int i = 0; i < units.length; i++) {
                     if (units[i].equals(unit)) {
