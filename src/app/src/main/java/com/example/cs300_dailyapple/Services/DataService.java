@@ -4,6 +4,7 @@ import android.system.SystemCleaner;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.cs300_dailyapple.Models.BodyInformation;
 import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.Models.NutritionOverall;
@@ -119,24 +120,30 @@ public class DataService {
 
     public LinkedList<Food> getUserCustomFood(){
         LinkedList<Food> foods = new LinkedList<>();
-        Task<QuerySnapshot> query = db.collection(CUSTOM_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    Food food = new Food();
-                    food.setName(document.getString("name"));
-                    food.setUnit(document.getString("unit"));
-                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
-                    Nutrition nutritionPerUnit = new Nutrition();
-                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
-                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
-                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
-                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
-                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
-                    food.setNutritionPerUnit(nutritionPerUnit);
-                    foods.add(food);
-                }
-            }
-        });
+        String uid = AuthService.getInstance().getCurrentUser().getUid();
+        Task<DocumentSnapshot> query = db.collection(CUSTOM_FOODS_COLLECTION).document(uid).get();
+        while (!query.isComplete()) {}
+        DocumentSnapshot document = query.getResult();
+        if (!document.exists()){
+            Log.d(TAG, "get-user-custom-food query failed!");
+            return foods;
+        }
+        ArrayList<Map<String, Object>> foodList = (ArrayList<Map<String, Object>>) document.get("foodList");
+        for (Map<String, Object> foodElement: foodList){
+            Food food = new Food();
+            food.setName((String) foodElement.get("name"));
+            food.setUnit((String) foodElement.get("unit"));
+            food.setNumberOfUnits(((Long) foodElement.get("numberOfUnits")).intValue());
+            Nutrition nutritionPerUnit = new Nutrition();
+            nutritionPerUnit.setKcal((Double) foodElement.get("nutritionPerUnit.kcal"));
+            nutritionPerUnit.setProtein((Double) foodElement.get("nutritionPerUnit.protein"));
+            nutritionPerUnit.setFiber((Double) foodElement.get("nutritionPerUnit.fiber"));
+            nutritionPerUnit.setFat((Double) foodElement.get("nutritionPerUnit.fat"));
+            nutritionPerUnit.setCarbs((Double) foodElement.get("nutritionPerUnit.carbs"));
+            food.setNutritionPerUnit(nutritionPerUnit);
+            foods.add(food);
+        }
+        Log.d(TAG, "Get user custom food successfully");
         return foods;
     }
 
@@ -301,7 +308,13 @@ public class DataService {
         user.setEmail(document.getString("email"));
         user.setCreditPoints(document.getLong("creditPoints").intValue());
         user.setIsBanned(document.getBoolean("isBanned"));
-        user.setPersonalInformation(document.get("PI", PersonalInformation.class));
+        PersonalInformation PI = new PersonalInformation();
+        PI.setAge(document.getLong("PI.age").intValue());
+        PI.setGender(document.getString("PI.gender"));
+        String historyPIJson = new Gson().toJson(document.get("PI.historyPI"));
+        ArrayList<BodyInformation> historyPI = new Gson().fromJson(historyPIJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
+        PI.setHistoryPI(historyPI);
+        user.setPersonalInformation(PI);
         Gson gson = new Gson();
         String favoriteJson = gson.toJson(document.get("favorite"));
         Map<String, Boolean> favorite = gson.fromJson(favoriteJson, new TypeToken<Map<String, Boolean>>() {}.getType());
@@ -323,40 +336,6 @@ public class DataService {
         return user;
     }
 
-
-    public ArrayList<User> getAllUsers() {
-        ArrayList<User> users = new ArrayList<>();
-        // Get users with role "user"
-        Task<QuerySnapshot> query = db.collection(USERS_COLLECTION).whereEqualTo("role", "user").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    User user = new User();
-                    user.setId(document.getId());
-                    user.setUsername(document.getString("username"));
-                    user.setEmail(document.getString("email"));
-                    user.setCreditPoints(document.getLong("creditPoints").intValue());
-                    user.setIsBanned(document.getBoolean("isBanned"));
-                    user.setPersonalInformation(document.get("PI", PersonalInformation.class));
-                    // get nutritionOverall
-                    NutritionOverall nutritionOverall = new NutritionOverall();
-                    nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
-                    nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
-                    user.setNutritionOverall(nutritionOverall);
-                    // get waterInformation
-                    WaterInformation waterInformation = new WaterInformation();
-                    waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
-                    waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
-                    Gson gson = new Gson();
-                    String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
-                    ArrayList<WaterHistoryItem> waterHistory = gson.fromJson(waterHistoryJson, new TypeToken<ArrayList<WaterHistoryItem>>() {}.getType());
-                    waterInformation.setWaterHistory(waterHistory);
-                    user.setWaterInformation(waterInformation);
-                    users.add(user);
-                }
-            }
-        });
-        return users;
-    }
     public ArrayList<User> searchUsers(String query) {
         query = query.toLowerCase();
         ArrayList<User> users = new ArrayList<>();
@@ -374,7 +353,13 @@ public class DataService {
                 user.setEmail(document.getString("email"));
                 user.setCreditPoints(document.getLong("creditPoints").intValue());
                 user.setIsBanned(document.getBoolean("isBanned"));
-                user.setPersonalInformation(document.get("PI", PersonalInformation.class));
+                PersonalInformation PI = new PersonalInformation();
+                PI.setAge(document.getLong("PI.age").intValue());
+                PI.setGender(document.getString("PI.gender"));
+                String historyPIJson = new Gson().toJson(document.get("PI.historyPI"));
+                ArrayList<BodyInformation> historyPI = new Gson().fromJson(historyPIJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
+                PI.setHistoryPI(historyPI);
+                user.setPersonalInformation(PI);
                 // get nutritionOverall
                 NutritionOverall nutritionOverall = new NutritionOverall();
                 nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
@@ -383,7 +368,6 @@ public class DataService {
                 // get waterInformation
                 WaterInformation waterInformation = new WaterInformation();
                 waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
-                waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
                 waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
                 Gson gson = new Gson();
                 String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));

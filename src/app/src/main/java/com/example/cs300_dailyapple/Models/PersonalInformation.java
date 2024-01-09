@@ -45,6 +45,9 @@ public class PersonalInformation {
     public ArrayList<BodyInformation> getHistoryPI() {
         return this.historyPI;
     }
+    public void setHistoryPI(ArrayList<BodyInformation> historyPI) {
+        this.historyPI = historyPI;
+    }
     public Double calculateBMI(){
         return getWeight()/((getHeight()/100)*(getHeight()/100));
     }
