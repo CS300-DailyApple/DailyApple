@@ -28,7 +28,7 @@ public class SuggestedFoodFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize your food list here, you can call loadFoodList or provide data manually
-        foodList = Food.loadFoodList(requireContext());
+        foodList = new LinkedList<>();
         adapter = new SuggestedFoodAdapter(requireContext(), foodList);
     }
 
