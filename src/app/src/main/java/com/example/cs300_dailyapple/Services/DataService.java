@@ -128,7 +128,11 @@ public class DataService {
             Log.d(TAG, "get-user-custom-food query failed!");
             return foods;
         }
-        ArrayList<Map<String, Object>> foodList = (ArrayList<Map<String, Object>>) document.get("foodList");
+        ArrayList<Map<String, Object>> foodList = (ArrayList<Map<String, Object>>) document.get("foods");
+        if (foodList == null){
+            Log.d(TAG, "get-user-custom-food query failed!");
+            return foods;
+        }
         for (Map<String, Object> foodElement: foodList){
             Food food = new Food();
             food.setName((String) foodElement.get("name"));
