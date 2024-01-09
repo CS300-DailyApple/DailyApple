@@ -45,6 +45,8 @@ public class FoodDetail extends Fragment {
     String currentMealChoosing;
     NavController navController;
     AppCompatButton addFoodButton;
+    private boolean isMealChosen = false;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -83,14 +85,16 @@ public class FoodDetail extends Fragment {
             public void onClick(View view) {
                 User user = globalApplication.getUser();
                 System.out.println(globalApplication.getCurrentMealChoosing());
-                if (currentMealChoosing.equals("")){
+                if (!isMealChosen){
                     showRadioButtonDialog();
                 }
-                globalApplication.setCurrentMealChoosing(currentMealChoosing);
-
-                user.addFood(currentMealChoosing, food);
-                System.out.println(globalApplication.getCurrentMealChoosing());
-                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                if (isMealChosen) {
+                    globalApplication.setCurrentMealChoosing(currentMealChoosing);
+                    isMealChosen=false;
+                    user.addFood(currentMealChoosing, food);
+                    System.out.println(globalApplication.getCurrentMealChoosing());
+                    navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                }
             }
         });
     }
@@ -116,18 +120,49 @@ public class FoodDetail extends Fragment {
             if (radioButtonBreakfast.isChecked()) {
                 // Handle breakfast selection
                 currentMealChoosing = "breakfast";
+                isMealChosen = true;
+                User user = globalApplication.getUser();
+                globalApplication.setCurrentMealChoosing(currentMealChoosing);
+                isMealChosen=false;
+                user.addFood(currentMealChoosing, food);
+                System.out.println(globalApplication.getCurrentMealChoosing());
+                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                dialog.dismiss();
                 dialog.dismiss();
             } else if (radioButtonLunch.isChecked()) {
                 // Handle lunch selection
                 currentMealChoosing = "lunch";
+                isMealChosen = true;
+                User user = globalApplication.getUser();
+                globalApplication.setCurrentMealChoosing(currentMealChoosing);
+                isMealChosen=false;
+                user.addFood(currentMealChoosing, food);
+                System.out.println(globalApplication.getCurrentMealChoosing());
+                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                dialog.dismiss();
                 dialog.dismiss();
             } else if (radioButtonDinner.isChecked()) {
                 // Handle dinner selection
                 currentMealChoosing = "dinner";
+                isMealChosen = true;
+                User user = globalApplication.getUser();
+                globalApplication.setCurrentMealChoosing(currentMealChoosing);
+                isMealChosen=false;
+                user.addFood(currentMealChoosing, food);
+                System.out.println(globalApplication.getCurrentMealChoosing());
+                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                dialog.dismiss();
                 dialog.dismiss();
             } else if (radioButtonSnack.isChecked()) {
                 // Handle snack selection
                 currentMealChoosing = "snack";
+                isMealChosen = true;
+                User user = globalApplication.getUser();
+                globalApplication.setCurrentMealChoosing(currentMealChoosing);
+                isMealChosen=false;
+                user.addFood(currentMealChoosing, food);
+                System.out.println(globalApplication.getCurrentMealChoosing());
+                navController.navigate(R.id.action_foodDetail_to_mealFragment);
                 dialog.dismiss();
             }
             else{
