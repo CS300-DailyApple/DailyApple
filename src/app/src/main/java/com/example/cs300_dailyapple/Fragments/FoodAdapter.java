@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs300_dailyapple.Models.Food;
@@ -79,6 +80,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             @Override
             public void onClick(View v) {
                 if (v.getId() != R.id.favoriteButton) {
+                    navController = Navigation.findNavController(v);
                     navigateToFoodDetail(food);
                 }
             }
