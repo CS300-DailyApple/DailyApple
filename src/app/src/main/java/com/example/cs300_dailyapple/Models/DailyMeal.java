@@ -130,4 +130,5 @@ public class DailyMeal {
             snack.addFood(food);
         }
     }
+
 }

@@ -55,4 +55,19 @@ public class NutritionOverall {
     public void addFood(String currentMealChoosing, Food food) {
         mealHistory.addFood(currentMealChoosing, food);
     }
+
+    public void setMeal(String currentMealChoosing, FoodCompound meal) {
+        if (currentMealChoosing.equals("breakfast")){
+            mealHistory.addBreakfast(meal);
+        }
+        else if (currentMealChoosing.equals("lunch")){
+            mealHistory.addLunch(meal);
+        }
+        else if (currentMealChoosing.equals("dinner")){
+            mealHistory.addDinner(meal);
+        }
+        else{
+            mealHistory.addSnack(meal);
+        }
+    }
 }
