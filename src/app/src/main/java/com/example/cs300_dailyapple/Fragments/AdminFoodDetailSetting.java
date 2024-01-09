@@ -11,11 +11,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.DataService;
 
 public class AdminFoodDetailSetting extends Fragment {
-
     private TextView adminFoodDetailSettingName;
     private Button adminFoodDetailSettingDeleteBtn;
     private Button adminFoodDetailSettingEditBtn;

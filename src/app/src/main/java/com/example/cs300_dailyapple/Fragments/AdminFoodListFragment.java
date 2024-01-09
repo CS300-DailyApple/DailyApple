@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.DataService;
 
@@ -22,12 +23,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AdminFoodListFragment extends Fragment implements AdminFoodListItemAdapter.OnFoodItemClickListener {
-
+    GlobalApplication globalApplication;
     private RecyclerView recyclerViewFood;
     private AdminFoodListItemAdapter foodListAdapter;
     private AppCompatImageButton adminFoodSettingBtn;
     private SearchView searchView;
-    private LinkedList<Food> foodList;
+    private LinkedList<Food> originalFoodList;
+    private LinkedList<Food> searchedFoodList;
     private TextView noResultTextView;
     public AdminFoodListFragment() {
         // Required empty public constructor
@@ -37,6 +39,9 @@ public class AdminFoodListFragment extends Fragment implements AdminFoodListItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_food_list, container, false);
+        globalApplication = (GlobalApplication) getActivity().getApplicationContext();
+        originalFoodList = globalApplication.getForAdminFoodList();
+        searchedFoodList = new LinkedList<>(originalFoodList);
 
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);
         recyclerViewFood.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,21 +78,25 @@ public class AdminFoodListFragment extends Fragment implements AdminFoodListItem
         return view;
     }
     private void loadFoods(String query) {
-        foodList = DataService.getInstance().searchSharedFoods(query);
-        if (foodList.isEmpty()) {
+        searchedFoodList.clear();
+        for (Food food : originalFoodList) {
+            if (food.getName().toLowerCase().contains(query.toLowerCase())) {
+                searchedFoodList.add(food);
+            }
+        }
+        if (searchedFoodList.size() == 0) {
             noResultTextView.setVisibility(View.VISIBLE);
-            recyclerViewFood.setVisibility(View.GONE);
         } else {
             noResultTextView.setVisibility(View.GONE);
-            recyclerViewFood.setVisibility(View.VISIBLE);
-            foodListAdapter.setFoodList(foodList, this::onFoodItemClick);
         }
+        foodListAdapter.setFoodList(searchedFoodList, this);
+        foodListAdapter.notifyDataSetChanged();
     }
     @Override
     public void onFoodItemClick(Food food) {
         Bundle bundle = new Bundle();
-        // get the food id for later use
-        bundle.putString("foodId", DataService.getInstance().getFoodId(food.getName()));
+        // Pass food name to next fragment
+        bundle.putString("foodName", food.getName());
         Navigation.findNavController(getView()).navigate(R.id.action_adminFoodList_to_adminFoodDetail, bundle);
     }
     @Override

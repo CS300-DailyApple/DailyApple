@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.DataService;
 
@@ -19,6 +20,7 @@ import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
 public class AdminFoodDetail extends Fragment {
+    GlobalApplication globalApplication;
     private TextView adminFoodDetailName;
     private ImageView adminFoodDetailImage;
     private TextView adminFoodDetailAmount;
@@ -38,6 +40,7 @@ public class AdminFoodDetail extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_food_detail, container, false);
+        globalApplication = (GlobalApplication) getActivity().getApplicationContext();
 
         adminFoodDetailName = view.findViewById(R.id.AdminFoodDetailName);
         adminFoodDetailImage = view.findViewById(R.id.AdminFoodDetailImage);
@@ -49,18 +52,15 @@ public class AdminFoodDetail extends Fragment {
         adminFoodDetailPieChart = view.findViewById(R.id.NutritionPieChart);
         adminFoodDetailEditBtn = view.findViewById(R.id.AdminFoodDetailEdit);
         adminFoodDetailEditBtn.setOnClickListener(v -> {
-            Bundle bundle = getArguments();
-            String foodId = bundle.getString("foodId");
             Bundle bundle1 = new Bundle();
-            bundle1.putString("foodId", foodId);
             bundle1.putString("foodName", adminFoodDetailName.getText().toString());
             Navigation.findNavController(view).navigate(R.id.action_adminFoodDetail_to_adminFoodDetailSetting, bundle1);
         });
 
         // get data from bundle
         Bundle bundle = getArguments();
-        String foodId = bundle.getString("foodId");
-        Food food = DataService.getInstance().getFoodById(foodId);
+        String foodName = bundle.getString("foodName");
+        Food food = globalApplication.getForAdminFoodList().stream().filter(f -> f.getName().equals(foodName)).findFirst().get();
 
         // set data
         adminFoodDetailName.setText(food.getName());
