@@ -99,6 +99,6 @@ public class WaterInformation {
 
     private void setNotification() {
         //set new notf
-        NotificationScheduler.scheduleNotification(this.context, "Uống nước", "Đã đến giờ uống nước!", 60);
+        NotificationScheduler.scheduleNotification(this.context, "Uống nước", "Đã đến giờ uống nước!", this.cooldown);
     }
 }
