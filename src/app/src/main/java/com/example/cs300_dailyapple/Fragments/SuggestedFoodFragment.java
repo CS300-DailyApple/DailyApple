@@ -6,18 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs300_dailyapple.Fragments.SuggestedFoodAdapter;
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
+import com.example.cs300_dailyapple.Models.SuggestedFood;
 import com.example.cs300_dailyapple.R;
 
 import java.util.LinkedList;
 
-public class SuggestedFoodFragment extends Fragment {
+public class SuggestedFoodFragment extends Fragment implements SuggestedFoodAdapter.OnFoodItemClickListener {
 
-    private LinkedList<Food> foodList;
+    GlobalApplication globalApplication;
+    LinkedList<SuggestedFood> suggestedFoodList;
     private SuggestedFoodAdapter adapter;
 
     public SuggestedFoodFragment() {
@@ -27,9 +31,9 @@ public class SuggestedFoodFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize your food list here, you can call loadFoodList or provide data manually
-        foodList = Food.loadFoodList(requireContext());
-        adapter = new SuggestedFoodAdapter(requireContext(), foodList);
+        globalApplication = (GlobalApplication) getActivity().getApplicationContext();
+        suggestedFoodList = globalApplication.getForAdminSuggestedFoodList();
+        adapter = new SuggestedFoodAdapter(requireContext(), suggestedFoodList, this);
     }
 
     @Override
@@ -43,5 +47,16 @@ public class SuggestedFoodFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+    @Override
+    public void onFoodItemClick(SuggestedFood food) {
+        Bundle bundle = new Bundle();
+        bundle.putString("foodName", food.getName());
+        Navigation.findNavController(getView()).navigate(R.id.action_suggestedFoodFragment_to_suggestFoodDetailsFragment, bundle);
     }
 }

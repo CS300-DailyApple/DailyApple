@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.SuggestedFood;
 import com.example.cs300_dailyapple.R;
 
 import java.text.Normalizer;
@@ -21,12 +22,17 @@ import java.util.regex.Pattern;
 
 public class SuggestedFoodAdapter extends RecyclerView.Adapter<SuggestedFoodAdapter.FoodViewHolder> {
 
-    private final LinkedList<Food> foodList;
+    public interface OnFoodItemClickListener {
+        void onFoodItemClick(SuggestedFood food);
+    }
+    private final LinkedList<SuggestedFood> foodList;
+    private OnFoodItemClickListener listener;
     private final Context context;
 
-    public SuggestedFoodAdapter(Context context, LinkedList<Food> foodList) {
+    public SuggestedFoodAdapter(Context context, LinkedList<SuggestedFood> foodList, OnFoodItemClickListener listener) {
         this.context = context;
         this.foodList = foodList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,7 +44,7 @@ public class SuggestedFoodAdapter extends RecyclerView.Adapter<SuggestedFoodAdap
 
     @Override
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
-        Food currentFood = foodList.get(position);
+        SuggestedFood currentFood = foodList.get(position);
 
         String foodName = convertToNonAccent(currentFood.getName());
         setResized8080(context, foodName, holder.foodImage);
@@ -46,6 +52,13 @@ public class SuggestedFoodAdapter extends RecyclerView.Adapter<SuggestedFoodAdap
         holder.textViewName.setText(currentFood.getName());
         String attributes = currentFood.getNumberOfUnits() + " " + currentFood.getUnit() + " - " + currentFood.getNutritionPerUnit().getKcal() + " calo";
         holder.textViewAttributes.setText(attributes);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onFoodItemClick(currentFood);
+            }
+        });
     }
 
     @Override
@@ -61,6 +74,7 @@ public class SuggestedFoodAdapter extends RecyclerView.Adapter<SuggestedFoodAdap
         public FoodViewHolder(@NonNull View itemView) {
             super(itemView);
             foodImage = itemView.findViewById(R.id.foodImage);
+            foodImage.setImageResource(R.drawable.food_photo_placeholder);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewAttributes = itemView.findViewById(R.id.textViewAttributes);
         }

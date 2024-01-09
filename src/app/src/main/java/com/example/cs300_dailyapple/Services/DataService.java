@@ -7,6 +7,7 @@ import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.Models.NutritionOverall;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
+import com.example.cs300_dailyapple.Models.SuggestedFood;
 import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.Models.WaterHistoryItem;
 import com.example.cs300_dailyapple.Models.WaterInformation;
@@ -28,7 +29,6 @@ public class DataService {
     private static final String USERS_COLLECTION = "users";
     private static final String SHARED_FOODS_COLLECTION = "shared_foods";
     private static final String CUSTOM_FOODS_COLLECTION = "custom_foods";
-
     private static final String SUGGESTED_FOODS_COLLECTION = "suggested_foods";
     private static final String USER_CUSTOM_FOODS_COLLECTION = "user_custom_foods";
 
@@ -137,32 +137,15 @@ public class DataService {
         });
         return foods;
     }
-    public LinkedList<Food> getSuggestedFood(){
-        LinkedList<Food> foods = new LinkedList<>();
-        Task<QuerySnapshot> query = db.collection(SUGGESTED_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    Food food = new Food();
-                    food.setName(document.getString("name"));
-                    food.setUnit(document.getString("unit"));
-                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
-                    Nutrition nutritionPerUnit = new Nutrition();
-                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
-                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
-                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
-                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
-                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
-                    food.setNutritionPerUnit(nutritionPerUnit);
-                    foods.add(food);
-                }
-            }
-        });
-        return foods;
-    }
     public String getUserRole(String uid) {
         Task<DocumentSnapshot> query = db.collection(USERS_COLLECTION).document(uid).get();
         while (!query.isComplete()) {}
         return query.getResult().getString("role");
+    }
+    public String getUsernameById(String uid) {
+        Task<DocumentSnapshot> query = db.collection(USERS_COLLECTION).document(uid).get();
+        while (!query.isComplete()) {}
+        return query.getResult().getString("username");
     }
     public boolean isFoodExist(String foodName) {
         // Find food in shared foods
@@ -417,12 +400,35 @@ public class DataService {
             }
         });
     }
+    public LinkedList<SuggestedFood> getSuggestedFoodList() {
+        LinkedList<SuggestedFood> suggestedFoods = new LinkedList<>();
+        Task<QuerySnapshot> query = db.collection(SUGGESTED_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    SuggestedFood suggestedFood = new SuggestedFood();
+                    suggestedFood.setName(document.getString("name"));
+                    suggestedFood.setUnit(document.getString("unit"));
+                    suggestedFood.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+                    Nutrition nutritionPerUnit = new Nutrition();
+                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+                    suggestedFood.setNutritionPerUnit(nutritionPerUnit);
+                    suggestedFood.setContributorId(document.getString("contributorId"));
+                    suggestedFoods.add(suggestedFood);
+                }
+            }
+        });
+        return suggestedFoods;
+    }
 
-    public void saveUserCustomList(LinkedList<Food> userCustomList) {
+    public void saveUserCustomList(LinkedList<Food> userCustomList, String uid) {
 
     }
 
-    public void saveUserSuggestedFoodList(LinkedList<Food> userSuggestedFoodList) {
+    public void saveSuggestedFoodList(LinkedList<Food> userSuggestedFoodList) {
 
     }
 }

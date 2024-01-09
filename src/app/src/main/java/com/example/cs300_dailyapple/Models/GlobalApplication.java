@@ -14,6 +14,7 @@ public class GlobalApplication extends Application {
     LinkedList<Food> foodList, userCustomList, userSuggestedFoodList;
     ArrayList<User> forAdminUserList;
     LinkedList<Food> forAdminFoodList;
+    LinkedList<SuggestedFood> forAdminSuggestedFoodList;
 
     public LinkedList<Food> getUserSuggestedFoodList() {
         return userSuggestedFoodList;
@@ -21,6 +22,7 @@ public class GlobalApplication extends Application {
     public void queryForAdminLists() {
         this.forAdminUserList = DataService.getInstance().searchUsers("");
         this.forAdminFoodList = DataService.getInstance().searchSharedFoods("");
+        this.forAdminSuggestedFoodList = DataService.getInstance().getSuggestedFoodList();
     }
     public ArrayList<User> getForAdminUserList() {
         return this.forAdminUserList;
@@ -34,8 +36,11 @@ public class GlobalApplication extends Application {
     public void setForAdminFoodList(LinkedList<Food> forAdminFoodList) {
         this.forAdminFoodList = forAdminFoodList;
     }
-    public void queryUserSuggestedFoodList() {
-        this.userSuggestedFoodList = DataService.getInstance().getSuggestedFood();
+    public LinkedList<SuggestedFood> getForAdminSuggestedFoodList() {
+        return forAdminSuggestedFoodList;
+    }
+    public void setForAdminSuggestedFoodList(LinkedList<SuggestedFood> forAdminSuggestedFoodList) {
+        this.forAdminSuggestedFoodList = forAdminSuggestedFoodList;
     }
     public LinkedList<Food> getFoodList() {
         return foodList;
