@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -109,10 +110,17 @@ public class FoodFragment extends Fragment {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onNavigationFragment();
                 navController.navigate(R.id.action_foodFragment_to_settingDishFragment);
             }
         });
 
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                onNavigationFragment();
+            }
+        };
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Tìm kiếm món ăn...");
@@ -134,6 +142,9 @@ public class FoodFragment extends Fragment {
         });
     }
 
+    public void onNavigationFragment(){
+        globalApplication.setFoodList(foodList);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
