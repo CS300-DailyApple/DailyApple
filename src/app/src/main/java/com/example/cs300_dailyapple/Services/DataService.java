@@ -245,7 +245,6 @@ public class DataService {
         // get waterInformation
         WaterInformation waterInformation = new WaterInformation();
         waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
-        waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
         waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
 
         Gson gson = new Gson();
@@ -278,7 +277,6 @@ public class DataService {
                     // get waterInformation
                     WaterInformation waterInformation = new WaterInformation();
                     waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
-                    waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
                     waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
                     Gson gson = new Gson();
                     String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
@@ -315,7 +313,6 @@ public class DataService {
             // get waterInformation
             WaterInformation waterInformation = new WaterInformation();
             waterInformation.setWaterTarget(document.getDouble("waterInformation.waterTarget").intValue());
-            waterInformation.setTotalWaterDrank(document.getDouble("waterInformation.totalWaterDrank").intValue());
             waterInformation.setContainerCapacity(document.getDouble("waterInformation.containerCapacity").intValue());
             Gson gson = new Gson();
             String waterHistoryJson = gson.toJson(document.get("waterInformation.waterHistory"));
