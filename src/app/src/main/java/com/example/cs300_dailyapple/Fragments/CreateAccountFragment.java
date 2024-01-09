@@ -55,37 +55,11 @@ public class CreateAccountFragment extends Fragment {
             Toast.makeText(getContext(), "Email, password and username cannot be empty", Toast.LENGTH_SHORT).show();
         }
         else {
-            AuthService.getInstance().registerUser(email, password, new AuthService.AuthCallback() {
-                @Override
-                public void onSuccess(FirebaseUser user) {
-                    // login that user
-                    AuthService.getInstance().loginUser(email, password, new AuthService.AuthCallback() {
-                        @Override
-                        public void onSuccess(FirebaseUser user) {
-                            // do nothing
-                        }
-
-                        @Override
-                        public void onFailure(Exception exception) {
-                            Toast.makeText(getContext(), "Account creation failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    // get the user id and add it to bundle
-                    // then navigate to the getInformation
-                    String uid = user.getUid();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("uid", uid);
-                    bundle.putString("username", username);
-                    bundle.putString("email", email);
-                    Toast.makeText(getContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(view).navigate(R.id.action_createAccountFragment_to_getInformation, bundle);
-                }
-
-                @Override
-                public void onFailure(Exception exception) {
-                    Toast.makeText(getContext(), "Account creation failed", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Bundle bundle = new Bundle();
+            bundle.putString("username", username);
+            bundle.putString("email", email);
+            bundle.putString("password", password);
+            Navigation.findNavController(view).navigate(R.id.action_createAccountFragment_to_getInformation, bundle);
         }
     }
 }

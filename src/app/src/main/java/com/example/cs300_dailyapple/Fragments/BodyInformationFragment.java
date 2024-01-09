@@ -10,7 +10,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
@@ -30,6 +33,8 @@ public class BodyInformationFragment extends Fragment {
     private TextView Height;
     private TextView weightEvaluation;
     private User user;
+    TextView textDateTime;
+    AppCompatImageButton settingButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +55,14 @@ public class BodyInformationFragment extends Fragment {
         textProgressCalo = view.findViewById(R.id.textProgressCalo);
         progressBarCalo = view.findViewById(R.id.progressBarCalo);
         weightEvaluation = view.findViewById(R.id.weightEvaluation);
-
+        textDateTime = view.findViewById(R.id.textDateTime);
+        settingButton = view.findViewById(R.id.Settings);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_bodyInformationFragment_to_settingBodyInformationFragment);
+            }
+        });
         // Hiển thị thông tin từ PersonalInformation
         displayPersonalInformation();
 

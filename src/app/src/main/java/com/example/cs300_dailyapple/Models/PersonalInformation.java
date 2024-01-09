@@ -10,6 +10,16 @@ public class PersonalInformation {
     private ArrayList<BodyInformation> historyPI;
 
     // Methods
+    public PersonalInformation() {
+        this.gender = "";
+        this.age = 0;
+        this.historyPI = new ArrayList<>();
+    }
+    public PersonalInformation(String gender, int age) {
+        this.gender = gender;
+        this.age = age;
+        this.historyPI = new ArrayList<>();
+    }
     public String getGender() {
         return this.gender;
     }
@@ -35,11 +45,17 @@ public class PersonalInformation {
     }
 
     public void setHeight(Double height) {
+        if (this.historyPI.size() == 0) {
+            this.historyPI.add(new BodyInformation(height, 0.0));
+        }
         BodyInformation BI = this.historyPI.get(0);
         BI.setHeight(height);
     }
 
     public void setWeight(Double weight) {
+        if (this.historyPI.size() == 0) {
+            this.historyPI.add(new BodyInformation(0.0, weight));
+        }
         BodyInformation BI = this.historyPI.get(0);
         BI.setWeight(weight);
     }

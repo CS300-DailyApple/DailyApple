@@ -121,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:text="Lần cập nhật gần nhất"
+                    android:textAlignment="center"
                     android:textSize="18dp"
                     />
 

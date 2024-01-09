@@ -12,16 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
+import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
+import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.AuthService;
 import com.example.cs300_dailyapple.Services.DataService;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.rpc.context.AttributeContext;
 
 import java.time.format.DateTimeFormatter;
 
 public class SummaryStatistic extends Fragment {
-    private TextView caloriesCount;
+    TextView calorie;
     private TextView textBMI;
     private TextView textDateTime;
     private TextView height;
@@ -37,6 +43,7 @@ public class SummaryStatistic extends Fragment {
     // OnViewCreated
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        calorie = view.findViewById(R.id.caloriesCount);
         textBMI = view.findViewById(R.id.textBMI);
         textDateTime = view.findViewById(R.id.textDateTime);
         height = view.findViewById(R.id.Height);
@@ -44,25 +51,63 @@ public class SummaryStatistic extends Fragment {
         weightEvaluation = view.findViewById(R.id.weightEvaluation);
         waterText = view.findViewById(R.id.Water);
         continueButton = view.findViewById(R.id.Continue);
-        String uid = AuthService.getInstance().getCurrentUser().getUid();
-        DataService db = DataService.getInstance();
-        User user = db.getUser(uid);
         // get today's date
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         textDateTime.setText(dtf.format(java.time.LocalDate.now()));
         // get height and weight
-        height.setText(user.getPersonalInformation().getHeight().toString() + "cm");
-        weight.setText(user.getPersonalInformation().getWeight().toString() + "kg");
+        Bundle bundle = getArguments();
+        Double heightVal = bundle.getDouble("height");
+        Double weightVal = bundle.getDouble("weight");
+        int age = bundle.getInt("age");
+        String gender = bundle.getString("gender");
+        PersonalInformation PI = new PersonalInformation();
+        PI.setAge(age);
+        PI.setGender(gender);
+        PI.addNewBodyInformation(weightVal, heightVal);
+        calorie.setText(String.valueOf(Math.round(PI.calculateTDEE())));
+        height.setText(Math.round(heightVal) + "cm");
+        weight.setText(Math.round(weightVal) + "kg");
         // get BMI, round to integer
-        textBMI.setText(String.valueOf(Math.round(user.getPersonalInformation().calculateBMI())));
+        textBMI.setText(String.valueOf(Math.round(PI.calculateBMI())));
         // get weight evaluation
-        weightEvaluation.setText(getWeightEvaluation(user.getPersonalInformation().calculateBMI()));
+        weightEvaluation.setText(getWeightEvaluation(PI.calculateBMI()));
         // get water
-        waterText.setText(String.valueOf(Math.round(user.getPersonalInformation().calculateWater())));
+        waterText.setText(String.valueOf(Math.round(PI.calculateWater())));
         // continue button
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // register user
+                AuthService.getInstance().registerUser(bundle.getString("email"), bundle.getString("password"), new AuthService.AuthCallback() {
+                    @Override
+                    public void onSuccess(FirebaseUser user) {
+                        // create user object
+                        User newUser = new User();
+                        newUser.setPersonalInformation(PI);
+                        newUser.setUsername(bundle.getString("username"));
+                        newUser.setEmail(bundle.getString("email"));
+                        WaterInformation waterInformation = new WaterInformation();
+                        waterInformation.setWaterTarget(Integer.parseInt(waterText.getText().toString()));
+                        newUser.setWaterInformation(waterInformation);
+                        // save user to database
+                        DataService.getInstance().addUser(user.getUid(), bundle.getString("email"), bundle.getString("username"), PI, waterInformation);
+                        // add user to global application
+                        GlobalApplication globalApplication = (GlobalApplication) getActivity().getApplication();
+                        globalApplication.setUser(newUser);
+                        globalApplication.setFoodList();
+                        globalApplication.setUserCustomList();
+                        // navigate to home screen
+                        Navigation.findNavController(v).navigate(R.id.action_summaryStatistic_to_homeScreenUserFragment);
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(getContext(), "Tạo người dùng thất bại.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
                 Navigation.findNavController(getView()).navigate(R.id.action_summaryStatistic_to_homeScreenUserFragment);
             }
         });
