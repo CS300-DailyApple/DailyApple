@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class GlobalApplication extends Application {
     private User user;
+    private Food currentFoodChoosing;
 
     private static Application instance;
 
@@ -53,7 +54,12 @@ public class GlobalApplication extends Application {
         this.userSuggestedFoodList = DataService.getInstance().getSuggestedFood();
     }
 
-
+    public Food getCurrentFoodChoosing(){
+        return currentFoodChoosing;
+    }
+    public void setCurrentFoodChoosing(Food currentFoodChoosing){
+        this.currentFoodChoosing=currentFoodChoosing;
+    }
 
     public LinkedList<Food> getFoodList() {
         return foodList;

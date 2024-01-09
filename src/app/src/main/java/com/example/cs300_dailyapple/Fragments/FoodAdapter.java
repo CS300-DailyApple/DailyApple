@@ -75,7 +75,20 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         } else {
             holder.favoriteButton.setSelected(false);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() != R.id.favoriteButton) {
+                    navigateToFoodDetail(food);
+                }
+            }
+        });
 
+    }
+    private void navigateToFoodDetail(Food selectedFood) {
+        // Use NavController to navigate to FoodDetailFragment
+        globalApplication.setCurrentFoodChoosing(selectedFood);
+        navController.navigate(R.id.action_foodFragment_to_foodDetail);
     }
 
     @Override

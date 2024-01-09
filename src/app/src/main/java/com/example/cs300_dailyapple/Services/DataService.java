@@ -102,6 +102,7 @@ public class DataService {
 
     public LinkedList<Food> getUserFoodList(Map<String, Boolean> favorite){
         LinkedList<Food> foods = new LinkedList<>();
+        System.out.println(favorite.size());
         foods.addAll(getSharedFoods());
         foods.addAll(getUserCustomFood());
         for (Food foodElement: foods){
