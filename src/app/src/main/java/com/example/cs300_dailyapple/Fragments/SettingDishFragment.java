@@ -3,6 +3,8 @@ package com.example.cs300_dailyapple.Fragments;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,10 +28,10 @@ public class SettingDishFragment extends Fragment {
     TextView resetFoodList;
 
     NavController navController;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setting_dish, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         addFood= view.findViewById(R.id.AddFood);
         navController = Navigation.findNavController(view);
         SpannableString addFoodString = new SpannableString("Thêm món ăn");
@@ -67,6 +69,12 @@ public class SettingDishFragment extends Fragment {
                 navController.navigate(R.id.action_settingDishFragment_to_addDishFragment);
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_setting_dish, container, false);
         return view;
     }
 }

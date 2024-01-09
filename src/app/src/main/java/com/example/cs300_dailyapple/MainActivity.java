@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
             else if (role.equals("user")) {
                 // inflate user home page
                 DataService.getInstance().setCalled(true);
+                GlobalApplication globalApplication = (GlobalApplication) this.getApplication();
+                String id = AuthService.getInstance().getCurrentUser().getUid();
+                globalApplication.setUser(DataService.getInstance().getUser(id));
+                globalApplication.setFoodList();
+                globalApplication.setUserCustomList();
+                globalApplication.setCurrentMealChoosing("breakfast");
                 navController.navigate(R.id.action_loginFragment_to_homeScreenUserFragment);
                 navController.popBackStack(R.id.loginFragment, false);
             }

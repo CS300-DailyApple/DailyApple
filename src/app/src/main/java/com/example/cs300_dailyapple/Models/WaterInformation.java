@@ -58,7 +58,7 @@ public class WaterInformation {
     }
 
     public ArrayList<WaterHistoryItem> getWaterHistory() {
-        return this.waterHistory;
+        return waterHistory;
     }
 
     public void setWaterTarget(int waterTarget) {

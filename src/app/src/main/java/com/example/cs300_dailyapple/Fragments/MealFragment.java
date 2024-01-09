@@ -46,7 +46,7 @@ public class MealFragment extends Fragment {
         globalApplication = (GlobalApplication) this.getActivity().getApplication();
         String currentMealChoosing = globalApplication.getCurrentMealChoosing();
         Context context = this.getContext();
-        LinkedList<Food> foodList = Food.loadFoodList(context);
+        LinkedList<Food> foodList = new LinkedList<>();
         mealView = view.findViewById(R.id.MealText);
         recyclerViewDish = view.findViewById(R.id.recyclerViewDish);
         currentUser = globalApplication.getUser();
