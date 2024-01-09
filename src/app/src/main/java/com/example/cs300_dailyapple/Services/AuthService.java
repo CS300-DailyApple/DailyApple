@@ -80,4 +80,33 @@ public class AuthService {
         void onSuccess(FirebaseUser user);
         void onFailure(Exception e);
     }
+    public void changePassword(String oldPassword, String newPassword, final AuthCallback callback) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        // check if old password is correct
+        mAuth.signInWithEmailAndPassword(user.getEmail(), oldPassword).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Sign in success, update UI with the signed-in user's information
+                 Log.d(TAG, "signInWithEmail:success");
+                 user.updatePassword(newPassword).addOnCompleteListener(task1 -> {
+                     if (task1.isSuccessful()) {
+                         // Sign in success, update UI with the signed-in user's information
+                          Log.d(TAG, "updatePassword:success");
+                          callback.onSuccess(user);
+                         // updateUI(user);
+                     } else {
+                         // If sign in fails, display a message to the user.
+                          Log.w(TAG, "updatePassword:failure", task1.getException());
+                          callback.onFailure(task1.getException());
+                         // updateUI(null);
+                     }
+                 });
+                // updateUI(user);
+            } else {
+                // If sign in fails, display a message to the user.
+                 Log.w(TAG, "signInWithEmail:failure", task.getException());
+                 callback.onFailure(task.getException());
+                // updateUI(null);
+            }
+        });
+    }
 }
