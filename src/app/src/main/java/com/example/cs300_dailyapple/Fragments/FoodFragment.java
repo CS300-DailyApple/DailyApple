@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -25,6 +26,8 @@ import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
 import java.text.Normalizer;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
@@ -67,7 +70,13 @@ public class FoodFragment extends Fragment {
                     filteredList.add(food);
                 }
             }
-
+            Collections.sort(filteredList, new Comparator<Food>() {
+                @Override
+                public int compare(Food food1, Food food2) {
+                    // Sắp xếp theo trạng thái favorite giảm dần
+                    return Boolean.compare(food2.getFavorite(), food1.getFavorite());
+                }
+            });
             return filteredList;
         }
 
@@ -97,6 +106,13 @@ public class FoodFragment extends Fragment {
         Context context = this.getContext();
         globalApplication = (GlobalApplication)this.getActivity().getApplication();
         foodList = globalApplication.getFoodList();
+        Collections.sort(foodList, new Comparator<Food>() {
+            @Override
+            public int compare(Food food1, Food food2) {
+                // Sắp xếp theo trạng thái favorite giảm dần
+                return Boolean.compare(food2.getFavorite(), food1.getFavorite());
+            }
+        });
         System.out.println("The size of the list of food is: " + foodList.size());
         navController = Navigation.findNavController(view);
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);
@@ -109,10 +125,17 @@ public class FoodFragment extends Fragment {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onNavigationFragment();
                 navController.navigate(R.id.action_foodFragment_to_settingDishFragment);
             }
         });
 
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                onNavigationFragment();
+            }
+        };
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Tìm kiếm món ăn...");
@@ -134,6 +157,9 @@ public class FoodFragment extends Fragment {
         });
     }
 
+    public void onNavigationFragment(){
+        globalApplication.setFoodList(foodList);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
