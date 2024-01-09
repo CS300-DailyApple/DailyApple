@@ -87,7 +87,7 @@ public class WaterInformation {
         LocalDateTime current = LocalDateTime.now();
         if (this.dl.isBefore(current))
             return "00:00";
-        return "00:" + ChronoUnit.MINUTES.between(current, this.dl);
+        return ChronoUnit.HOURS.between(current, this.dl) + ":" + ChronoUnit.MINUTES.between(current, this.dl);
     }
 
     public void addWaterHistoryItem() {
