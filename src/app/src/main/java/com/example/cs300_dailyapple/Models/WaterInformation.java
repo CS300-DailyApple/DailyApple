@@ -41,7 +41,7 @@ public class WaterInformation {
     }
 
     public int getWaterTarget() {
-        return waterTarget;
+        return this.waterTarget;
     }
 
     public int getTotalWaterDrank() {
@@ -94,7 +94,7 @@ public class WaterInformation {
         //default
         waterHistory.add(0, new WaterHistoryItem(containerCapacity, Timestamp.now()));
         resetDeadline();
-//        setNotification();
+        setNotification();
     }
 
     private void setNotification() {

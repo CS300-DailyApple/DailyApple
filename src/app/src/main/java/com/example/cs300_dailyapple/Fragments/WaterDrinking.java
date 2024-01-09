@@ -71,6 +71,13 @@ public class WaterDrinking extends Fragment {
         adapter = new WaterHistoryAdapter(Data.getWaterHistory());
         drink_history.setAdapter(adapter);
 
+        drink_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UpdateView();
+            }
+        });
+
         //button setting
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
