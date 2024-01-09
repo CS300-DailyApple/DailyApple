@@ -1,6 +1,7 @@
 package com.example.cs300_dailyapple.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,14 +42,14 @@ public class FoodDetail extends Fragment {
     TextView foodDetailNameView, foodDetailUnitView, foodDetailCarbsView, foodDetailProteinView, foodDetailFatView;
     ImageView foodDetailImageView, editView;
     PieChart pieChart;
-
+    String currentMealChoosing;
     NavController navController;
     AppCompatButton addFoodButton;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         food = globalApplication.getCurrentFoodChoosing();
-        String currentMealChoosing = globalApplication.getCurrentMealChoosing();
+        currentMealChoosing = globalApplication.getCurrentMealChoosing();
         navController = Navigation.findNavController(view);
         // set views
         pieChart = view.findViewById(R.id.NutritionPieChart);
@@ -80,13 +82,69 @@ public class FoodDetail extends Fragment {
             @Override
             public void onClick(View view) {
                 User user = globalApplication.getUser();
+                System.out.println(globalApplication.getCurrentMealChoosing());
+                if (currentMealChoosing.equals("")){
+                    showRadioButtonDialog();
+                }
+                globalApplication.setCurrentMealChoosing(currentMealChoosing);
+
                 user.addFood(currentMealChoosing, food);
-                globalApplication.setCurrentFoodChoosing(food);
+                System.out.println(globalApplication.getCurrentMealChoosing());
                 navController.navigate(R.id.action_foodDetail_to_mealFragment);
             }
         });
     }
 
+    private void showRadioButtonDialog() {
+        // Inflate the custom layout
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.radio_dialog_food_detail, null);
+
+        // Find RadioButtons in the layout
+        RadioButton radioButtonBreakfast = dialogView.findViewById(R.id.radioButtonBreakfast);
+        RadioButton radioButtonLunch = dialogView.findViewById(R.id.radioButtonLunch);
+        RadioButton radioButtonDinner = dialogView.findViewById(R.id.radioButtonDinner);
+        RadioButton radioButtonSnack = dialogView.findViewById(R.id.radioButtonSnack);
+
+        // Build the AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(dialogView);
+        builder.setTitle("Chọn bữa ăn mà bạn muốn thêm vào: ");
+
+        // Set positive button (OK) click listener
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // Handle the selected RadioButton
+            if (radioButtonBreakfast.isChecked()) {
+                // Handle breakfast selection
+                currentMealChoosing = "breakfast";
+                dialog.dismiss();
+            } else if (radioButtonLunch.isChecked()) {
+                // Handle lunch selection
+                currentMealChoosing = "lunch";
+                dialog.dismiss();
+            } else if (radioButtonDinner.isChecked()) {
+                // Handle dinner selection
+                currentMealChoosing = "dinner";
+                dialog.dismiss();
+            } else if (radioButtonSnack.isChecked()) {
+                // Handle snack selection
+                currentMealChoosing = "snack";
+                dialog.dismiss();
+            }
+            else{
+                Toast.makeText(getContext(), "Vui lòng chon bữa ăn!", Toast.LENGTH_SHORT);
+            }
+
+        });
+
+        // Set negative button (Cancel) click listener
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            // Dismiss the dialog
+            dialog.dismiss();
+        });
+
+        // Show the AlertDialog
+        builder.create().show();
+    }
     private void onShowPopupWindow(){
         View view = View.inflate(this.getContext(), R.layout.popup_window_food_detail, null);
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;

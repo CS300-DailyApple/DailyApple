@@ -111,7 +111,6 @@ public class LoginFragment extends Fragment {
                     globalApplication.setUser(DataService.getInstance().getUser(id));
                     globalApplication.setFoodList();
                     globalApplication.setUserCustomList();
-                    globalApplication.setCurrentMealChoosing("breakfast");
                     Log.d("GlobalApplication", "Successfully loaded data");
                     // action_LoginFragment_to_HomeScreenUserFragment
                     Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeScreenUserFragment);

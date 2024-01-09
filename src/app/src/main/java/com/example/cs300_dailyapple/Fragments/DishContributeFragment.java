@@ -89,6 +89,7 @@ public class DishContributeFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Do nothing here
+
             }
         });
         return view;
