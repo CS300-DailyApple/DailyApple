@@ -32,7 +32,10 @@ import com.example.cs300_dailyapple.R;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
-public class FoodDetail extends Fragment {
+
+
+public class CustomFoodinMealFragment extends Fragment {
+
     GlobalApplication globalApplication;
     FoodCompound meal;
 
@@ -42,7 +45,7 @@ public class FoodDetail extends Fragment {
     PieChart pieChart;
 
     NavController navController;
-    AppCompatButton addFoodButton;
+    AppCompatButton editFoodButton;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -58,7 +61,7 @@ public class FoodDetail extends Fragment {
         foodDetailImageView = view.findViewById(R.id.FoodDetailImage);
         foodDetailUnitView = view.findViewById(R.id.NumberOfUnit);
         editView = view.findViewById(R.id.edit_button);
-        addFoodButton = view.findViewById(R.id.accept);
+        editFoodButton = view.findViewById(R.id.custom);
 
         // set data for views
         foodDetailNameView.setText(food.getName());
@@ -76,13 +79,13 @@ public class FoodDetail extends Fragment {
                 onShowPopupWindow();
             }
         });
-        addFoodButton.setOnClickListener(new View.OnClickListener() {
+        editFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 User user = globalApplication.getUser();
-                user.addFood(currentMealChoosing, food);
+
                 globalApplication.setCurrentFoodChoosing(food);
-                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                navController.navigate(R.id.action_customFoodinMealFragment_to_mealFragment);
             }
         });
     }
@@ -136,6 +139,6 @@ public class FoodDetail extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         globalApplication = (GlobalApplication) GlobalApplication.getInstance();
-        return inflater.inflate(R.layout.fragment_food_detail, container, false);
+        return inflater.inflate(R.layout.fragment_custom_foodin_meal, container, false);
     }
 }
