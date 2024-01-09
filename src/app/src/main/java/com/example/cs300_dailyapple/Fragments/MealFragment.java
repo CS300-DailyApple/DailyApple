@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -38,19 +39,21 @@ public class MealFragment extends Fragment {
     GlobalApplication globalApplication;
     AppCompatButton addButton;
 
+    String currentMealChoosing;
+    FoodCompound meal;
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         globalApplication = (GlobalApplication) this.getActivity().getApplication();
-        String currentMealChoosing = globalApplication.getCurrentMealChoosing();
+        currentMealChoosing = globalApplication.getCurrentMealChoosing();
         Context context = this.getContext();
         LinkedList<Food> foodList = new LinkedList<>();
         mealView = view.findViewById(R.id.MealText);
         recyclerViewDish = view.findViewById(R.id.recyclerViewDish);
         currentUser = globalApplication.getUser();
-        FoodCompound meal;
         if (currentMealChoosing.equals("breakfast")) {
             meal = currentUser.getNutritionOverall().getMealHistory().getBreakfast();
             mealView.setText("Bữa sáng");
@@ -81,8 +84,18 @@ public class MealFragment extends Fragment {
                 navController.navigate(R.id.action_mealFragment_to_foodFragment);
             }
         });
+
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                onNavigationFragment();
+            }
+        };
     }
 
+    private void onNavigationFragment(){
+        globalApplication.setMeal(currentMealChoosing, meal);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
