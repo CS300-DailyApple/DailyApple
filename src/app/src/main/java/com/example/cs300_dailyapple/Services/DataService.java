@@ -1,5 +1,6 @@
 package com.example.cs300_dailyapple.Services;
 
+import android.system.SystemCleaner;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,9 +29,7 @@ public class DataService {
     private static final String USERS_COLLECTION = "users";
     private static final String SHARED_FOODS_COLLECTION = "shared_foods";
     private static final String CUSTOM_FOODS_COLLECTION = "custom_foods";
-
     private static final String SUGGESTED_FOODS_COLLECTION = "suggested_foods";
-    private static final String USER_CUSTOM_FOODS_COLLECTION = "user_custom_foods";
 
     // Singleton
     private static DataService instance = null;
@@ -112,12 +111,13 @@ public class DataService {
         }
         Comparator<Food> foodComparator = Comparator.comparing(Food::isFavorite);
         foods.sort(foodComparator);
+        Log.d(TAG, "Get user food list successfully");
         return foods;
     }
 
     public LinkedList<Food> getUserCustomFood(){
         LinkedList<Food> foods = new LinkedList<>();
-        Task<QuerySnapshot> query = db.collection(USER_CUSTOM_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
+        Task<QuerySnapshot> query = db.collection(CUSTOM_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (DocumentSnapshot document : task.getResult()) {
                     Food food = new Food();
@@ -139,24 +139,24 @@ public class DataService {
     }
     public LinkedList<Food> getSuggestedFood(){
         LinkedList<Food> foods = new LinkedList<>();
-        Task<QuerySnapshot> query = db.collection(SUGGESTED_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    Food food = new Food();
-                    food.setName(document.getString("name"));
-                    food.setUnit(document.getString("unit"));
-                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
-                    Nutrition nutritionPerUnit = new Nutrition();
-                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
-                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
-                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
-                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
-                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
-                    food.setNutritionPerUnit(nutritionPerUnit);
-                    foods.add(food);
-                }
-            }
-        });
+//        Task<QuerySnapshot> query = db.collection(SUGGESTED_FOODS_COLLECTION).document()get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                for (DocumentSnapshot document : task.getResult()) {
+//                    Food food = new Food();
+//                    food.setName(document.getString("name"));
+//                    food.setUnit(document.getString("unit"));
+//                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+//                    Nutrition nutritionPerUnit = new Nutrition();
+//                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+//                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+//                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+//                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+//                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+//                    food.setNutritionPerUnit(nutritionPerUnit);
+//                    foods.add(food);
+//                }
+//            }
+//        });
         return foods;
     }
     public String getUserRole(String uid) {
@@ -199,24 +199,27 @@ public class DataService {
 
     public LinkedList<Food> getSharedFoods() {
         LinkedList<Food> foods = new LinkedList<>();
-        Task<QuerySnapshot> query = db.collection(SHARED_FOODS_COLLECTION).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    Food food = new Food();
-                    food.setName(document.getString("name"));
-                    food.setUnit(document.getString("unit"));
-                    food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
-                    Nutrition nutritionPerUnit = new Nutrition();
-                    nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
-                    nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
-                    nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
-                    nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
-                    nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
-                    food.setNutritionPerUnit(nutritionPerUnit);
-                    foods.add(food);
-                }
-            }
-        });
+        Task<QuerySnapshot> query = db.collection(SHARED_FOODS_COLLECTION).get();
+        while (!query.isComplete()) {}
+        if (!query.isSuccessful()){
+            Log.d(TAG, "Add shared food failed");
+            return foods;
+        }
+        for (DocumentSnapshot document : query.getResult()) {
+            Food food = new Food();
+            food.setName(document.getString("name"));
+            food.setUnit(document.getString("unit"));
+            food.setNumberOfUnits(document.getLong("numberOfUnits").intValue());
+            Nutrition nutritionPerUnit = new Nutrition();
+            nutritionPerUnit.setKcal(document.getDouble("nutritionPerUnit.kcal"));
+            nutritionPerUnit.setProtein(document.getDouble("nutritionPerUnit.protein"));
+            nutritionPerUnit.setFiber(document.getDouble("nutritionPerUnit.fiber"));
+            nutritionPerUnit.setFat(document.getDouble("nutritionPerUnit.fat"));
+            nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
+            food.setNutritionPerUnit(nutritionPerUnit);
+            foods.add(food);
+        }
+        Log.d(TAG, "Get add shared foods successfully");
         return foods;
     }
     public User getUser(String uid) {
@@ -359,10 +362,24 @@ public class DataService {
     }
 
     public void saveUserCustomList(LinkedList<Food> userCustomList) {
-
+        db.collection(CUSTOM_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(userCustomList).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                Log.d(TAG, "Save user custom list successfully");
+            }
+            else{
+                Log.d(TAG, "Save user custom list failed");
+            }
+        });
     }
 
     public void saveUserSuggestedFoodList(LinkedList<Food> userSuggestedFoodList) {
-
+        db.collection(SUGGESTED_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(userSuggestedFoodList).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                Log.d(TAG, "Save user custom list successfully");
+            }
+            else{
+                Log.d(TAG, "Save user custom list failed");
+            }
+        });
     }
 }

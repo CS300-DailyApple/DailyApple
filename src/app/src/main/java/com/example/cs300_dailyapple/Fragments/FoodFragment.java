@@ -20,6 +20,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
 import java.util.LinkedList;
@@ -29,22 +30,24 @@ public class FoodFragment extends Fragment {
 
     private RecyclerView recyclerViewFood;
     private FoodAdapter foodAdapter;
-
-    private LinkedList<Food> fullFoodList;
     private TextView noResultTextView;
 
+    private LinkedList<Food> foodList;
     private AppCompatImageButton settingButton;
+
+    private GlobalApplication globalApplication;
     NavController navController;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Context context = this.getContext();
-        LinkedList<Food> foodList = Food.loadFoodList(context);
+        globalApplication = (GlobalApplication)this.getActivity().getApplication();
+        foodList = globalApplication.getFoodList();
+        System.out.println("The size of the list of food is: " + foodList.size());
         navController = Navigation.findNavController(view);
-        fullFoodList = new LinkedList<>(foodList);
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);
-        foodAdapter = new FoodAdapter(Food.loadFoodList(context), context, this);
+        foodAdapter = new FoodAdapter(foodList, context, this);
         recyclerViewFood.setLayoutManager(new LinearLayoutManager(context));
         recyclerViewFood.setAdapter(foodAdapter);
         noResultTextView = view.findViewById(R.id.NoResult);
@@ -89,10 +92,10 @@ public class FoodFragment extends Fragment {
 
         // Nếu query rỗng, hiển thị toàn bộ danh sách
         if (query.isEmpty()) {
-            filteredList.addAll(fullFoodList);
+            filteredList.addAll(foodList);
         } else {
             // Lọc danh sách dựa trên query
-            for (Food food : fullFoodList) {
+            for (Food food : foodList) {
                 if (food.getName().toLowerCase().contains(query.toLowerCase())) {
                     filteredList.add(food);
                 }

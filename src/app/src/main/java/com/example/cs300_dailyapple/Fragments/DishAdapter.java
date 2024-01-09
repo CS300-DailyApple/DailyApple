@@ -1,6 +1,7 @@
 package com.example.cs300_dailyapple.Fragments;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
 import java.util.LinkedList;
@@ -75,7 +77,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         Context context;
         public DishViewHolder(@NonNull View itemView, DishAdapter adapter) {
             super(itemView);
-            this.adapter=adapter;
+            this.adapter = adapter;
             this.context = itemView.getContext();
             cancelButton = itemView.findViewById(R.id.cancelButton);
 
@@ -88,7 +90,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
                         adapter.removeItem(position);
                         LinkedList<Food> updatedDishList = adapter.getDishList();
                         adapter.mealFragment.updateTotalCalories(updatedDishList);
-                        Food.saveFoodList(updatedDishList,context);
+
                     }
                 }
             });
