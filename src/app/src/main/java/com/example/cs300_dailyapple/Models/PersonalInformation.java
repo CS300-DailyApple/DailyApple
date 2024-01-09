@@ -8,6 +8,7 @@ public class PersonalInformation {
     private String gender;
     private int age;
     private ArrayList<BodyInformation> historyPI;
+
     // Methods
     public String getGender() {
         return this.gender;

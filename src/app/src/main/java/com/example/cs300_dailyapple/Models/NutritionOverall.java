@@ -51,4 +51,8 @@ public class NutritionOverall {
         nutritionAbsorbed.setProtein(mealHistory.getTotalProtein());
         nutritionAbsorbed.setFiber(mealHistory.getTotalFiber());
     }
+
+    public void addFood(String currentMealChoosing, Food food) {
+        mealHistory.addFood(currentMealChoosing, food);
+    }
 }
