@@ -80,14 +80,6 @@ public class Food {
                 this.nutritionPerUnit.getCarbs() * this.numberOfUnits
         );
     }
-    public static LinkedList<Food> loadFoodList(Context context){
-        LinkedList<Food> foodList = new LinkedList<>();
-        foodList = DataService.getInstance().getSharedFoods();
-        return foodList;
-    }
-    public static void saveFoodList(LinkedList<Food> foodList,Context context){
-
-    }
 //    public void toggleFavorite() {
 //        favorite = !favorite;
 //    }
