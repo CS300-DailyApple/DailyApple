@@ -3,7 +3,11 @@ package com.example.cs300_dailyapple.Fragments;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -21,21 +25,23 @@ public class SettingBodyInformationFragment extends Fragment {
     TextView history;
     TextView changePassword;
     TextView logout;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_setting_body_information, container, false);
 
+    NavController navController;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         updateInformation= view.findViewById(R.id.updateInformation);
         SpannableString updateInformationString = new SpannableString("Cập nhật thông tin");
         updateInformationString.setSpan(new StyleSpan(Typeface.BOLD), 0, updateInformationString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         updateInformationString.setSpan(new UnderlineSpan(), 0, updateInformationString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         updateInformation.setText(updateInformationString);
+        navController = Navigation.findNavController(view);
         updateInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Here to navigate
+                navController.navigate(R.id.action_settingBodyInformationFragment_to_updateBodyStatisticFragment);
             }
         });
 
@@ -48,9 +54,9 @@ public class SettingBodyInformationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
+                navController.navigate(R.id.action_settingBodyInformationFragment_to_historyFragment);
             }
         });
-
         changePassword= view.findViewById(R.id.changePassword);
         SpannableString changePasswordString = new SpannableString("Thay đổi mật khẩu");
         changePasswordString.setSpan(new StyleSpan(Typeface.BOLD), 0, changePasswordString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -60,6 +66,7 @@ public class SettingBodyInformationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
+                navController.navigate(R.id.action_settingBodyInformationFragment_to_changePasswordFragment);
             }
         });
 
@@ -72,15 +79,16 @@ public class SettingBodyInformationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
+                navController.navigate(R.id.action_settingBodyInformationFragment_to_LoginFragment);
             }
         });
+    }
 
-
-
-
-
-
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view= inflater.inflate(R.layout.fragment_setting_body_information, container, false);
         return view;
     }
 }
