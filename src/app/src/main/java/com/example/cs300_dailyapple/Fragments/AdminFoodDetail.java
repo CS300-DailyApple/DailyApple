@@ -1,66 +1,86 @@
 package com.example.cs300_dailyapple.Fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
+import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.DataService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AdminFoodDetail#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
 public class AdminFoodDetail extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    GlobalApplication globalApplication;
+    private TextView adminFoodDetailName;
+    private ImageView adminFoodDetailImage;
+    private TextView adminFoodDetailAmount;
+    private TextView adminFoodDetailKcal;
+    private TextView adminFoodDetailProtein;
+    private TextView adminFoodDetailFat;
+    private TextView adminFoodDetailCarbs;
+    private PieChart adminFoodDetailPieChart;
+    private AppCompatButton adminFoodDetailEditBtn;
 
     public AdminFoodDetail() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminFoodDetail.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AdminFoodDetail newInstance(String param1, String param2) {
-        AdminFoodDetail fragment = new AdminFoodDetail();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_food_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_food_detail, container, false);
+        globalApplication = (GlobalApplication) getActivity().getApplicationContext();
+
+        adminFoodDetailName = view.findViewById(R.id.AdminFoodDetailName);
+        adminFoodDetailImage = view.findViewById(R.id.AdminFoodDetailImage);
+        adminFoodDetailAmount = view.findViewById(R.id.AdminFoodDetailNutritionTitle2);
+        adminFoodDetailKcal = view.findViewById(R.id.AdminFoodDetailCalories);
+        adminFoodDetailProtein = view.findViewById(R.id.AdminFoodDetailProtein);
+        adminFoodDetailFat = view.findViewById(R.id.AdminFoodDetailFat);
+        adminFoodDetailCarbs = view.findViewById(R.id.AdminFoodDetailCarbs);
+        adminFoodDetailPieChart = view.findViewById(R.id.NutritionPieChart);
+        adminFoodDetailEditBtn = view.findViewById(R.id.AdminFoodDetailEdit);
+        adminFoodDetailEditBtn.setOnClickListener(v -> {
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("foodName", adminFoodDetailName.getText().toString());
+            Navigation.findNavController(view).navigate(R.id.action_adminFoodDetail_to_adminFoodDetailSetting, bundle1);
+        });
+
+        // get data from bundle
+        Bundle bundle = getArguments();
+        String foodName = bundle.getString("foodName");
+        Food food = globalApplication.getForAdminFoodList().stream().filter(f -> f.getName().equals(foodName)).findFirst().get();
+
+        // set data
+        adminFoodDetailName.setText(food.getName());
+        adminFoodDetailImage.setImageResource(R.drawable.food_photo_placeholder);
+        adminFoodDetailAmount.setText("Khẩu phần " + food.getAmount());
+        adminFoodDetailKcal.setText(food.getKcal() + " kcals");
+
+        // set pie chart
+        Long protein = food.getProtein();
+        Long fat = food.getFat();
+        Long carbs = food.getCarbs();
+        adminFoodDetailFat.setText(fat + "g");
+        adminFoodDetailProtein.setText(protein + "g");
+        adminFoodDetailCarbs.setText(carbs + "g");
+
+        adminFoodDetailPieChart.clearChart();
+        adminFoodDetailPieChart.addPieSlice(new PieModel("Protein", protein, getResources().getColor(R.color.protein)));
+        adminFoodDetailPieChart.addPieSlice(new PieModel("Fat", fat, getResources().getColor(R.color.fat)));
+        adminFoodDetailPieChart.addPieSlice(new PieModel("Carbs", carbs, getResources().getColor(R.color.carbs)));
+
+        return view;
     }
 }

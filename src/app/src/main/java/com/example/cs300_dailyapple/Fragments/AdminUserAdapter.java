@@ -22,8 +22,9 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.Admi
     private List<User> userList;
     private OnUserItemClickListener listener;
 
-    public AdminUserAdapter(List<User> userList) {
+    public AdminUserAdapter(List<User> userList, OnUserItemClickListener listener) {
         this.userList = userList;
+        this.listener = listener;
     }
 
     public void setUserList(List<User> userList, OnUserItemClickListener listener) {

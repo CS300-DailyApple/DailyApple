@@ -6,43 +6,27 @@ import com.example.cs300_dailyapple.Services.DataService;
 
 import java.util.LinkedList;
 
-public class Food {
+public class SuggestedFood {
     // Attributes
     private String name;
     private String unit;
     private int numberOfUnits;
     private Nutrition nutritionPerUnit;
-    private boolean favorite;
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
-    }
-
+    String contributorId;
     // Methods
-    public Food() {
+    public SuggestedFood() {
         this.name = "";
         this.unit = "";
         this.numberOfUnits = 0;
-        this.nutritionPerUnit = new Nutrition(0.0, 0.0, 0.0, 0.0, 0.0);
-        this.favorite=false;
+        this.nutritionPerUnit = new Nutrition();
+        this.contributorId = "";
     }
-    public Food(String name, String unit, int numberOfUnits, Nutrition nutritionPerUnit) {
+    public SuggestedFood(String name, String unit, int numberOfUnits, Nutrition nutritionPerUnit, String contributorId) {
         this.name = name;
         this.unit = unit;
         this.numberOfUnits = numberOfUnits;
         this.nutritionPerUnit = nutritionPerUnit;
-        this.favorite=false;
-    }
-    public Food(SuggestedFood sf) {
-        this.name = sf.getName();
-        this.unit = sf.getUnit();
-        this.numberOfUnits = sf.getNumberOfUnits();
-        this.nutritionPerUnit = sf.getNutritionPerUnit();
-        this.favorite=false;
+        this.contributorId = contributorId;
     }
     public String getName() {
         return name;
@@ -56,7 +40,7 @@ public class Food {
     public Nutrition getNutritionPerUnit() {
         return nutritionPerUnit;
     }
-    public boolean getFavorite() { return favorite; }
+    //    public boolean getFavorite() { return favorite; }
     public void setName(String name) {
         this.name = name;
     }
@@ -74,11 +58,16 @@ public class Food {
         this.unit = food.getUnit();
         this.numberOfUnits = food.getNumberOfUnits();
         this.nutritionPerUnit = food.getNutritionPerUnit();
-        this.favorite=food.getFavorite();
     }
-    public void updateFavorite(boolean favorite){
-        this.favorite=favorite;
+    public String getContributorId(){
+        return this.contributorId;
     }
+    public void setContributorId(String uid){
+        this.contributorId=uid;
+    }
+    //    public void updateFavorite(boolean favorite){
+//        this.favorite=favorite;
+//    }
     public Nutrition getNutrition() {
         return new Nutrition(
                 this.nutritionPerUnit.getKcal() * this.numberOfUnits,
@@ -88,8 +77,13 @@ public class Food {
                 this.nutritionPerUnit.getCarbs() * this.numberOfUnits
         );
     }
-    public void toggleFavorite() {
-        favorite = !favorite;
+    public static LinkedList<Food> loadFoodList(Context context){
+        LinkedList<Food> foodList = new LinkedList<>();
+        foodList = DataService.getInstance().getSharedFoods();
+        return foodList;
+    }
+    public static void saveFoodList(LinkedList<Food> foodList,Context context){
+
     }
     public String getAmount(){
         return String.valueOf(this.numberOfUnits)+" "+this.unit;
@@ -106,7 +100,7 @@ public class Food {
     public long getCarbs(){
         return Math.round(this.nutritionPerUnit.getCarbs()*this.numberOfUnits);
     }
-//    public void toggleFavorite() {
-//        favorite = !favorite;
-//    }
+    public String getContributorName() {
+        return DataService.getInstance().getUsernameById(this.contributorId);
+    }
 }

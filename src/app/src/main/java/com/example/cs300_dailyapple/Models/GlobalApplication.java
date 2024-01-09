@@ -5,6 +5,7 @@ import android.provider.ContactsContract;
 
 import com.example.cs300_dailyapple.Services.DataService;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -24,17 +25,10 @@ public class GlobalApplication extends Application {
         return instance;
     }
     String currentMealChoosing = "";
-
     LinkedList<Food> foodList, userCustomList, userSuggestedFoodList;
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        DataService dataService = DataService.getInstance();
-        dataService.saveUser(user);
-        dataService.saveUserCustomList(userCustomList);
-        dataService.saveUserSuggestedFoodList(userSuggestedFoodList);
-    }
+    ArrayList<User> forAdminUserList;
+    LinkedList<Food> forAdminFoodList;
+    LinkedList<SuggestedFood> forAdminSuggestedFoodList;
 
     public void checkFavorite(String foodName, Boolean b){
         Map<String, Boolean> favorite = user.getFavorite();
@@ -49,9 +43,28 @@ public class GlobalApplication extends Application {
     public LinkedList<Food> getUserSuggestedFoodList() {
         return userSuggestedFoodList;
     }
-
-    public void setUserSuggestedFoodList() {
-        this.userSuggestedFoodList = DataService.getInstance().getSuggestedFood();
+    public void queryForAdminLists() {
+        this.forAdminUserList = DataService.getInstance().searchUsers("");
+        this.forAdminFoodList = DataService.getInstance().searchSharedFoods("");
+        this.forAdminSuggestedFoodList = DataService.getInstance().getSuggestedFoodList();
+    }
+    public ArrayList<User> getForAdminUserList() {
+        return this.forAdminUserList;
+    }
+    public LinkedList<Food> getForAdminFoodList() {
+        return this.forAdminFoodList;
+    }
+    public void setForAdminUserList(ArrayList<User> forAdminUserList) {
+        this.forAdminUserList = forAdminUserList;
+    }
+    public void setForAdminFoodList(LinkedList<Food> forAdminFoodList) {
+        this.forAdminFoodList = forAdminFoodList;
+    }
+    public LinkedList<SuggestedFood> getForAdminSuggestedFoodList() {
+        return forAdminSuggestedFoodList;
+    }
+    public void setForAdminSuggestedFoodList(LinkedList<SuggestedFood> forAdminSuggestedFoodList) {
+        this.forAdminSuggestedFoodList = forAdminSuggestedFoodList;
     }
 
     public Food getCurrentFoodChoosing(){
@@ -60,7 +73,6 @@ public class GlobalApplication extends Application {
     public void setCurrentFoodChoosing(Food currentFoodChoosing){
         this.currentFoodChoosing=currentFoodChoosing;
     }
-
     public LinkedList<Food> getFoodList() {
         return foodList;
     }

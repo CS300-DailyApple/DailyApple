@@ -16,20 +16,28 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         />
+
     <TextView
+        android:id="@+id/adminAddFood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/AdminFoodSettingTitle"
-        android:id="@+id/updateInformation"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:text="Thêm món ăn"
-        android:layout_margin="20dp"
         android:textSize="26dp" />
+
     <TextView
+        android:id="@+id/adminSuggestedFood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/updateInformation"
-        android:id="@+id/history"
+        android:layout_below="@id/adminAddFood"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:text="Danh sách món ăn đề xuất"
-        android:layout_margin="20dp"
         android:textSize="26dp" />
 </RelativeLayout>

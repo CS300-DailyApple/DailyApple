@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.DataService;
@@ -29,7 +30,9 @@ public class AdminUserListFragment extends Fragment implements AdminUserAdapter.
     private AdminUserAdapter adminUserAdapter;
     private TextView noResultTextView;
     private SearchView searchView;
-    private ArrayList<User> userList;
+    private ArrayList<User> originalUserList;
+    private ArrayList<User> searchedUserList;
+    private GlobalApplication globalApplication;
 
     public AdminUserListFragment() {
         // Required empty public constructor
@@ -43,8 +46,10 @@ public class AdminUserListFragment extends Fragment implements AdminUserAdapter.
         noResultTextView = view.findViewById(R.id.NoResult);
         searchView = view.findViewById(R.id.searchView);
 
-        userList = new ArrayList<>();
-        adminUserAdapter = new AdminUserAdapter(userList);
+        globalApplication = (GlobalApplication)this.getActivity().getApplication();
+        originalUserList = globalApplication.getForAdminUserList();
+        searchedUserList = new ArrayList<>(originalUserList);
+        adminUserAdapter = new AdminUserAdapter(searchedUserList, this::onUserItemClick);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adminUserAdapter);
@@ -66,22 +71,28 @@ public class AdminUserListFragment extends Fragment implements AdminUserAdapter.
             }
         });
 
-
-
         return view;
     }
 
     private void loadUsers(String query) {
-        // Query users from your data service based on the search query
-        userList = DataService.getInstance().searchUsers(query);
-
-        if (userList.isEmpty()) {
-            Log.d("AdminUserListFragment", "No result");
+        searchedUserList.clear();
+        if (TextUtils.isEmpty(query)) {
+            searchedUserList.addAll(originalUserList);
+        } else {
+            for (User user : originalUserList) {
+                if (user.getUsername().toLowerCase().contains(query.toLowerCase())) {
+                    searchedUserList.add(user);
+                }
+            }
+        }
+        if (searchedUserList.isEmpty()) {
             noResultTextView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
         } else {
             noResultTextView.setVisibility(View.GONE);
-            adminUserAdapter.setUserList(userList, this::onUserItemClick);
+            recyclerView.setVisibility(View.VISIBLE);
         }
+        adminUserAdapter.notifyDataSetChanged();
     }
     @Override
     public void onUserItemClick(User user) {
