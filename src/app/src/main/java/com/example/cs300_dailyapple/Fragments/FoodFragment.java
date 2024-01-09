@@ -26,6 +26,8 @@ import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
 import java.text.Normalizer;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
@@ -68,7 +70,13 @@ public class FoodFragment extends Fragment {
                     filteredList.add(food);
                 }
             }
-
+            Collections.sort(filteredList, new Comparator<Food>() {
+                @Override
+                public int compare(Food food1, Food food2) {
+                    // Sắp xếp theo trạng thái favorite giảm dần
+                    return Boolean.compare(food2.getFavorite(), food1.getFavorite());
+                }
+            });
             return filteredList;
         }
 
@@ -98,6 +106,13 @@ public class FoodFragment extends Fragment {
         Context context = this.getContext();
         globalApplication = (GlobalApplication)this.getActivity().getApplication();
         foodList = globalApplication.getFoodList();
+        Collections.sort(foodList, new Comparator<Food>() {
+            @Override
+            public int compare(Food food1, Food food2) {
+                // Sắp xếp theo trạng thái favorite giảm dần
+                return Boolean.compare(food2.getFavorite(), food1.getFavorite());
+            }
+        });
         System.out.println("The size of the list of food is: " + foodList.size());
         navController = Navigation.findNavController(view);
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);

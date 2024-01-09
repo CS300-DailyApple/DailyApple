@@ -67,6 +67,7 @@ public class Food {
         this.unit = food.getUnit();
         this.numberOfUnits = food.getNumberOfUnits();
         this.nutritionPerUnit = food.getNutritionPerUnit();
+        this.favorite=food.getFavorite();
     }
     public void updateFavorite(boolean favorite){
         this.favorite=favorite;

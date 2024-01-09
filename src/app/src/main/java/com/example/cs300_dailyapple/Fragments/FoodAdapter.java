@@ -134,6 +134,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
                         // Cập nhật danh sách thức ăn trong fragment
                         LinkedList<Food> updatedFoodList = adapter.getFoodList();
+                        globalApplication.setFoodList(updatedFoodList);
                     }
                 }
             });
