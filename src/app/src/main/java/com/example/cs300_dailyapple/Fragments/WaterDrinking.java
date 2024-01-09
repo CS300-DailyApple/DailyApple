@@ -26,9 +26,6 @@ import com.example.cs300_dailyapple.Models.WaterHistoryItem;
 import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.example.cs300_dailyapple.R;
 
-import java.util.ArrayList;
-import java.util.TimerTask;
-
 public class WaterDrinking extends Fragment {
 
     ProgressBar water_drinking_bar;
@@ -70,13 +67,6 @@ public class WaterDrinking extends Fragment {
         drink_history.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new WaterHistoryAdapter(Data.getWaterHistory(), this);
         drink_history.setAdapter(adapter);
-
-        drink_history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UpdateView();
-            }
-        });
 
         //button setting
         add_button.setOnClickListener(new View.OnClickListener() {
