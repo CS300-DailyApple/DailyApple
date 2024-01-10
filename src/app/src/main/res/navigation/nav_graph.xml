@@ -191,7 +191,11 @@
         android:id="@+id/updateBodyStatisticFragment"
         android:name="com.example.cs300_dailyapple.Fragments.UpdateBodyStatisticFragment"
         android:label="fragment_update_body_statistic"
-        tools:layout="@layout/fragment_update_body_statistic" />
+        tools:layout="@layout/fragment_update_body_statistic" >
+        <action
+            android:id="@+id/action_updateBodyStatisticFragment_to_bodyInformationFragment"
+            app:destination="@id/bodyInformationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/adminCreateNewFoodFirst"
         android:name="com.example.cs300_dailyapple.Fragments.AdminCreateNewFoodFirst"

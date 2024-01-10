@@ -34,7 +34,6 @@ public class BodyInformationFragment extends Fragment {
     private TextView Weight;
     private TextView Height;
     private TextView weightEvaluation;
-
     private AppCompatImageButton settingButton;
     private User user;
     TextView textDateTime;
@@ -46,6 +45,12 @@ public class BodyInformationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         globalApplication = (GlobalApplication) getActivity().getApplicationContext();
         user = globalApplication.getUser();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        displayPersonalInformation();
     }
 
     @Override

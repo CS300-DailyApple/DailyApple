@@ -7,9 +7,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
+import com.example.cs300_dailyapple.Models.Nutrition;
+import com.example.cs300_dailyapple.Models.PersonalInformation;
+import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
 
 public class UpdateBodyStatisticFragment extends Fragment {
@@ -30,12 +37,16 @@ public class UpdateBodyStatisticFragment extends Fragment {
     private ImageButton smallRightAgeButton;
     private AppCompatImageButton maleButton;
     private AppCompatImageButton femaleButton;
+    private AppCompatButton continueButton;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_update_body_statistic, container, false);
+
+        GlobalApplication GA = (GlobalApplication) this.getActivity().getApplication();
+        User Data = GA.getUser();
 
         maleButton = view.findViewById(R.id.Male);
         femaleButton = view.findViewById(R.id.Female);
@@ -60,6 +71,7 @@ public class UpdateBodyStatisticFragment extends Fragment {
         smallLeftHeightButton = view.findViewById(R.id.SmallLeftHeight);
         bigRightHeightButton = view.findViewById(R.id.BigRightHeight);
         smallRightHeightButton = view.findViewById(R.id.SmallRightHeight);
+        continueButton = view.findViewById(R.id.Continue);
 
         int defaultHeight = 150;
         heightEditText.setText(String.valueOf(defaultHeight));
@@ -167,10 +179,34 @@ public class UpdateBodyStatisticFragment extends Fragment {
             }
         });
 
-
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //update body infor
+                Double height = Double.parseDouble(heightEditText.getText().toString());
+                Double weight = Double.parseDouble(WeightEditText.getText().toString());
+                int age = Integer.parseInt(AgeEditText.getText().toString());
+                String gender = "male";
+                if (femaleButton.isSelected()) {
+                    gender = "female";
+                    PersonalInformation PI = Data.getPersonalInformation();
+                    PI.addNewBodyInformation(weight, height);
+                    PI.setAge(age);
+                    PI.setGender(gender);
+                    Data.getNutritionOverall().getNutritionTarget().setNutrition(PI.calculateTDEE()
+                            , PI.calculateProtein(), PI.calculateFibre(), PI.calculateFat(), PI.calculateCarbs());
+                    //navigate back to body_information
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
+                    fm.popBackStack();
+                }
+            }
+        });
 
         return view;
     }
+
+
 
     private void setButtonSelected(boolean isMaleSelected) {
 

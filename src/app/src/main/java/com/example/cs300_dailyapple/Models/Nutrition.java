@@ -22,6 +22,15 @@ public class Nutrition {
         this.fat = fat;
         this.carbs = carbs;
     }
+
+    public void setNutrition(Double kcal, Double protein, Double fibre, Double fat, Double carbs) {
+        this.kcal = kcal;
+        this.protein = protein;
+        this.fiber = fibre;
+        this.fat = fat;
+        this.carbs = carbs;
+    }
+
     public Double getKcal() {
         return kcal;
     }
