@@ -73,10 +73,10 @@ public class AdminUserItemDetail extends Fragment {
                         // ban/unban user
                         if (user.isBanned()) {
                             user.setBanned(false);
-                            banButton.setText("Ban");
+                            banButton.setText("Cấm người dùng");
                         } else {
                             user.setBanned(true);
-                            banButton.setText("Unban");
+                            banButton.setText("Hủy cấm người dùng");
                         }
                         // set user in userList
                         globalApplication.setForAdminUserList(userList);
@@ -91,9 +91,9 @@ public class AdminUserItemDetail extends Fragment {
         for (User user : userList) {
             if (user.getUsername().equals(userName)) {
                 if (user.isBanned()) {
-                    banButton.setText("Unban");
+                    banButton.setText("Hủy cấm người dùng");
                 } else {
-                    banButton.setText("Ban");
+                    banButton.setText("Cấm người dùng");
                 }
                 break;
             }

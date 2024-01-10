@@ -23,14 +23,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     NavController navController;
-    GlobalApplication globalApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
-        AuthService.getInstance().logoutUser();
         FirebaseUser currentUser = AuthService.getInstance().getCurrentUser();
         if (currentUser != null) {
             // set the main activity to the home page corresponding to the user's role
@@ -38,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
             String role = db.getUserRole(currentUser.getUid());
             if (role.equals("admin")) {
                 // change to admin home page using action in nav graph
-                globalApplication = (GlobalApplication) this.getApplication();
-                globalApplication.queryForAdminLists();
                 DataService.getInstance().setCalled(true);
+                GlobalApplication globalApplication = (GlobalApplication) this.getApplication();
+                globalApplication.queryForAdminLists();
                 navController.navigate(R.id.action_loginFragment_to_homeAdminFragment);
             }
             else if (role.equals("user")) {

@@ -100,7 +100,9 @@ public class LoginFragment extends Fragment {
                 if (role.equals("admin")) {
                     // TODO: Navigate to admin page
                     Log.d("LoginFragment", "Admin login");
-                    // action_LoginFragment_to_HomeAdminFragment
+                    DataService.getInstance().setCalled(true);
+                    GlobalApplication globalApplication = (GlobalApplication) requireActivity().getApplication();
+                    globalApplication.queryForAdminLists();
                     Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeAdminFragment);
                 }
                 else if (role.equals("user")) {

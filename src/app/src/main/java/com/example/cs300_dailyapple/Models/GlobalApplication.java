@@ -2,6 +2,7 @@ package com.example.cs300_dailyapple.Models;
 
 import android.app.Application;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.example.cs300_dailyapple.Services.DataService;
 
@@ -65,6 +66,7 @@ public class GlobalApplication extends Application {
         return userSuggestedFoodList;
     }
     public void queryForAdminLists() {
+        Log.d("GlobalApplication", "queryForAdminLists");
         this.forAdminUserList = DataService.getInstance().searchUsers("");
         this.forAdminFoodList = DataService.getInstance().searchSharedFoods("");
         this.forAdminSuggestedFoodList = DataService.getInstance().getSuggestedFoodList();
