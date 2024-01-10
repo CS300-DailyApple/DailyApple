@@ -154,6 +154,7 @@ public class HomeAdminFragment extends Fragment {
                 builder.setMessage("Bạn có muốn thoát khỏi ứng dụng?");
                 builder.setPositiveButton("Thoát", (dialog, which) -> {
                     // Exit the app
+
                     requireActivity().finish();
                 });
                 builder.setNegativeButton("Đăng xuất", (dialog, which) -> {
