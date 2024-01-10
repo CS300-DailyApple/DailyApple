@@ -38,6 +38,7 @@ public class UpdateBodyStatisticFragment extends Fragment {
     private AppCompatImageButton maleButton;
     private AppCompatImageButton femaleButton;
     private AppCompatButton continueButton;
+    private User Data;
 
 
     @Override
@@ -46,7 +47,7 @@ public class UpdateBodyStatisticFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_update_body_statistic, container, false);
 
         GlobalApplication GA = (GlobalApplication) this.getActivity().getApplication();
-        User Data = GA.getUser();
+        Data = GA.getUser();
 
         maleButton = view.findViewById(R.id.Male);
         femaleButton = view.findViewById(R.id.Female);
@@ -186,18 +187,18 @@ public class UpdateBodyStatisticFragment extends Fragment {
                 Double height = Double.parseDouble(heightEditText.getText().toString());
                 Double weight = Double.parseDouble(WeightEditText.getText().toString());
                 int age = Integer.parseInt(AgeEditText.getText().toString());
+
                 String gender = "male";
                 if (femaleButton.isSelected()) {
                     gender = "female";
-                    PersonalInformation PI = Data.getPersonalInformation();
-                    PI.addNewBodyInformation(weight, height);
-                    PI.setAge(age);
-                    PI.setGender(gender);
-                    Data.getNutritionOverall().getNutritionTarget().setNutrition(PI.calculateTDEE()
-                            , PI.calculateProtein(), PI.calculateFibre(), PI.calculateFat(), PI.calculateCarbs());
-                    //navigate back to body_information
                 }
 
+                PersonalInformation PI = Data.getPersonalInformation();
+                PI.addNewBodyInformation(weight, height);
+                PI.setAge(age);
+                PI.setGender(gender);
+                Data.getNutritionOverall().getNutritionTarget().setNutrition(PI.calculateTDEE()
+                        , PI.calculateProtein(), PI.calculateFibre(), PI.calculateFat(), PI.calculateCarbs());
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.popBackStack();
                 fm.popBackStack();

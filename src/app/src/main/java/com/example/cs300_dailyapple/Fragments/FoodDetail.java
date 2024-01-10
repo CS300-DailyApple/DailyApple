@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -129,6 +130,9 @@ public class FoodDetail extends Fragment {
                 navController.navigate(R.id.action_foodDetail_to_mealFragment);
                 dialog.dismiss();
                 dialog.dismiss();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+                fm.popBackStack();
             } else if (radioButtonLunch.isChecked()) {
                 // Handle lunch selection
                 currentMealChoosing = "lunch";
@@ -138,9 +142,13 @@ public class FoodDetail extends Fragment {
                 isMealChosen=false;
                 user.addFood(currentMealChoosing, food);
                 System.out.println(globalApplication.getCurrentMealChoosing());
-                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                //navController.navigate(R.id.action_foodDetail_to_mealFragment);
                 dialog.dismiss();
                 dialog.dismiss();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+                fm.popBackStack();
+
             } else if (radioButtonDinner.isChecked()) {
                 // Handle dinner selection
                 currentMealChoosing = "dinner";
@@ -150,9 +158,13 @@ public class FoodDetail extends Fragment {
                 isMealChosen=false;
                 user.addFood(currentMealChoosing, food);
                 System.out.println(globalApplication.getCurrentMealChoosing());
-                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                //navController.navigate(R.id.action_foodDetail_to_mealFragment);
                 dialog.dismiss();
                 dialog.dismiss();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+                fm.popBackStack();
+
             } else if (radioButtonSnack.isChecked()) {
                 // Handle snack selection
                 currentMealChoosing = "snack";
@@ -162,8 +174,12 @@ public class FoodDetail extends Fragment {
                 isMealChosen=false;
                 user.addFood(currentMealChoosing, food);
                 System.out.println(globalApplication.getCurrentMealChoosing());
-                navController.navigate(R.id.action_foodDetail_to_mealFragment);
+                //navController.navigate(R.id.action_foodDetail_to_mealFragment);
                 dialog.dismiss();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+                fm.popBackStack();
+
             }
             else{
                 Toast.makeText(getContext(), "Vui lòng chon bữa ăn!", Toast.LENGTH_SHORT);
