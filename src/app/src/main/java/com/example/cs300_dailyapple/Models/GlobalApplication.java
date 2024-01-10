@@ -19,6 +19,8 @@ public class GlobalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        foodList = new LinkedList<>();
+        userCustomList = new LinkedList<>();
     }
 
     public static Application getInstance(){
