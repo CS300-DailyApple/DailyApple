@@ -64,9 +64,16 @@ public class MainActivity extends AppCompatActivity {
         DataService dataService = DataService.getInstance();
         GlobalApplication globalApplication = (GlobalApplication) this.getApplication();
         if (dataService.isCalled()){
-            dataService.saveUser(globalApplication.getUser());
-            dataService.addSuggestedFood(globalApplication.getUserSuggestedFoodList());
-            dataService.setCustomFood(globalApplication.getUserCustomList());
+            String role = DataService.getInstance().getUserRole(AuthService.getInstance().getCurrentUser().getUid());
+            if (role.equals("user")){
+                dataService.saveUser(globalApplication.getUser());
+                dataService.addSuggestedFood(globalApplication.getUserSuggestedFoodList());
+                dataService.setCustomFood(globalApplication.getUserCustomList());
+            }
+            else if (role.equals("admin")){
+                dataService.setAdminUserList(globalApplication.getForAdminUserList());
+
+            }
         }
     }
 }
