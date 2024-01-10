@@ -37,7 +37,6 @@ public class BodyInformationFragment extends Fragment {
     private AppCompatImageButton settingButton;
     private User user;
     TextView textDateTime;
-    AppCompatImageButton settingButton;
 
     NavController navController;
 
@@ -119,7 +118,7 @@ public class BodyInformationFragment extends Fragment {
         Height.setText(String.valueOf(personalInformation.getHeight()));
         textBMI.setText(String.valueOf(Math.round(personalInformation.calculateBMI())));
         weightEvaluation.setText(evaluateBMI(personalInformation.calculateBMI()));
-
+        textDateTime.setText(personalInformation.getHistoryPI().get(0).getTimeToString());
         try {
             Double BMI = personalInformation.getWeight() / (personalInformation.getHeight() * personalInformation.getHeight());
         }

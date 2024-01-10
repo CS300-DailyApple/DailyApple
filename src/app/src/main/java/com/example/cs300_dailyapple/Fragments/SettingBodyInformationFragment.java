@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.cs300_dailyapple.R;
+import com.example.cs300_dailyapple.Services.AuthService;
 
 public class SettingBodyInformationFragment extends Fragment {
     TextView updateInformation;
@@ -78,6 +79,7 @@ public class SettingBodyInformationFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AuthService.getInstance().logoutUser();
                 // Here to navigate
                 navController.navigate(R.id.action_settingBodyInformationFragment_to_loginFragment);
             }
