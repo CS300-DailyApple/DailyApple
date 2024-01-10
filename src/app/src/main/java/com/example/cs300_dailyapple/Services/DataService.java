@@ -59,7 +59,7 @@ public class DataService {
         return instance;
     }
 
-    public void addUser(String uid, String email, String username, PersonalInformation PI) {
+    public void addUser(String uid, String email, String username, PersonalInformation PI, WaterInformation waterInformation) {
         Map<String, Object> user = new HashMap<>();
         user.put("email", email);
         user.put("username", username);
@@ -87,11 +87,6 @@ public class DataService {
         user.put("nutritionOverall", nutritionOverall);
 
         // add waterInformation
-        Map<String, Object> waterInformation = new HashMap<>();
-        waterInformation.put("waterTarget", PI.calculateWater());
-        waterInformation.put("totalWaterDrank", 0.0);
-        waterInformation.put("containerCapacity", 0.0);
-        waterInformation.put("waterHistory", new ArrayList<WaterHistoryItem>());
         user.put("waterInformation", waterInformation);
 
         db.collection(USERS_COLLECTION).document(uid).set(user).addOnCompleteListener(task -> {
@@ -105,7 +100,6 @@ public class DataService {
 
     public LinkedList<Food> getUserFoodList(Map<String, Boolean> favorite){
         LinkedList<Food> foods = new LinkedList<>();
-        System.out.println(favorite.size());
         foods.addAll(getSharedFoods());
         foods.addAll(getUserCustomFood());
         for (Food foodElement: foods){

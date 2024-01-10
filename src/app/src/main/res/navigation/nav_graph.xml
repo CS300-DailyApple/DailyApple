@@ -152,8 +152,8 @@
             android:id="@+id/action_settingBodyInformationFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
         <action
-            android:id="@+id/action_settingBodyInformationFragment_to_LoginFragment"
-            app:destination="@id/loginFragment"/>
+            android:id="@+id/action_settingBodyInformationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingDishFragment"

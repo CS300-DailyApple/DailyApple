@@ -39,7 +39,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         BodyInformation BI = historyBI.get(position);
         holder.heightTextView.setText(String.valueOf(BI.getHeight()));
         holder.weightTextView.setText(String.valueOf(BI.getWeight()));
-        holder.dateTimeTextView.setText(BI.getTime());
+        holder.dateTimeTextView.setText(BI.getTimeToString());
         holder.cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

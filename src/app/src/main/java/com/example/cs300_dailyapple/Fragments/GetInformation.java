@@ -183,28 +183,19 @@ public class GetInformation extends Fragment {
                 if (femaleButton.isSelected()) {
                     gender = "female";
                 }
-                // Tạo đối tượng PersonalInformation
-                PersonalInformation PI = new PersonalInformation();
-                PI.setAge(age);
-                PI.setHeight(height);
-                PI.setWeight(weight);
-                PI.setGender(gender);
-                // Tạo người dùng trong collection users
-                // Lấy uid từ bundle
-                String uid = getArguments().getString("uid");
-                String username = getArguments().getString("username");
-                String email = getArguments().getString("email");
-                DataService db = DataService.getInstance();
-                db.addUser(uid, email, username, PI);
-                // nếu thành công, chuyển sang summary fragment
-                if (db.getUserRole(uid).equals("user")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("uid", uid);
-                    Navigation.findNavController(v).navigate(R.id.action_getInformation_to_summaryStatistic, bundle);
-                }
-                else {
-                    Toast.makeText(getContext(), "Create account failed", Toast.LENGTH_SHORT).show();
-                }
+                Bundle bundle1 = getArguments();
+                String email = bundle1.getString("email");
+                String password = bundle1.getString("password");
+                String username = bundle1.getString("username");
+                Bundle bundle = new Bundle();
+                bundle.putDouble("height", height);
+                bundle.putDouble("weight", weight);
+                bundle.putInt("age", age);
+                bundle.putString("gender", gender);
+                bundle.putString("email", email);
+                bundle.putString("password", password);
+                bundle.putString("username", username);
+                Navigation.findNavController(v).navigate(R.id.action_getInformation_to_summaryStatistic, bundle);
             }
         });
         return view;

@@ -22,6 +22,7 @@ public class WaterInformation {
     public WaterInformation() {
         this.waterTarget = 1000;
         this.containerCapacity = 100;
+        this.waterHistory = new ArrayList<>();
         this.dl = LocalDateTime.now();
     }
     // Methods

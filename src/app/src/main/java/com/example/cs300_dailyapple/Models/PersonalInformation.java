@@ -10,6 +10,16 @@ public class PersonalInformation {
     private ArrayList<BodyInformation> historyPI;
 
     // Methods
+    public PersonalInformation() {
+        this.gender = "";
+        this.age = 0;
+        this.historyPI = new ArrayList<>();
+    }
+    public PersonalInformation(String gender, int age) {
+        this.gender = gender;
+        this.age = age;
+        this.historyPI = new ArrayList<>();
+    }
     public String getGender() {
         return this.gender;
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -25,7 +26,6 @@ public class SettingBodyInformationFragment extends Fragment {
     TextView history;
     TextView changePassword;
     TextView logout;
-
     NavController navController;
 
     @Override
@@ -79,9 +79,10 @@ public class SettingBodyInformationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
-                navController.navigate(R.id.action_settingBodyInformationFragment_to_LoginFragment);
+                navController.navigate(R.id.action_settingBodyInformationFragment_to_loginFragment);
             }
         });
+
     }
 
     @Override

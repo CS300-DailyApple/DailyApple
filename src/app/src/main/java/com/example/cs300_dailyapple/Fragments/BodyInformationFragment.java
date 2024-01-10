@@ -36,6 +36,8 @@ public class BodyInformationFragment extends Fragment {
 
     private AppCompatImageButton settingButton;
     private User user;
+    TextView textDateTime;
+    AppCompatImageButton settingButton;
 
     NavController navController;
 
@@ -58,6 +60,9 @@ public class BodyInformationFragment extends Fragment {
         textProgressCalo = view.findViewById(R.id.textProgressCalo);
         progressBarCalo = view.findViewById(R.id.progressBarCalo);
         weightEvaluation = view.findViewById(R.id.weightEvaluation);
+
+        textDateTime = view.findViewById(R.id.textDateTime);
+        
         settingButton = view.findViewById(R.id.Settings);
         navController = Navigation.findNavController(view);
         // Hiển thị thông tin từ PersonalInformation
