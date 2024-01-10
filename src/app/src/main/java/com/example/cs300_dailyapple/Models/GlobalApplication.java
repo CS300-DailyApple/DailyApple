@@ -109,6 +109,9 @@ public class GlobalApplication extends Application {
         this.user = user;
     }
 
+    public void resetFoodList() {
+
+    }
     public void setMeal(String currentMealChoosing, FoodCompound meal) {
         user.setMeal(currentMealChoosing, meal);
     }

@@ -9,23 +9,29 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.FoodCompound;
 import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder>{
     private LinkedList<Food> dishList;
     private Context context;
     private MealFragment mealFragment;
-
+    NavController navController;
+    static GlobalApplication globalApplication;
     public DishAdapter(LinkedList<Food> dishList, Context context, MealFragment mealFragment) {
         this.dishList = dishList;
         this.context = context;
         this.mealFragment = mealFragment;
+        globalApplication = (GlobalApplication) GlobalApplication.getInstance();
     }
     public void deleteDish(int position) {
         dishList.remove(position);
@@ -51,8 +57,22 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         holder.textViewName.setText(dish.getName());
         String attributes = dish.getNumberOfUnits() + " " + dish.getUnit() + " - "+ dish.getNutritionPerUnit().getKcal()+" calo";
         holder.textViewAttributes.setText(attributes);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() != R.id.favoriteButton) {
+                    navController = Navigation.findNavController(v);
+                    navigateToFoodDetail(dish);
+                }
+            }
+        });
 
 
+    }
+    private void navigateToFoodDetail(Food selectedFood) {
+        // Use NavController to navigate to FoodDetailFragment
+        globalApplication.setCurrentFoodChoosing(selectedFood);
+        navController.navigate(R.id.action_mealFragment_to_customFoodinMealFragment);
     }
 
     @Override
@@ -89,6 +109,10 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
 
                         adapter.removeItem(position);
                         LinkedList<Food> updatedDishList = adapter.getDishList();
+                        ArrayList<Food> newMeal = new ArrayList<>(updatedDishList);
+                        FoodCompound meal = new FoodCompound(newMeal);
+                        String currentMealUsing = globalApplication.getCurrentMealChoosing();
+                        globalApplication.setMeal(currentMealUsing, meal);
                         adapter.mealFragment.updateTotalCalories(updatedDishList);
 
                     }

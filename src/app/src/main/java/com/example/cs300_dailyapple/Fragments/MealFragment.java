@@ -54,6 +54,7 @@ public class MealFragment extends Fragment {
         mealView = view.findViewById(R.id.MealText);
         recyclerViewDish = view.findViewById(R.id.recyclerViewDish);
         currentUser = globalApplication.getUser();
+        System.out.println(currentMealChoosing);
         if (currentMealChoosing.equals("breakfast")) {
             meal = currentUser.getNutritionOverall().getMealHistory().getBreakfast();
             mealView.setText("Bữa sáng");
