@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
+        AuthService.getInstance().logoutUser();
         FirebaseUser currentUser = AuthService.getInstance().getCurrentUser();
         if (currentUser != null) {
             // set the main activity to the home page corresponding to the user's role

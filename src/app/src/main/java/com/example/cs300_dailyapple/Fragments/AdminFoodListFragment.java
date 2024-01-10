@@ -41,6 +41,9 @@ public class AdminFoodListFragment extends Fragment implements AdminFoodListItem
         View view = inflater.inflate(R.layout.fragment_admin_food_list, container, false);
         globalApplication = (GlobalApplication) getActivity().getApplicationContext();
         originalFoodList = globalApplication.getForAdminFoodList();
+        while (originalFoodList.size() == 0) {
+            originalFoodList = globalApplication.getForAdminFoodList();
+        }
         searchedFoodList = new LinkedList<>(originalFoodList);
 
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);

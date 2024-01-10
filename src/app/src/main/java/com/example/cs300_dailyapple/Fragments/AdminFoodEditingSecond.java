@@ -67,15 +67,11 @@ public class AdminFoodEditingSecond extends Fragment {
                     nutrition.setProtein(amountProtein);
                     food.setNutritionPerUnit(nutrition);
                     // update the food list
-                    Food foodToUpdate = null;
                     for (Food f : foodList) {
-                        if (f.getName().equals(food.getName())) {
-                            foodToUpdate = f;
+                        if (f.getName().equals(bundle.getString("foodName"))) {
+                            foodList.remove(f);
                             break;
                         }
-                    }
-                    if (foodToUpdate != null) {
-                        foodList.remove(foodToUpdate);
                     }
                     Log.d("FoodEditingSecond", "onClick: " + food.getName());
                     Log.d("FoodEditingSecond", "onClick: " + food.getNutritionPerUnit().getKcal());

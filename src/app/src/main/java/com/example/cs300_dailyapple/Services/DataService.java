@@ -68,21 +68,21 @@ public class DataService {
         return instance;
     }
 
-    public void addUser(String uid, String email, String username, PersonalInformation PI, WaterInformation waterInformation) {
+    public void addUser(String uid, String email, String username, PersonalInformation personalInformation, WaterInformation waterInformation) {
         Map<String, Object> user = new HashMap<>();
         user.put("email", email);
         user.put("username", username);
         user.put("role", "user");
         user.put("creditPoints", 100);
         user.put("isBanned", false);
-        user.put("PI", PI);
+        user.put("personalInformation", personalInformation);
         // add target and absorbed into nutritionOverall
         Map<String, Object> nutritionOverall = new HashMap<>();
         Map<String, Object> nutritionTarget = new HashMap<>();
-        nutritionTarget.put("kcal", PI.calculateTDEE());
-        nutritionTarget.put("protein", PI.calculateProtein());
-        nutritionTarget.put("carbs", PI.calculateCarbs());
-        nutritionTarget.put("fat", PI.calculateFat());
+        nutritionTarget.put("kcal", personalInformation.calculateTDEE());
+        nutritionTarget.put("protein", personalInformation.calculateProtein());
+        nutritionTarget.put("carbs", personalInformation.calculateCarbs());
+        nutritionTarget.put("fat", personalInformation.calculateFat());
 
         Map<String, Object> nutritionAbsorbed = new HashMap<>();
         nutritionAbsorbed.put("kcal", 0.0);
@@ -113,7 +113,9 @@ public class DataService {
     public LinkedList<Food> getUserFoodList(Map<String, Boolean> favorite){
         LinkedList<Food> foods = new LinkedList<>();
         foods.addAll(getSharedFoods());
-        foods.addAll(getUserCustomFood());
+        if (getUserCustomFood()!=null) {
+            foods.addAll(getUserCustomFood());
+        }
         for (Food foodElement: foods){
             if (favorite.containsKey(foodElement.getName())) {
                 foodElement.setFavorite(true);
@@ -306,13 +308,13 @@ public class DataService {
         user.setIsBanned(document.getBoolean("isBanned"));
 
         // get personalInformation
-        PersonalInformation PI = new PersonalInformation();
-        PI.setAge(document.getLong("PI.age").intValue());
-        PI.setGender(document.getString("PI.gender"));
-        String historyPIJson = gson.toJson(document.get("PI.historyPI"));
-        ArrayList<BodyInformation> historyPI = gson.fromJson(historyPIJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
-        PI.setHistoryPI(historyPI);
-        user.setPersonalInformation(PI);
+        PersonalInformation personalInformation = new PersonalInformation();
+        personalInformation.setAge(document.getLong("personalInformation.age").intValue());
+        personalInformation.setGender(document.getString("personalInformation.gender"));
+        String historypersonalInformationJson = gson.toJson(document.get("personalInformation.historyPI"));
+        ArrayList<BodyInformation> historypersonalInformation = gson.fromJson(historypersonalInformationJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
+        personalInformation.setHistoryPI(historypersonalInformation);
+        user.setPersonalInformation(personalInformation);
 
         String favoriteJson = gson.toJson(document.get("favorite"));
         Map<String, Boolean> favorite = gson.fromJson(favoriteJson, new TypeToken<Map<String, Boolean>>() {}.getType());
@@ -351,13 +353,13 @@ public class DataService {
                 user.setEmail(document.getString("email"));
                 user.setCreditPoints(document.getLong("creditPoints").intValue());
                 user.setIsBanned(document.getBoolean("isBanned"));
-                PersonalInformation PI = new PersonalInformation();
-                PI.setAge(document.getLong("PI.age").intValue());
-                PI.setGender(document.getString("PI.gender"));
-                String historyPIJson = new Gson().toJson(document.get("PI.historyPI"));
-                ArrayList<BodyInformation> historyPI = new Gson().fromJson(historyPIJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
-                PI.setHistoryPI(historyPI);
-                user.setPersonalInformation(PI);
+                PersonalInformation personalInformation = new PersonalInformation();
+                personalInformation.setAge(document.getLong("personalInformation.age").intValue());
+                personalInformation.setGender(document.getString("personalInformation.gender"));
+                String historypersonalInformationJson = new Gson().toJson(document.get("personalInformation.historyPI"));
+                ArrayList<BodyInformation> historypersonalInformation = new Gson().fromJson(historypersonalInformationJson, new TypeToken<ArrayList<BodyInformation>>() {}.getType());
+                personalInformation.setHistoryPI(historypersonalInformation);
+                user.setPersonalInformation(personalInformation);
                 // get nutritionOverall
                 NutritionOverall nutritionOverall = new NutritionOverall();
                 nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
@@ -385,7 +387,7 @@ public class DataService {
         tmp.put("role", user.getRole());
         tmp.put("creditPoints", user.getCreditPoints());
         tmp.put("isBanned", user.getIsBanned());
-        tmp.put("PI", user.getPersonalInformation());
+        tmp.put("personalInformation", user.getPersonalInformation());
         tmp.put("waterInformation", user.getWaterInformation());
         tmp.put("nutritionOverall", user.getNutritionOverall());
         tmp.put("favorite", user.getFavorite());

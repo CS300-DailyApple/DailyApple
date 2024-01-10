@@ -18,10 +18,12 @@ import android.widget.TextView;
 import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Models.SuggestedFood;
+import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.AuthService;
 import com.example.cs300_dailyapple.Services.DataService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -162,6 +164,8 @@ public class HomeAdminFragment extends Fragment {
                     GlobalApplication globalApplication = (GlobalApplication) requireActivity().getApplication();
                     LinkedList<Food> sharedFoodList = globalApplication.getForAdminFoodList();
                     LinkedList<SuggestedFood> suggestedFoodList = globalApplication.getForAdminSuggestedFoodList();
+                    ArrayList<User> uslist =globalApplication.getForAdminUserList();
+                    DataService.getInstance().setAdminUserList(uslist);
                     DataService.getInstance().saveSharedFoods(sharedFoodList);
                     DataService.getInstance().saveSuggestedFoods(suggestedFoodList);
                     DataService.getInstance().setCalled(false);
@@ -171,6 +175,8 @@ public class HomeAdminFragment extends Fragment {
                     GlobalApplication globalApplication = (GlobalApplication) requireActivity().getApplication();
                     LinkedList<Food> sharedFoodList = globalApplication.getForAdminFoodList();
                     LinkedList<SuggestedFood> suggestedFoodList = globalApplication.getForAdminSuggestedFoodList();
+                    ArrayList<User> uslist =globalApplication.getForAdminUserList();
+                    DataService.getInstance().setAdminUserList(uslist);
                     DataService.getInstance().saveSharedFoods(sharedFoodList);
                     DataService.getInstance().saveSuggestedFoods(suggestedFoodList);
                     DataService.getInstance().setCalled(false);

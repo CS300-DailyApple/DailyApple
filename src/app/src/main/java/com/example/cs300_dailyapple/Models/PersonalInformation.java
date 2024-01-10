@@ -28,12 +28,25 @@ public class PersonalInformation {
     }
 
     public Double retrieveHeight() {
+        if (this.historyPI == null || this.historyPI.size() == 0) {
+            return 0.0;
+        }
         BodyInformation BI = this.historyPI.get(0);
         return BI.getHeight();
     }
     public Double retrieveWeight() {
+        if (this.historyPI == null || this.historyPI.size() == 0) {
+            return 0.0;
+        }
         BodyInformation BI = this.historyPI.get(0);
         return BI.getWeight();
+    }
+    public String retrieveTime() {
+        if (this.historyPI == null || this.historyPI.size() == 0) {
+            return "";
+        }
+        BodyInformation BI = this.historyPI.get(0);
+        return BI.getTimeToString();
     }
     public void setGender(String gender) {
         this.gender = gender;

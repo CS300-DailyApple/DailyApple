@@ -173,7 +173,6 @@ public class HomeScreenUserFragment extends Fragment {
                     // Exit the app
                     DataService dataService = DataService.getInstance();
                     GlobalApplication globalApplication = (GlobalApplication) GlobalApplication.getInstance();
-                    System.out.println(dataService.isCalled());
                     if (dataService.isCalled()){
                         dataService.saveUser(globalApplication.getUser());
                         dataService.addSuggestedFood(globalApplication.getUserSuggestedFoodList());
@@ -183,6 +182,13 @@ public class HomeScreenUserFragment extends Fragment {
                 });
                 builder.setNegativeButton("Đăng xuất", (dialog, which) -> {
                     // Logout the user
+                    DataService dataService = DataService.getInstance();
+                    GlobalApplication globalApplication = (GlobalApplication) GlobalApplication.getInstance();
+                    if (dataService.isCalled()){
+                        dataService.saveUser(globalApplication.getUser());
+                        dataService.addSuggestedFood(globalApplication.getUserSuggestedFoodList());
+                        dataService.setCustomFood(globalApplication.getUserCustomList());
+                    }
                     AuthService.getInstance().logoutUser();
                     // Navigate to login page
                     Navigation.findNavController(getView()).navigate(R.id.action_homeScreenUserFragment_to_loginFragment);

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cs300_dailyapple.Models.GlobalApplication;
+import com.example.cs300_dailyapple.Models.Nutrition;
+import com.example.cs300_dailyapple.Models.NutritionOverall;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.Models.WaterInformation;
@@ -94,6 +96,14 @@ public class SummaryStatistic extends Fragment {
                         WaterInformation waterInformation = new WaterInformation();
                         waterInformation.setWaterTarget(Integer.parseInt(waterText.getText().toString()));
                         newUser.setWaterInformation(waterInformation);
+                        NutritionOverall nutritionOverall = new NutritionOverall();
+                        Nutrition nutrition = new Nutrition();
+                        nutrition.setKcal(PI.calculateTDEE());
+                        nutrition.setProtein(PI.calculateProtein());
+                        nutrition.setFat(PI.calculateFat());
+                        nutrition.setCarbs(PI.calculateCarbs());
+                        nutritionOverall.setNutritionTarget(nutrition);
+                        newUser.setNutritionOverall(nutritionOverall);
                         // save user to database
                         DataService.getInstance().addUser(user.getUid(), bundle.getString("email"), bundle.getString("username"), PI, waterInformation);
                         // save user to global application

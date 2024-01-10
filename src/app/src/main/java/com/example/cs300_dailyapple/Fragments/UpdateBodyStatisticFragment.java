@@ -31,6 +31,7 @@ public class UpdateBodyStatisticFragment extends Fragment {
     private AppCompatImageButton maleButton;
     private AppCompatImageButton femaleButton;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

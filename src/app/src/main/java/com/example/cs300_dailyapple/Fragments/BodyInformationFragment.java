@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.Models.PersonalInformation;
 import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.R;
@@ -22,7 +23,7 @@ import com.example.cs300_dailyapple.Services.AuthService;
 import com.example.cs300_dailyapple.Services.DataService;
 
 public class BodyInformationFragment extends Fragment {
-
+    GlobalApplication globalApplication;
     private ImageView imageGender;
     private TextView textViewAge;
     private TextView textProgressWater;
@@ -43,7 +44,8 @@ public class BodyInformationFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = DataService.getInstance().getUser(AuthService.getInstance().getCurrentUser().getUid());
+        globalApplication = (GlobalApplication) getActivity().getApplicationContext();
+        user = globalApplication.getUser();
     }
 
     @Override
@@ -118,7 +120,7 @@ public class BodyInformationFragment extends Fragment {
         Height.setText(String.valueOf(personalInformation.retrieveHeight()));
         textBMI.setText(String.valueOf(Math.round(personalInformation.calculateBMI())));
         weightEvaluation.setText(evaluateBMI(personalInformation.calculateBMI()));
-        textDateTime.setText(personalInformation.getHistoryPI().get(0).getTimeToString());
+        textDateTime.setText(personalInformation.retrieveTime());
         try {
             Double BMI = personalInformation.retrieveWeight() / (personalInformation.retrieveHeight() * personalInformation.retrieveHeight());
         }
