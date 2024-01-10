@@ -30,6 +30,25 @@ public class GlobalApplication extends Application {
     LinkedList<Food> forAdminFoodList;
     LinkedList<SuggestedFood> forAdminSuggestedFoodList;
 
+    private Food customDish;
+
+    private Food contributeDish;
+    public Food getCustomDish() {
+        return customDish;
+    }
+
+    public void setCustomDish(Food customDish) {
+        this.customDish = customDish;
+    }
+
+    public Food getContributeDish() {
+        return contributeDish;
+    }
+
+    public void setContributeDish(Food contributeDish) {
+        this.contributeDish = contributeDish;
+    }
+
     public void checkFavorite(String foodName, Boolean b){
         Map<String, Boolean> favorite = user.getFavorite();
         if (b){
@@ -110,9 +129,30 @@ public class GlobalApplication extends Application {
     }
 
     public void resetFoodList() {
-
+        Map <String, Boolean> favorite = user.getFavorite();
+        for (Food food: userCustomList){
+            favorite.remove(food.getName());
+        }
+        userCustomList.clear();
+        foodList.clear();
+        foodList = DataService.getInstance().getSharedFoods();
+        for (Food food: foodList){
+            if (favorite.containsKey(food.getName())){
+                food.setFavorite(true);
+            }
+        }
+        user.setFavorite(favorite);
     }
     public void setMeal(String currentMealChoosing, FoodCompound meal) {
         user.setMeal(currentMealChoosing, meal);
+    }
+
+    public void addCustomDish() {
+        userCustomList.add(customDish);
+        foodList.add(customDish);
+    }
+
+    public void addSuggestedDish(){
+        userSuggestedFoodList.add(contributeDish);
     }
 }

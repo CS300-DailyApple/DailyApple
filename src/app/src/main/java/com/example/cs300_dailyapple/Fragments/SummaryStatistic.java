@@ -101,6 +101,7 @@ public class SummaryStatistic extends Fragment {
                         globalApplication.setUser(newUser);
                         globalApplication.setFoodList();
                         globalApplication.setUserCustomList();
+                        DataService.getInstance().setCalled(true);
                         // log in user
                         AuthService.getInstance().loginUser(bundle.getString("email"), bundle.getString("password"), new AuthService.AuthCallback() {
                             @Override

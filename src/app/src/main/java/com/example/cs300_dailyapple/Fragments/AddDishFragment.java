@@ -21,7 +21,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavAction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.cs300_dailyapple.R;
 
@@ -37,19 +42,37 @@ public class AddDishFragment extends Fragment {
     private Button btnCamera;
     private Button btnGallery;
     private Spinner unitSpinner;
-
+    private AppCompatButton continueButton;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<String> galleryLauncher;
+    private NavController navController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_dish, container, false);
 
-        unitSpinner = view.findViewById(R.id.unitSpinner);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        imageView = view.findViewById(R.id.imageView);
+        btnCamera = view.findViewById(R.id.btnCamera);
+        btnGallery = view.findViewById(R.id.btnGallery);
+        continueButton = view.findViewById(R.id.continueButton);
+        unitSpinner = view.findViewById(R.id.unitSpinner);
+        navController = Navigation.findNavController(view);
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_addDishFragment_to_addDishDetailsFragment);
+
+            }
+        });
         // Tạo một mảng chứa các đơn vị
         String[] units = {"Gram", "Mililit"};
-
         // Tạo Adapter cho Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, units);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,18 +112,6 @@ public class AddDishFragment extends Fragment {
                 // Do nothing here
             }
         });
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        imageView = view.findViewById(R.id.imageView);
-        btnCamera = view.findViewById(R.id.btnCamera);
-        btnGallery = view.findViewById(R.id.btnGallery);
-
         // Initialize ActivityResultLauncher for camera
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {

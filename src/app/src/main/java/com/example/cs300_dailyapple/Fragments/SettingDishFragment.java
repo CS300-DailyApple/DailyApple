@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.provider.Settings;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
 
@@ -66,7 +68,9 @@ public class SettingDishFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Here to navigate
-                navController.navigate(R.id.action_settingDishFragment_to_addDishFragment);
+                GlobalApplication globalApplication = (GlobalApplication) GlobalApplication.getInstance();
+                globalApplication.resetFoodList();
+                navController.navigate(R.id.action_settingDishFragment_to_foodFragment);
             }
         });
     }
