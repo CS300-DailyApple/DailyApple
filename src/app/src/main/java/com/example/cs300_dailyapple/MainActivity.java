@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         GlobalApplication globalApplication = (GlobalApplication) this.getApplication();
         if (dataService.isCalled()){
             dataService.saveUser(globalApplication.getUser());
+            dataService.addSuggestedFood(globalApplication.getUserSuggestedFoodList());
+            dataService.setCustomFood(globalApplication.getUserCustomList());
         }
     }
 }

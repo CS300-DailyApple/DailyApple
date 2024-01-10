@@ -14,6 +14,7 @@ import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.Models.WaterHistoryItem;
 import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -88,6 +89,9 @@ public class DataService {
 
         // add waterInformation
         user.put("waterInformation", waterInformation);
+
+        Map<String, Boolean> favorite = new HashMap<>();
+        user.put("favorite", favorite);
 
         db.collection(USERS_COLLECTION).document(uid).set(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -423,24 +427,41 @@ public class DataService {
         return suggestedFoods;
     }
 
-    public void saveUserCustomList(LinkedList<Food> userCustomList) {
-        db.collection(CUSTOM_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(userCustomList).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                Log.d(TAG, "Save user custom list successfully");
-            }
-            else{
-                Log.d(TAG, "Save user custom list failed");
-            }
-        });
+
+
+    public void addSuggestedFood(LinkedList<Food> userSuggestedFoodList) {
+        CollectionReference colRef = db.collection(SUGGESTED_FOODS_COLLECTION);
+        for (Food food: userSuggestedFoodList){
+            Map<String, Object> food_to_add = new HashMap<>();
+            food_to_add.put("name", food.getName());
+            food_to_add.put("unit", food.getUnit());
+            food_to_add.put("numberOfUnits", food.getNumberOfUnits());
+            Map<String, Object> nutritionPerUnit = new HashMap<>();
+            nutritionPerUnit.put("kcal", food.getNutritionPerUnit().getKcal());
+            nutritionPerUnit.put("protein", food.getNutritionPerUnit().getProtein());
+            nutritionPerUnit.put("fiber", food.getNutritionPerUnit().getFiber());
+            nutritionPerUnit.put("fat", food.getNutritionPerUnit().getFat());
+            nutritionPerUnit.put("carbs", food.getNutritionPerUnit().getCarbs());
+            food_to_add.put("nutritionPerUnit", nutritionPerUnit);
+            food_to_add.put("ContributorId", AuthService.getInstance().getCurrentUser().getUid());
+            db.collection(SHARED_FOODS_COLLECTION).add(food_to_add).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Add suggested food successfully");
+                } else {
+                    Log.d(TAG, "Add suggested food failed");
+                }
+            });
+        }
+
     }
 
-    public void saveUserSuggestedFoodList(LinkedList<Food> userSuggestedFoodList) {
-        db.collection(SUGGESTED_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(userSuggestedFoodList).addOnCompleteListener(task -> {
+    public void setCustomFood(LinkedList<Food> foods) {
+        db.collection(CUSTOM_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(foods).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                Log.d(TAG, "Save user custom list successfully");
+                Log.d(TAG, "save custom foods successfully!");
             }
             else{
-                Log.d(TAG, "Save user custom list failed");
+                Log.d(TAG, "save custom foods failed!");
             }
         });
     }

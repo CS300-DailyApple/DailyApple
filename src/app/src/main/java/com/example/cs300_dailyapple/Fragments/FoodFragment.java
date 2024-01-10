@@ -113,7 +113,6 @@ public class FoodFragment extends Fragment {
                 return Boolean.compare(food2.getFavorite(), food1.getFavorite());
             }
         });
-        System.out.println("The size of the list of food is: " + foodList.size());
         navController = Navigation.findNavController(view);
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood);
         foodAdapter = new FoodAdapter(foodList, context, this);

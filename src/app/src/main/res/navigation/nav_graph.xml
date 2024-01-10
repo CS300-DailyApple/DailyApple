@@ -36,7 +36,11 @@
         android:id="@+id/addDishDetailsFragment"
         android:name="com.example.cs300_dailyapple.Fragments.AddDishDetailsFragment"
         android:label="fragment_add_dish_details"
-        tools:layout="@layout/fragment_add_dish_details" />
+        tools:layout="@layout/fragment_add_dish_details" >
+        <action
+            android:id="@+id/action_addDishDetailsFragment_to_foodFragment"
+            app:destination="@id/foodFragment" />
+    </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.example.cs300_dailyapple.Fragments.ChangePasswordFragment"
@@ -55,7 +59,11 @@
         android:id="@+id/contributeDishDetailsFragment"
         android:name="com.example.cs300_dailyapple.Fragments.ContributeDishDetailsFragment"
         android:label="fragment_contribute_dish_details"
-        tools:layout="@layout/fragment_contribute_dish_details" />
+        tools:layout="@layout/fragment_contribute_dish_details" >
+        <action
+            android:id="@+id/action_contributeDishDetailsFragment_to_foodFragment"
+            app:destination="@id/foodFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createAccountFragment"
         android:name="com.example.cs300_dailyapple.Fragments.CreateAccountFragment"
@@ -166,6 +174,9 @@
         <action
             android:id="@+id/action_settingDishFragment_to_addDishFragment"
             app:destination="@id/addDishFragment" />
+        <action
+            android:id="@+id/action_settingDishFragment_to_foodFragment"
+            app:destination="@id/foodFragment" />
     </fragment>
     <fragment
         android:id="@+id/summaryStatistic"
