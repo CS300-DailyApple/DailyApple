@@ -11,9 +11,13 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 import com.example.cs300_dailyapple.Services.DataService;
+
+import java.lang.reflect.Array;
+import java.util.LinkedList;
 
 public class AdminFoodDetailSetting extends Fragment {
     private TextView adminFoodDetailSettingName;
@@ -62,9 +66,17 @@ public class AdminFoodDetailSetting extends Fragment {
 
     private void onDeleteButtonClick() {
         // Implement your logic for deleting the food item
+        GlobalApplication globalApplication = (GlobalApplication) getActivity().getApplicationContext();
         Bundle bundle = getArguments();
-        String foodId = bundle.getString("foodId");
-        DataService.getInstance().deleteSharedFoodById(foodId);
+        String foodName = bundle.getString("foodName");
+        LinkedList<Food> foods = globalApplication.getForAdminFoodList();
+        for (Food food : foods) {
+            if (food.getName().equals(foodName)) {
+                foods.remove(food);
+                break;
+            }
+        }
+        globalApplication.setForAdminFoodList(foods);
         Toast.makeText(getContext(), "Delete successfully", Toast.LENGTH_SHORT).show();
         Navigation.findNavController(getView()).navigate(R.id.action_adminFoodDetailSetting_to_adminFoodList);
     }

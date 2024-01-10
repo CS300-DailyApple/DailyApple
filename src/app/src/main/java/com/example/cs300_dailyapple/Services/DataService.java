@@ -14,9 +14,11 @@ import com.example.cs300_dailyapple.Models.User;
 import com.example.cs300_dailyapple.Models.WaterHistoryItem;
 import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,6 +53,10 @@ public class DataService {
     private final FirebaseFirestore db;
     private DataService() {
         db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
     }
 
     public static DataService getInstance() {
@@ -246,6 +252,7 @@ public class DataService {
                 nutritionPerUnit.setCarbs(document.getDouble("nutritionPerUnit.carbs"));
                 food.setNutritionPerUnit(nutritionPerUnit);
                 foods.add(food);
+                Log.d(TAG, "Found food: " + foodName);
             }
         }
         return foods;
@@ -369,20 +376,6 @@ public class DataService {
         }
         return users;
     }
-    public void banUser(String username) {
-        // Get user with username
-        Task<QuerySnapshot> query = db.collection(USERS_COLLECTION).whereEqualTo("username", username).get();
-        while (!query.isComplete()) {}
-        DocumentSnapshot document = query.getResult().getDocuments().get(0);
-        // Update isBanned field
-        db.collection(USERS_COLLECTION).document(document.getId()).update("isBanned", true).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Log.d(TAG, "Ban user successfully");
-            } else {
-                Log.d(TAG, "Ban user failed");
-            }
-        });
-    }
 
     public void saveUser(User user) {
         Map<String, Object> tmp = new HashMap<>();
@@ -427,8 +420,6 @@ public class DataService {
         return suggestedFoods;
     }
 
-
-
     public void addSuggestedFood(LinkedList<Food> userSuggestedFoodList) {
         CollectionReference colRef = db.collection(SUGGESTED_FOODS_COLLECTION);
         if (userSuggestedFoodList == null) return;
@@ -465,5 +456,65 @@ public class DataService {
                 Log.d(TAG, "save custom foods failed!");
             }
         });
+    }
+    public void saveSharedFoods(LinkedList<Food> sharedFoods) {
+        // delete all shared foods
+        Task<QuerySnapshot> query = db.collection(SHARED_FOODS_COLLECTION).get();
+        while (!query.isComplete()) {}
+        for (DocumentSnapshot document : query.getResult()) {
+            db.collection(SHARED_FOODS_COLLECTION).document(document.getId()).delete();
+        }
+        // add all shared foods
+        for (Food food : sharedFoods) {
+            Map<String, Object> food_to_add = new HashMap<>();
+            food_to_add.put("favorite", food.isFavorite());
+            food_to_add.put("name", food.getName());
+            food_to_add.put("unit", food.getUnit());
+            food_to_add.put("numberOfUnits", food.getNumberOfUnits());
+            Map<String, Object> nutritionPerUnit = new HashMap<>();
+            nutritionPerUnit.put("kcal", food.getNutritionPerUnit().getKcal());
+            nutritionPerUnit.put("protein", food.getNutritionPerUnit().getProtein());
+            nutritionPerUnit.put("fiber", food.getNutritionPerUnit().getFiber());
+            nutritionPerUnit.put("fat", food.getNutritionPerUnit().getFat());
+            nutritionPerUnit.put("carbs", food.getNutritionPerUnit().getCarbs());
+            food_to_add.put("nutritionPerUnit", nutritionPerUnit);
+            db.collection(SHARED_FOODS_COLLECTION).add(food_to_add).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Add food successfully");
+                } else {
+                    Log.d(TAG, "Add food failed");
+                }
+            });
+        }
+    }
+    public void saveSuggestedFoods(LinkedList<SuggestedFood> suggestedFoods) {
+        // delete all suggested foods
+        Task<QuerySnapshot> query = db.collection(SUGGESTED_FOODS_COLLECTION).get();
+        while (!query.isComplete()) {}
+        for (DocumentSnapshot document : query.getResult()) {
+            db.collection(SUGGESTED_FOODS_COLLECTION).document(document.getId()).delete();
+        }
+        // add all suggested foods
+        for (SuggestedFood food : suggestedFoods) {
+            Map<String, Object> food_to_add = new HashMap<>();
+            food_to_add.put("name", food.getName());
+            food_to_add.put("unit", food.getUnit());
+            food_to_add.put("numberOfUnits", food.getNumberOfUnits());
+            Map<String, Object> nutritionPerUnit = new HashMap<>();
+            nutritionPerUnit.put("kcal", food.getNutritionPerUnit().getKcal());
+            nutritionPerUnit.put("protein", food.getNutritionPerUnit().getProtein());
+            nutritionPerUnit.put("fiber", food.getNutritionPerUnit().getFiber());
+            nutritionPerUnit.put("fat", food.getNutritionPerUnit().getFat());
+            nutritionPerUnit.put("carbs", food.getNutritionPerUnit().getCarbs());
+            food_to_add.put("nutritionPerUnit", nutritionPerUnit);
+            food_to_add.put("contributorId", food.getContributorId());
+            db.collection(SUGGESTED_FOODS_COLLECTION).add(food_to_add).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Add food successfully");
+                } else {
+                    Log.d(TAG, "Add food failed");
+                }
+            });
+        }
     }
 }

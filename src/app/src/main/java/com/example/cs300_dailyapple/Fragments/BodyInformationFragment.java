@@ -114,13 +114,13 @@ public class BodyInformationFragment extends Fragment {
         int caloAbsorbed = (int) Math.round(user.getNutritionOverall().getNutritionAbsorbed().getKcal());
         progressBarCalo.setProgress(caloAbsorbed);
         textProgressCalo.setText(caloAbsorbed + "/" + caloTarget + " calo");
-        Weight.setText(String.valueOf(personalInformation.getWeight()));
-        Height.setText(String.valueOf(personalInformation.getHeight()));
+        Weight.setText(String.valueOf(personalInformation.retrieveWeight()));
+        Height.setText(String.valueOf(personalInformation.retrieveHeight()));
         textBMI.setText(String.valueOf(Math.round(personalInformation.calculateBMI())));
         weightEvaluation.setText(evaluateBMI(personalInformation.calculateBMI()));
         textDateTime.setText(personalInformation.getHistoryPI().get(0).getTimeToString());
         try {
-            Double BMI = personalInformation.getWeight() / (personalInformation.getHeight() * personalInformation.getHeight());
+            Double BMI = personalInformation.retrieveWeight() / (personalInformation.retrieveHeight() * personalInformation.retrieveHeight());
         }
         catch (ArithmeticException e){
             float BMI = 0;
