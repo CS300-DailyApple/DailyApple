@@ -15,6 +15,7 @@ import com.example.cs300_dailyapple.Models.WaterHistoryItem;
 import com.example.cs300_dailyapple.Models.WaterInformation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -22,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -395,13 +397,8 @@ public class DataService {
         tmp.put("waterInformation", user.getWaterInformation());
         tmp.put("nutritionOverall", user.getNutritionOverall());
         tmp.put("favorite", user.getFavorite());
-        db.collection(USERS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(tmp).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Log.d(TAG, "Save user successfully");
-            } else {
-                Log.d(TAG, "Save user failed");
-            }
-        });
+        db.collection(USERS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(tmp);
+        Log.d(TAG, "save users successfully!");
     }
     public LinkedList<SuggestedFood> getSuggestedFoodList() {
         LinkedList<SuggestedFood> suggestedFoods = new LinkedList<>();
@@ -457,7 +454,9 @@ public class DataService {
     }
 
     public void setCustomFood(LinkedList<Food> foods) {
-        db.collection(CUSTOM_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(foods).addOnCompleteListener(task -> {
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Map <String, Object> map = new Gson().fromJson(new Gson().toJson(new ArrayList<>(foods)), type);
+        db.collection(CUSTOM_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(map).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Log.d(TAG, "save custom foods successfully!");
             }
@@ -465,5 +464,26 @@ public class DataService {
                 Log.d(TAG, "save custom foods failed!");
             }
         });
+    }
+
+    public void setAdminUserList(ArrayList<User> adminUserList){
+        CollectionReference colRef = db.collection(USERS_COLLECTION);
+        for (User user: adminUserList){
+            Task<QuerySnapshot> query = colRef.whereEqualTo("email", user.getEmail()).get();
+            while (!query.isComplete()) {}
+            DocumentSnapshot document = query.getResult().getDocuments().get(0);
+            String id = document.getId();
+            Type type = new TypeToken<Map<String, Object>>() {}.getType();
+            Map<String, Object> map = new Gson().fromJson(new Gson().toJson(user), type);
+            colRef.document(id).set(map).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    Log.d(TAG, "save admin user successfully!");
+                }
+                else{
+                    Log.d(TAG, "save admin user failed");
+                }
+            });
+
+        }
     }
 }
