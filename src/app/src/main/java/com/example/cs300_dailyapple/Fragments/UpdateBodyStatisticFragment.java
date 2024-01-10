@@ -196,17 +196,16 @@ public class UpdateBodyStatisticFragment extends Fragment {
                     Data.getNutritionOverall().getNutritionTarget().setNutrition(PI.calculateTDEE()
                             , PI.calculateProtein(), PI.calculateFibre(), PI.calculateFat(), PI.calculateCarbs());
                     //navigate back to body_information
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    fm.popBackStack();
-                    fm.popBackStack();
                 }
+
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+                fm.popBackStack();
             }
         });
 
         return view;
     }
-
-
 
     private void setButtonSelected(boolean isMaleSelected) {
 
