@@ -395,7 +395,7 @@ public class DataService {
         tmp.put("waterInformation", user.getWaterInformation());
         tmp.put("nutritionOverall", user.getNutritionOverall());
         tmp.put("favorite", user.getFavorite());
-        db.collection(USERS_COLLECTION).document(user.getId()).set(tmp).addOnCompleteListener(task -> {
+        db.collection(USERS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(tmp).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.d(TAG, "Save user successfully");
             } else {
@@ -431,6 +431,7 @@ public class DataService {
 
     public void addSuggestedFood(LinkedList<Food> userSuggestedFoodList) {
         CollectionReference colRef = db.collection(SUGGESTED_FOODS_COLLECTION);
+        if (userSuggestedFoodList == null) return;
         for (Food food: userSuggestedFoodList){
             Map<String, Object> food_to_add = new HashMap<>();
             food_to_add.put("name", food.getName());
