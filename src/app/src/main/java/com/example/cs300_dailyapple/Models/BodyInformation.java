@@ -35,7 +35,7 @@ public class BodyInformation {
     public String getTimeToString() {
         String res;
         LocalDateTime localDateTime = this.time.toDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-        res = localDateTime.getDayOfMonth() + " tháng " + localDateTime.getMonth() + ", " + localDateTime.getYear();
+        res = localDateTime.getDayOfMonth() + " tháng " + localDateTime.getMonthValue() + ", " + localDateTime.getYear();
         return res;
     }
     public Timestamp getTime() {
