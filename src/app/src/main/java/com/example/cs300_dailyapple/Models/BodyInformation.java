@@ -32,10 +32,13 @@ public class BodyInformation {
         this.weight = weight;
     }
 
-    public String getTime() {
+    public String getTimeToString() {
         String res;
         LocalDateTime localDateTime = this.time.toDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
         res = localDateTime.getDayOfMonth() + " tháng " + localDateTime.getMonth() + ", " + localDateTime.getYear();
         return res;
+    }
+    public Timestamp getTime() {
+        return this.time;
     }
 }

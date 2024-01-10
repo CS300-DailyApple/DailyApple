@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.google.rpc.context.AttributeContext;
 import java.time.format.DateTimeFormatter;
 
 public class SummaryStatistic extends Fragment {
+    NavController navController;
     TextView calorie;
     private TextView textBMI;
     private TextView textDateTime;
@@ -43,6 +45,9 @@ public class SummaryStatistic extends Fragment {
     // OnViewCreated
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // get nav controller
+        navController = Navigation.findNavController(view);
         calorie = view.findViewById(R.id.caloriesCount);
         textBMI = view.findViewById(R.id.textBMI);
         textDateTime = view.findViewById(R.id.textDateTime);
@@ -91,24 +96,30 @@ public class SummaryStatistic extends Fragment {
                         newUser.setWaterInformation(waterInformation);
                         // save user to database
                         DataService.getInstance().addUser(user.getUid(), bundle.getString("email"), bundle.getString("username"), PI, waterInformation);
-                        // add user to global application
+                        // save user to global application
                         GlobalApplication globalApplication = (GlobalApplication) getActivity().getApplication();
                         globalApplication.setUser(newUser);
                         globalApplication.setFoodList();
                         globalApplication.setUserCustomList();
+                        // log in user
+                        AuthService.getInstance().loginUser(bundle.getString("email"), bundle.getString("password"), new AuthService.AuthCallback() {
+                            @Override
+                            public void onSuccess(FirebaseUser user) {
+                                // do nothing
+                            }
+                            @Override
+                            public void onFailure(Exception e) {
+                                // do nothing
+                            }
+                        });
                         // navigate to home screen
-                        Navigation.findNavController(v).navigate(R.id.action_summaryStatistic_to_homeScreenUserFragment);
+                        navController.navigate(R.id.action_summaryStatistic_to_homeScreenUserFragment);
                     }
-
                     @Override
                     public void onFailure(Exception e) {
                         Toast.makeText(getContext(), "Tạo người dùng thất bại.", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
-                Navigation.findNavController(getView()).navigate(R.id.action_summaryStatistic_to_homeScreenUserFragment);
             }
         });
     }
