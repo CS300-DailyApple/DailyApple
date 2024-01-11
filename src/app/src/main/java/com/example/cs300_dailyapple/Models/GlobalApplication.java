@@ -35,6 +35,7 @@ public class GlobalApplication extends Application {
 
     private Food contributeDish;
     public Food getCustomDish() {
+        if (customDish == null) customDish = new Food();
         return customDish;
     }
 
@@ -43,6 +44,7 @@ public class GlobalApplication extends Application {
     }
 
     public Food getContributeDish() {
+        if (contributeDish == null) contributeDish = new Food();
         return contributeDish;
     }
 
@@ -150,11 +152,14 @@ public class GlobalApplication extends Application {
     }
 
     public void addCustomDish() {
+        if (userCustomList == null) userCustomList = new LinkedList<>();
+        if (foodList == null) foodList = new LinkedList<>();
         userCustomList.add(customDish);
         foodList.add(customDish);
     }
 
     public void addSuggestedDish(){
+        if (userSuggestedFoodList == null) userSuggestedFoodList = new LinkedList<>();
         userSuggestedFoodList.add(contributeDish);
     }
 

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,13 +48,14 @@ public class DishContributeFragment extends Fragment {
     private ImageView imageView;
     private Button btnCamera;
     private Button btnGallery;
-    private Spinner unitSpinner;
+    private EditText unitNameView;
 
     GlobalApplication globalApplication;
 
     private Food contributeDish;
     private AppCompatButton continueButton;
 
+    private EditText foodNameView;
     NavController navController;
 
     @Override
@@ -70,62 +72,22 @@ public class DishContributeFragment extends Fragment {
         btnCamera = view.findViewById(R.id.btnCamera);
         btnGallery = view.findViewById(R.id.btnGallery);
         continueButton = view.findViewById(R.id.continueButton);
+        foodNameView = view.findViewById(R.id.editTextDishName);
         navController = Navigation.findNavController(view);
         globalApplication = (GlobalApplication) GlobalApplication.getInstance();
         contributeDish = globalApplication.getContributeDish();
+        unitNameView = view.findViewById(R.id.unitName);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                contributeDish.setName(foodNameView.getText().toString());
+                contributeDish.setUnit(unitNameView.getText().toString());
                 globalApplication.setContributeDish(contributeDish);
                 navController.navigate(R.id.action_dishContributeFragment_to_contributeDishDetailsFragment);
             }
         });
 
-        unitSpinner = view.findViewById(R.id.unitSpinner);
 
-
-        // Tạo một mảng chứa các đơn vị
-        String[] units = {"Gram", "Mililit"};
-
-        // Tạo Adapter cho Spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, units);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Set Adapter cho Spinner
-        unitSpinner.setAdapter(adapter);
-
-        // Đặt giá trị mặc định là "Gram"
-        unitSpinner.setSelection(0);
-        unitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedUnit = (String) parentView.getItemAtPosition(position);
-
-                int unitPosition = getUnitPosition(selectedUnit);
-
-                // Set lại vị trí chọn của Spinner
-                unitSpinner.setSelection(unitPosition);
-            }
-            private int getUnitPosition(String unit) {
-                String[] units = {"Gram", "Mililit"};
-
-                // Duyệt qua mảng để tìm vị trí của đơn vị
-                for (int i = 0; i < units.length; i++) {
-                    if (units[i].equals(unit)) {
-                        return i;
-                    }
-                }
-
-                // Trả về -1 nếu không tìm thấy
-                return -1;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
-
-            }
-        });
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
