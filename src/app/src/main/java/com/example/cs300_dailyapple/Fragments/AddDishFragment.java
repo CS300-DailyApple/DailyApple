@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -28,6 +29,8 @@ import androidx.navigation.NavAction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.cs300_dailyapple.Models.Food;
+import com.example.cs300_dailyapple.Models.GlobalApplication;
 import com.example.cs300_dailyapple.R;
 
 import java.io.IOException;
@@ -41,10 +44,13 @@ public class AddDishFragment extends Fragment {
     private ImageView imageView;
     private Button btnCamera;
     private Button btnGallery;
-    private Spinner unitSpinner;
+    private EditText unitNameView;
     private AppCompatButton continueButton;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<String> galleryLauncher;
+    private EditText foodNameView;
+    private Food customDish;
+    GlobalApplication globalApplication;
     private NavController navController;
 
     @Override
@@ -62,57 +68,21 @@ public class AddDishFragment extends Fragment {
         btnCamera = view.findViewById(R.id.btnCamera);
         btnGallery = view.findViewById(R.id.btnGallery);
         continueButton = view.findViewById(R.id.continueButton);
-        unitSpinner = view.findViewById(R.id.unitSpinner);
+        unitNameView = view.findViewById(R.id.unitName);
+        foodNameView = view.findViewById(R.id.editTextDishName);
         navController = Navigation.findNavController(view);
+        globalApplication = (GlobalApplication) GlobalApplication.getInstance();
+        customDish = globalApplication.getCustomDish();
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                customDish.setName(foodNameView.getText().toString());
+                customDish.setUnit(unitNameView.getText().toString());
+                globalApplication.setCustomDish(customDish);
                 navController.navigate(R.id.action_addDishFragment_to_addDishDetailsFragment);
 
             }
         });
-        // Tạo một mảng chứa các đơn vị
-        String[] units = {"Gram", "Mililit"};
-        // Tạo Adapter cho Spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, units);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Set Adapter cho Spinner
-        unitSpinner.setAdapter(adapter);
-
-        // Đặt giá trị mặc định là "Gram"
-        unitSpinner.setSelection(0);
-        unitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedUnit = (String) parentView.getItemAtPosition(position);
-
-                int unitPosition = getUnitPosition(selectedUnit);
-
-                // Set lại vị trí chọn của Spinner
-                unitSpinner.setSelection(unitPosition);
-            }
-
-            private int getUnitPosition(String unit) {
-                String[] units = {"Gram", "Mililit"};
-
-                // Duyệt qua mảng để tìm vị trí của đơn vị
-                for (int i = 0; i < units.length; i++) {
-                    if (units[i].equals(unit)) {
-                        return i;
-                    }
-                }
-
-                // Trả về Gram nếu không tìm thấy
-                return 0;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
-            }
-        });
-        // Initialize ActivityResultLauncher for camera
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == getActivity().RESULT_OK) {

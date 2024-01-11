@@ -123,7 +123,7 @@ public class DataService {
                 foodElement.setFavorite(true);
             }
         }
-        Comparator<Food> foodComparator = Comparator.comparing(food -> food.isFavorite()? 0 : 1);
+        Comparator<Food> foodComparator = Comparator.comparing(food -> food.getFavorite()? 0 : 1);
         foods.sort(foodComparator);
         Log.d(TAG, "Get user food list successfully");
         return foods;
@@ -426,7 +426,6 @@ public class DataService {
     }
 
     public void addSuggestedFood(LinkedList<Food> userSuggestedFoodList) {
-        CollectionReference colRef = db.collection(SUGGESTED_FOODS_COLLECTION);
         if (userSuggestedFoodList == null) return;
         for (Food food: userSuggestedFoodList){
             Map<String, Object> food_to_add = new HashMap<>();
@@ -441,7 +440,7 @@ public class DataService {
             nutritionPerUnit.put("carbs", food.getNutritionPerUnit().getCarbs());
             food_to_add.put("nutritionPerUnit", nutritionPerUnit);
             food_to_add.put("ContributorId", AuthService.getInstance().getCurrentUser().getUid());
-            db.collection(SHARED_FOODS_COLLECTION).add(food_to_add).addOnCompleteListener(task -> {
+            db.collection(SUGGESTED_FOODS_COLLECTION).add(food_to_add).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Add suggested food successfully");
                 } else {
@@ -452,10 +451,10 @@ public class DataService {
 
     }
 
-    public void setCustomFood(LinkedList<Food> foods) {
-        if (foods == null) return;
-        Type type = new TypeToken<Map<String, Object>>(){}.getType();
-        Map <String, Object> map = new Gson().fromJson(new Gson().toJson(new ArrayList<>(foods)), type);
+    public void setCustomFood(LinkedList<Food> customFoods) {
+        if (customFoods == null) return;
+        Map<String, Object> map = new HashMap<>();
+        map.put("foods", new ArrayList<>(customFoods));
         db.collection(CUSTOM_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(map).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Log.d(TAG, "save custom foods successfully!");
@@ -496,7 +495,7 @@ public class DataService {
         // add all shared foods
         for (Food food : sharedFoods) {
             Map<String, Object> food_to_add = new HashMap<>();
-            food_to_add.put("favorite", food.isFavorite());
+            food_to_add.put("favorite", food.getFavorite());
             food_to_add.put("name", food.getName());
             food_to_add.put("unit", food.getUnit());
             food_to_add.put("numberOfUnits", food.getNumberOfUnits());

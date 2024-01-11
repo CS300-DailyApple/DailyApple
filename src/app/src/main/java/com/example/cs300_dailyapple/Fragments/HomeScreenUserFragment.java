@@ -188,6 +188,7 @@ public class HomeScreenUserFragment extends Fragment {
                         dataService.saveUser(globalApplication.getUser());
                         dataService.addSuggestedFood(globalApplication.getUserSuggestedFoodList());
                         dataService.setCustomFood(globalApplication.getUserCustomList());
+                        dataService.setCalled(false);
                     }
                     requireActivity().finish();
                 });
@@ -199,7 +200,9 @@ public class HomeScreenUserFragment extends Fragment {
                         dataService.saveUser(globalApplication.getUser());
                         dataService.addSuggestedFood(globalApplication.getUserSuggestedFoodList());
                         dataService.setCustomFood(globalApplication.getUserCustomList());
+                        dataService.setCalled(false);
                     }
+
                     AuthService.getInstance().logoutUser();
                     // Navigate to login page
                     Navigation.findNavController(getView()).navigate(R.id.action_homeScreenUserFragment_to_loginFragment);

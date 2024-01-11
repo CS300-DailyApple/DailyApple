@@ -83,39 +83,54 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:paddingHorizontal="16dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/rounded_corner_login"
         android:layout_below="@id/ration"
-        android:padding="15dp"
-        android:layout_margin="16dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1 khẩu phần ăn ="
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_marginHorizontal="10dp"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#A5A5A5"
-
-            android:text="100"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <Spinner
-            android:layout_weight="1"
-            android:id="@+id/unitSpinner"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_login"
+        android:orientation="vertical"
+        android:padding="15dp">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="1 khẩu phần ăn ="
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="100"
+                android:id="@+id/unitNumber"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="Đơn vị ="
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/unitName"
+                android:hint="cái" />
+        </LinearLayout>
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
