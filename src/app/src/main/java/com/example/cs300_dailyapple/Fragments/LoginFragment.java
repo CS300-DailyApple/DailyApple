@@ -98,15 +98,6 @@ public class LoginFragment extends Fragment {
                 DataService db = DataService.getInstance();
                 String role = db.getUserRole(user.getUid());
                 // check if user is banned
-                if (db.getUser(user.getUid()).isBanned()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Tài khoản của bạn đã bị cấm");
-                    builder.setMessage("Vui lòng liên hệ với quản trị viên để biết thêm chi tiết");
-                    builder.setPositiveButton("Đóng", null);
-                    AuthService.getInstance().logoutUser();
-                    builder.show();
-                    return;
-                }
                 if (role.equals("admin")) {
                     // TODO: Navigate to admin page
                     Log.d("LoginFragment", "Admin login");
@@ -116,6 +107,15 @@ public class LoginFragment extends Fragment {
                     Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeAdminFragment);
                 }
                 else if (role.equals("user")) {
+                    if (db.getUser(user.getUid()).isBanned()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Tài khoản của bạn đã bị cấm");
+                        builder.setMessage("Vui lòng liên hệ với quản trị viên để biết thêm chi tiết");
+                        builder.setPositiveButton("Đóng", null);
+                        AuthService.getInstance().logoutUser();
+                        builder.show();
+                        return;
+                    }
                     // TODO: Navigate to user page
                     Log.d("LoginFragment", "User login");
                     DataService.getInstance().setCalled(true);
