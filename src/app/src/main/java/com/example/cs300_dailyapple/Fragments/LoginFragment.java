@@ -99,8 +99,12 @@ public class LoginFragment extends Fragment {
                 String role = db.getUserRole(user.getUid());
                 // check if user is banned
                 if (db.getUser(user.getUid()).isBanned()) {
-                    Toast.makeText(getContext(), "Tài khoản của bạn đã bị cấm", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Tài khoản của bạn đã bị cấm");
+                    builder.setMessage("Vui lòng liên hệ với quản trị viên để biết thêm chi tiết");
+                    builder.setPositiveButton("Đóng", null);
                     AuthService.getInstance().logoutUser();
+                    builder.show();
                     return;
                 }
                 if (role.equals("admin")) {
