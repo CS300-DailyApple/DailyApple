@@ -141,6 +141,8 @@ public class HomeScreenUserFragment extends Fragment {
             builder.setTitle("Tài khoản của bạn đã bị cấm");
             builder.setMessage("Vui lòng liên hệ với quản trị viên để biết thêm chi tiết");
             builder.setPositiveButton("Đóng", null);
+            AuthService.getInstance().logoutUser();
+            Navigation.findNavController(getView()).navigate(R.id.action_homeScreenUserFragment_to_loginFragment);
             builder.show();
         }
 
