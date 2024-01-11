@@ -1,14 +1,11 @@
 package com.example.cs300_dailyapple.Models;
 
-import java.time.LocalDateTime;
-
 public class DailyMeal {
     // Attributes
     private FoodCompound breakfast;
     private FoodCompound lunch;
     private FoodCompound dinner;
     private FoodCompound snack;
-    private LocalDateTime date;
 
     // Methods
     public DailyMeal() {
@@ -16,34 +13,32 @@ public class DailyMeal {
         lunch = new FoodCompound();
         dinner = new FoodCompound();
         snack = new FoodCompound();
-        date = LocalDateTime.now();
     }
-    public DailyMeal(FoodCompound breakfast, FoodCompound lunch, FoodCompound dinner, FoodCompound snack, LocalDateTime date) {
+    public DailyMeal(FoodCompound breakfast, FoodCompound lunch, FoodCompound dinner, FoodCompound snacke) {
         this.breakfast = breakfast;
         this.lunch = lunch;
         this.dinner = dinner;
         this.snack = snack;
-        this.date = date;
     }
 
     public void addBreakfast(FoodCompound breakfast) {
         this.breakfast = breakfast;
+        this.breakfast.setNutrition();
     }
 
     public void addLunch(FoodCompound lunch) {
         this.lunch = lunch;
+        this.lunch.setNutrition();
     }
 
     public void addDinner(FoodCompound dinner) {
         this.dinner = dinner;
+        this.dinner.setNutrition();
     }
 
     public void addSnack(FoodCompound snack) {
         this.snack = snack;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+        this.snack.setNutrition();
     }
 
     public FoodCompound getBreakfast() {
@@ -62,11 +57,7 @@ public class DailyMeal {
         return snack;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public Double getTotalCalories() {
+    public Double retrieveTotalCalories() {
         Double totalCalories = 0.0;
         Double breakfastCalories = breakfast == null ? 0.0 : breakfast.getNutrition().getKcal();
         Double lunchCalories = lunch == null ? 0.0 : lunch.getNutrition().getKcal();
@@ -76,7 +67,7 @@ public class DailyMeal {
         return totalCalories;
     }
 
-    public Double getTotalProtein() {
+    public Double retrieveTotalProtein() {
         Double totalProtein = 0.0;
         Double breakfastProtein = breakfast == null ? 0.0 : breakfast.getNutrition().getProtein();
         Double lunchProtein = lunch == null ? 0.0 : lunch.getNutrition().getProtein();
@@ -86,7 +77,7 @@ public class DailyMeal {
         return totalProtein;
     }
 
-    public Double getTotalCarbs() {
+    public Double retrieveTotalCarbs() {
         Double totalCarbs = 0.0;
         Double breakfastCarbs = breakfast == null ? 0.0 : breakfast.getNutrition().getCarbs();
         Double lunchCarbs = lunch == null ? 0.0 : lunch.getNutrition().getCarbs();
@@ -96,7 +87,7 @@ public class DailyMeal {
         return totalCarbs;
     }
 
-    public Double getTotalFat() {
+    public Double retrieveTotalFat() {
         Double totalFat = 0.0;
         Double breakfastFat = breakfast == null ? 0.0 : breakfast.getNutrition().getFat();
         Double lunchFat = lunch == null ? 0.0 : lunch.getNutrition().getFat();
@@ -106,7 +97,7 @@ public class DailyMeal {
         return totalFat;
     }
 
-    public Double getTotalFiber() {
+    public Double retrieveTotalFiber() {
         Double totalFiber = 0.0;
         Double breakfastFiber = breakfast == null ? 0.0 : breakfast.getNutrition().getFiber();
         Double lunchFiber = lunch == null ? 0.0 : lunch.getNutrition().getFiber();
@@ -131,4 +122,19 @@ public class DailyMeal {
         }
     }
 
+    public void setBreakfastNutrition() {
+        breakfast.setNutrition();
+    }
+
+    public void setLunchNutrition() {
+        lunch.setNutrition();
+    }
+
+    public void setDinnerNutrition() {
+        dinner.setNutrition();
+    }
+
+    public void setSnackNutrition() {
+        snack.setNutrition();
+    }
 }

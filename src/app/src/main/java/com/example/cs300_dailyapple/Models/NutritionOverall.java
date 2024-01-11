@@ -1,7 +1,5 @@
 package com.example.cs300_dailyapple.Models;
 
-import java.util.ArrayList;
-
 public class NutritionOverall {
     // Attributes
     private Nutrition nutritionTarget;
@@ -40,16 +38,24 @@ public class NutritionOverall {
         this.nutritionAbsorbed = nutritionAbsorbed;
     }
 
+    public void setNutritionAbsorbed() {
+        this.nutritionAbsorbed.setKcal(mealHistory.retrieveTotalCalories());
+        this.nutritionAbsorbed.setFiber(mealHistory.retrieveTotalFiber());
+        this.nutritionAbsorbed.setCarbs(mealHistory.retrieveTotalCarbs());
+        this.nutritionAbsorbed.setFat(mealHistory.retrieveTotalFat());
+        this.nutritionAbsorbed.setProtein(mealHistory.retrieveTotalProtein());
+    }
+
     public void setMealHistory(DailyMeal mealHistory) {
         this.mealHistory = mealHistory;
     }
 
     public void updateNutritionAbsorbed() {
-        nutritionAbsorbed.setKcal(mealHistory.getTotalCalories());
-        nutritionAbsorbed.setFat(mealHistory.getTotalFat());
-        nutritionAbsorbed.setCarbs(mealHistory.getTotalCarbs());
-        nutritionAbsorbed.setProtein(mealHistory.getTotalProtein());
-        nutritionAbsorbed.setFiber(mealHistory.getTotalFiber());
+        nutritionAbsorbed.setKcal(mealHistory.retrieveTotalCalories());
+        nutritionAbsorbed.setFat(mealHistory.retrieveTotalFat());
+        nutritionAbsorbed.setCarbs(mealHistory.retrieveTotalCarbs());
+        nutritionAbsorbed.setProtein(mealHistory.retrieveTotalProtein());
+        nutritionAbsorbed.setFiber(mealHistory.retrieveTotalFiber());
     }
 
     public void addFood(String currentMealChoosing, Food food) {
@@ -68,6 +74,21 @@ public class NutritionOverall {
         }
         else{
             mealHistory.addSnack(meal);
+        }
+    }
+
+    public void setMealNutrition(String currentMealChoosing) {
+        if (currentMealChoosing.equals("breakfast")){
+            mealHistory.setBreakfastNutrition();
+        }
+        else if (currentMealChoosing.equals("lunch")){
+            mealHistory.setLunchNutrition();
+        }
+        else if (currentMealChoosing.equals("dinner")){
+            mealHistory.setDinnerNutrition();
+        }
+        else{
+            mealHistory.setSnackNutrition();
         }
     }
 }

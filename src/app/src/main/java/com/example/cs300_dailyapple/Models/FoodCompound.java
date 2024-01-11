@@ -45,6 +45,16 @@ public class FoodCompound {
         this.nutrition.setCarbs(this.nutrition.getCarbs() - food.getNutrition().getCarbs());
     }
 
+    public void setNutrition(){
+        this.nutrition = new Nutrition();
+        for (Food food: foodsList){
+            this.nutrition.setKcal(this.nutrition.getKcal() + food.getNutrition().getKcal());
+            this.nutrition.setProtein(this.nutrition.getProtein() + food.getNutrition().getProtein());
+            this.nutrition.setFiber(this.nutrition.getFiber() + food.getNutrition().getFiber());
+            this.nutrition.setFat(this.nutrition.getFat() + food.getNutrition().getFat());
+            this.nutrition.setCarbs(this.nutrition.getCarbs() + food.getNutrition().getCarbs());
+        }
+    }
     public void editFood(Food food, Food newFood) {
         this.foodsList.remove(food);
         this.nutrition.setKcal(this.nutrition.getKcal() - food.getNutrition().getKcal());

@@ -82,6 +82,7 @@ public class MealFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 navController.navigate(R.id.action_mealFragment_to_foodFragment);
             }
         });
@@ -96,6 +97,7 @@ public class MealFragment extends Fragment {
 
     private void onNavigationFragment(){
         globalApplication.setMeal(currentMealChoosing, meal);
+        globalApplication.setNutritionAbsorbed();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

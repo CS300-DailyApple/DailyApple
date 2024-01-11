@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.cs300_dailyapple.Models.BodyInformation;
+import com.example.cs300_dailyapple.Models.DailyMeal;
 import com.example.cs300_dailyapple.Models.Food;
 import com.example.cs300_dailyapple.Models.Nutrition;
 import com.example.cs300_dailyapple.Models.NutritionOverall;
@@ -92,7 +93,8 @@ public class DataService {
 
         nutritionOverall.put("nutritionTarget", nutritionTarget);
         nutritionOverall.put("nutritionAbsorbed", nutritionAbsorbed);
-
+        DailyMeal mealHistory = new DailyMeal();
+        nutritionOverall.put("mealHistory", mealHistory);
         user.put("nutritionOverall", nutritionOverall);
 
         // add waterInformation
@@ -320,9 +322,8 @@ public class DataService {
         Map<String, Boolean> favorite = gson.fromJson(favoriteJson, new TypeToken<Map<String, Boolean>>() {}.getType());
         user.setFavorite(favorite);
         // get nutritionOverall
-        NutritionOverall nutritionOverall = new NutritionOverall();
-        nutritionOverall.setNutritionTarget(document.get("nutritionOverall.nutritionTarget", Nutrition.class));
-        nutritionOverall.setNutritionAbsorbed(document.get("nutritionOverall.nutritionAbsorbed", Nutrition.class));
+        String nutritionOverallJson = gson.toJson(document.get("nutritionOverall"));
+        NutritionOverall nutritionOverall = gson.fromJson(nutritionOverallJson, new TypeToken<NutritionOverall> () {}.getType());
         user.setNutritionOverall(nutritionOverall);
         // get waterInformation
         WaterInformation waterInformation = new WaterInformation();
@@ -389,7 +390,13 @@ public class DataService {
         tmp.put("isBanned", user.getIsBanned());
         tmp.put("personalInformation", user.getPersonalInformation());
         tmp.put("waterInformation", user.getWaterInformation());
-        tmp.put("nutritionOverall", user.getNutritionOverall());
+        Map<String, Object> nutritionOverall = new HashMap<>();
+        nutritionOverall.put("nutritionAsorbed", user.getNutritionOverall().getNutritionAbsorbed());
+        nutritionOverall.put("nutritionTarget", user.getNutritionOverall().getNutritionTarget());
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Map<String, Object> mealHistory = new Gson().fromJson(new Gson().toJson(user.getNutritionOverall().getMealHistory()), type);
+        nutritionOverall.put("mealHistory", mealHistory);
+        tmp.put("nutritionOverall", nutritionOverall);
         tmp.put("favorite", user.getFavorite());
         db.collection(USERS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(tmp);
         Log.d(TAG, "save users successfully!");
@@ -446,6 +453,7 @@ public class DataService {
     }
 
     public void setCustomFood(LinkedList<Food> foods) {
+        if (foods == null) return;
         Type type = new TypeToken<Map<String, Object>>(){}.getType();
         Map <String, Object> map = new Gson().fromJson(new Gson().toJson(new ArrayList<>(foods)), type);
         db.collection(CUSTOM_FOODS_COLLECTION).document(AuthService.getInstance().getCurrentUser().getUid()).set(map).addOnCompleteListener(task -> {
