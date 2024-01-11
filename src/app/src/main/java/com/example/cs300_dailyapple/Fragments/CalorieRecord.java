@@ -48,6 +48,11 @@ public class CalorieRecord extends Fragment {
 
     NavController navController;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDataForViews();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
