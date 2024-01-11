@@ -20,8 +20,6 @@ public class GlobalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        foodList = new LinkedList<>();
-        userCustomList = new LinkedList<>();
     }
 
     public static Application getInstance(){
@@ -158,5 +156,13 @@ public class GlobalApplication extends Application {
 
     public void addSuggestedDish(){
         userSuggestedFoodList.add(contributeDish);
+    }
+
+    public void setNutritionAbsorbed() {
+        user.setNutritionAbsorbed();
+    }
+
+    public void setMealNutrition(String currentMealChoosing) {
+        user.setMealNutrition(currentMealChoosing);
     }
 }

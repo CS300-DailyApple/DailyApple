@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.health.connect.datatypes.NutritionRecord;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -67,6 +68,7 @@ public class CalorieRecord extends Fragment {
     public void loadDataForViews(){
         globalApplication = (GlobalApplication)this.getActivity().getApplication();
         currentUser = globalApplication.getUser();
+        globalApplication.setNutritionAbsorbed();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
         dateView.setText(dateFormat.format(new Date()));
         Nutrition nutritionAbsorbed = currentUser.getNutritionOverall().getNutritionAbsorbed();
@@ -76,8 +78,7 @@ public class CalorieRecord extends Fragment {
         fatView.setText(String.valueOf(nutritionAbsorbed.getFat().intValue()) + "/" + String.valueOf(nutritionTarget.getFat().intValue()));
         caloriesIntakeView.setText(String.valueOf(nutritionAbsorbed.getKcal().intValue()));
         caloriesNeededView.setText(String.valueOf(nutritionTarget.getKcal().intValue()));
-        progressView.setProgress(min(nutritionAbsorbed.getKcal().intValue(), nutritionTarget.getKcal().intValue()));
-        progressView.setMax(nutritionTarget.getKcal().intValue());
+        progressView.setProgress(min(nutritionAbsorbed.getKcal().intValue(), nutritionTarget.getKcal().intValue()) * 100 / nutritionTarget.getKcal().intValue());
         waterDrinkingView.setText(String.valueOf(currentUser.getWaterInformation().getTotalWaterDrank()) + "/" + String.valueOf(currentUser.getWaterInformation().getWaterTarget()));
         breakfastCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getBreakfast().getNutrition().getKcal().intValue()));
         lunchCaloriesView.setText(String.valueOf(currentUser.getNutritionOverall().getMealHistory().getLunch().getNutrition().getKcal().intValue()));

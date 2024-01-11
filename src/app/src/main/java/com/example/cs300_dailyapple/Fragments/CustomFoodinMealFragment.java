@@ -82,9 +82,7 @@ public class CustomFoodinMealFragment extends Fragment {
         editFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = globalApplication.getUser();
-
-                globalApplication.setCurrentFoodChoosing(food);
+                globalApplication.setMealNutrition(currentMealChoosing);
                 navController.navigate(R.id.action_customFoodinMealFragment_to_mealFragment);
             }
         });
@@ -120,6 +118,7 @@ public class CustomFoodinMealFragment extends Fragment {
                     int numberOfUnits = Integer.parseInt(inputText);
                     food.setNumberOfUnits(numberOfUnits);
                     popupWindow.dismiss();
+                    updateViewForFood();
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), "Cannot apply! Please input a number", Toast.LENGTH_SHORT).show();
                 }

@@ -154,4 +154,12 @@ public class User {
     public void setMeal(String currentMealChoosing, FoodCompound meal) {
         nutritionOverall.setMeal(currentMealChoosing, meal);
     }
+
+    public void setNutritionAbsorbed() {
+        nutritionOverall.setNutritionAbsorbed();
+    }
+
+    public void setMealNutrition(String currentMealChoosing) {
+        nutritionOverall.setMealNutrition(currentMealChoosing);
+    }
 }

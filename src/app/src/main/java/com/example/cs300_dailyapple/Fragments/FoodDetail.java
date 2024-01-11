@@ -85,7 +85,6 @@ public class FoodDetail extends Fragment {
             @Override
             public void onClick(View view) {
                 User user = globalApplication.getUser();
-                System.out.println(globalApplication.getCurrentMealChoosing());
                 if (!isMealChosen){
                     showRadioButtonDialog();
                 }
@@ -97,6 +96,7 @@ public class FoodDetail extends Fragment {
                     navController.navigate(R.id.action_foodDetail_to_mealFragment);
                 }
             }
+
         });
     }
 
@@ -225,6 +225,7 @@ public class FoodDetail extends Fragment {
                     String inputText = numberOfUnitsView.getText().toString().trim();
                     int numberOfUnits = Integer.parseInt(inputText);
                     food.setNumberOfUnits(numberOfUnits);
+                    updateViewForFood();
                     popupWindow.dismiss();
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), "Cannot apply! Please input a number", Toast.LENGTH_SHORT).show();
