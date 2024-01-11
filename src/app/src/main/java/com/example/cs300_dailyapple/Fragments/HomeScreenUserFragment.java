@@ -3,6 +3,8 @@ package com.example.cs300_dailyapple.Fragments;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -45,6 +47,15 @@ public class HomeScreenUserFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home_screen_user, container, false);
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
@@ -142,12 +153,12 @@ public class HomeScreenUserFragment extends Fragment {
             builder.setMessage("Vui lòng liên hệ với quản trị viên để biết thêm chi tiết");
             builder.setPositiveButton("Đóng", null);
             AuthService.getInstance().logoutUser();
-            Navigation.findNavController(getView()).navigate(R.id.action_homeScreenUserFragment_to_loginFragment);
+            Navigation.findNavController(view).navigate(R.id.action_homeScreenUserFragment_to_loginFragment);
             builder.show();
         }
 
-        return view;
     }
+
     private static String getDayOfWeekString(int dayOfWeek) {
         switch (dayOfWeek) {
             case Calendar.SUNDAY:

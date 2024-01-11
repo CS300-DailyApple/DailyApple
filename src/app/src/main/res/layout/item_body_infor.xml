@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="160 cm"
                 android:textSize="26dp"
-                android:paddingHorizontal="30dp"
+                android:paddingHorizontal="10dp"
                 android:paddingTop="15dp"
                 />
             <View
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="50 kg"
                 android:textSize="26dp"
-                android:paddingHorizontal="30dp"
+                android:paddingHorizontal="10dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="15dp"/>
         </LinearLayout>
