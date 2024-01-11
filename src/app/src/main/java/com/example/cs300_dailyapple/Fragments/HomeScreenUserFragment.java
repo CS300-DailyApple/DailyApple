@@ -134,6 +134,15 @@ public class HomeScreenUserFragment extends Fragment {
             }
         });
 
+        // check if user is banned
+        DataService db = DataService.getInstance();
+        if (db.getUser(AuthService.getInstance().getCurrentUser().getUid()).isBanned()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Tài khoản của bạn đã bị cấm");
+            builder.setMessage("Vui lòng liên hệ với quản trị viên để biết thêm chi tiết");
+            builder.setPositiveButton("Đóng", null);
+            builder.show();
+        }
 
         return view;
     }

@@ -97,6 +97,12 @@ public class LoginFragment extends Fragment {
             public void onSuccess(FirebaseUser user) {
                 DataService db = DataService.getInstance();
                 String role = db.getUserRole(user.getUid());
+                // check if user is banned
+                if (db.getUser(user.getUid()).isBanned()) {
+                    Toast.makeText(getContext(), "Tài khoản của bạn đã bị cấm", Toast.LENGTH_SHORT).show();
+                    AuthService.getInstance().logoutUser();
+                    return;
+                }
                 if (role.equals("admin")) {
                     // TODO: Navigate to admin page
                     Log.d("LoginFragment", "Admin login");
