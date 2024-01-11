@@ -1,0 +1,51 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_corner_login"
+    android:layout_marginTop="15dp"
+    android:backgroundTint="#EBF8EB"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên người dùng: zrefalogia"
+            android:textSize="18dp"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/textViewAttributes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uy tín: -99"
+            android:textSize="18dp"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="15dp"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <ImageView
+        android:id="@+id/imageViewBan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/removed"
+        android:layout_gravity="center_vertical"
+        />
+
+
+</LinearLayout>

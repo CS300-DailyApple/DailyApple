@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.AdminUserItemDetail">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thông tin người dùng"
+        android:textSize="36dp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/AdminUserTitle"
+        />
+    <androidx.cardview.widget.CardView
+        android:layout_width="371dp"
+        android:layout_height="104dp"
+        android:layout_alignTop="@id/AdminUserTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="#E5F1EF"
+        android:id="@+id/AdminUserDetailCardView"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên người dùng: zrefalogia"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="15dp"
+                android:id="@+id/textViewName"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uy tín: -99"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="15dp"
+                android:id="@+id/textViewAttributes"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/AdminUserDetailBanBtn"
+        android:layout_width="226dp"
+        android:layout_height="50dp"
+        android:text="Cấm người dùng"
+        android:textAllCaps="false"
+        android:textSize="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/AdminUserDetailCardView"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/admin_user_detail_btn_bg"
+        />
+
+</RelativeLayout>

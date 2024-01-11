@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.AdminFoodDetailSetting">
+
+    <TextView
+        android:id="@+id/AdminFoodDetailSettingName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chè trôi nước"
+        android:textSize="34dp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/AdminFoodDetailSettingDeleteBtn"
+        android:layout_width="321dp"
+        android:layout_height="68dp"
+        android:textStyle="bold"
+        android:layout_below="@id/AdminFoodDetailSettingName"
+        android:text="Xóa món ăn"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:background="@drawable/admin_food_detail_setting_btn_bg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="20dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/AdminFoodDetailSettingEditBtn"
+        android:layout_width="321dp"
+        android:layout_height="68dp"
+        android:layout_below="@id/AdminFoodDetailSettingDeleteBtn"
+        android:text="Chỉnh sửa món ăn"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:background="@drawable/admin_food_detail_setting_btn_bg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="10dp"/>
+
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RadioButton
+        android:id="@+id/radioButtonBreakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bữa sáng"/>
+
+    <RadioButton
+        android:id="@+id/radioButtonLunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bữa trưa"/>
+
+    <RadioButton
+        android:id="@+id/radioButtonDinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bữa tối"/>
+
+    <RadioButton
+        android:id="@+id/radioButtonSnack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bữa ăn nhẹ"/>
+</RadioGroup>

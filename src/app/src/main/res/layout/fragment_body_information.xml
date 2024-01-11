@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.BodyInformationFragment">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chỉ số cơ thể"
+        android:textSize="34dp"
+        android:textStyle="bold"
+        android:id="@+id/Text"
+        android:layout_centerHorizontal="true"
+        android:padding="20dp"/>
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/settings"
+        android:id="@+id/Settings"
+        android:backgroundTint="@color/white"
+        android:padding="15dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Text"
+        android:text="Giới tính"
+        android:layout_marginLeft="80dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/textGender"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textGender"
+        android:layout_below="@id/Text"
+        android:text="Độ tuổi"
+        android:layout_marginHorizontal="70dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/textAge"/>
+    <ImageView
+        android:id="@+id/imageGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textGender"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/genderfemale"
+        android:paddingVertical="10dp"
+        android:background="@drawable/rounded_light_blue"
+        android:paddingHorizontal="30dp"/>
+    <TextView
+        android:id="@+id/textViewAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textGender"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/imageGender"
+        android:text="20"
+        android:textSize="40dp"
+        android:textStyle="bold"
+
+        android:paddingVertical="17dp"
+        android:background="@drawable/rounded_corner_login"
+        android:paddingHorizontal="30dp"/>
+    <RelativeLayout
+        android:id="@+id/Information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageGender"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_corner_login">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/BMIDisplay">
+
+            <RelativeLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/BMI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="BMI"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textBMI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/BMI"
+                    android:text="12.0"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="20dp">
+
+                <TextView
+                    android:id="@+id/LastUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Lần cập nhật gần nhất"
+                    android:textAlignment="center"
+                    android:textSize="18dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textDateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/LastUpdate"
+                    android:text="27 tháng 10, 2023"
+                    android:textSize="20dp"
+                    android:layout_centerHorizontal="true"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:id="@+id/Line"
+            android:layout_below="@id/BMIDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#337F7A"
+            android:layout_marginHorizontal="10dp"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/Line">
+
+            <RelativeLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/Height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="160cm"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Height"
+                    android:text="Chiều cao"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20dp"
+                    android:textColor="#9A9A9A"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:id="@+id/Weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="50kg"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/weightEvaluation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Weight"
+                    android:text="Thiếu cân"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20dp"
+                    android:textColor="#9A9A9A"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <TextView
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/Information"
+        android:id="@+id/textWater"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+
+        android:text="Lượng nước đã uống trong hôm nay" />
+    <RelativeLayout
+        android:id="@+id/barWater"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/textWater"
+        android:background="@drawable/rounded_corner_login"
+        android:padding="15dp"
+        android:layout_marginHorizontal="30dp"
+        >
+        <TextView
+            android:id="@+id/textProgressWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+
+            android:text="660/2200 ml" />
+        <ProgressBar
+            android:layout_below="@id/textProgressWater"
+            android:id="@+id/progressBarWater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:max="2200"
+            android:progressDrawable="@drawable/straight_progress_bar"
+            android:progress="660" />
+    </RelativeLayout>
+    <TextView
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/barWater"
+        android:id="@+id/textCalo"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+
+
+        android:text="Lượng calo đã nạp trong hôm nay" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/textCalo"
+        android:background="@drawable/rounded_corner_login"
+        android:padding="15dp"
+        android:layout_marginHorizontal="30dp"
+        >
+        <TextView
+            android:id="@+id/textProgressCalo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+
+            android:text="800/3001 calo" />
+        <ProgressBar
+            android:layout_below="@id/textProgressCalo"
+            android:id="@+id/progressBarCalo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:max="3001"
+            android:progressDrawable="@drawable/straight_progress_bar"
+            android:progress="800" />
+    </RelativeLayout>
+
+
+
+
+
+
+
+</RelativeLayout>
